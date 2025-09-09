@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新NISA記事一覧 | 未来投資navi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-link {
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: #5569d0;
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .category-description {
+            color: #666;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .article-date {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .article-level {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .level-beginner {
+            background: #e8f5e8;
+            color: #4CAF50;
+        }
+        
+        .level-intermediate {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+        
+        .level-advanced {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        .article-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .article-description {
+            color: #666;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .read-more {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+        
+        .read-more:hover {
+            color: #5569d0;
+            transform: translateX(4px);
+        }
+        
+        .back-to-top-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .back-to-top-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .back-to-top-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+            
+            .category-title {
+                font-size: 28px;
+            }
+            
+            .category-description {
+                font-size: 16px;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .article-card {
+                padding: 20px;
+            }
+            
+            .article-title {
+                font-size: 20px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">未来投資navi</div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">トップページ</a>
+                <a href="index.html" class="nav-link">全記事一覧</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- パンくずナビ -->
+        <nav class="breadcrumb">
+            <a href="../index.html">トップ</a> > 
+            <a href="index.html">記事一覧</a> > 
+            <span>新NISA</span>
+        </nav>
+
+        <!-- カテゴリヘッダー -->
+        <div class="category-header">
+            <div class="category-badge">新NISA</div>
+            <h1 class="category-title">新NISA関連記事</h1>
+            <p class="category-description">
+                50代・60代から始める新NISAの基礎知識から実践的な活用方法まで、
+                わかりやすく解説した記事をまとめています。
+            </p>
+        </div>
+
+        <!-- 記事一覧 -->
+        <div class="articles-grid">
+            <!-- 記事1 -->
+            <article class="article-card" onclick="location.href='nisa-start-guide.html'" style="cursor: pointer;">
+                <div class="article-meta">
+                    <span class="article-date">2025.09.07</span>
+                    <span class="article-level level-beginner">初心者向け</span>
+                </div>
+                <h2 class="article-title">新NISA 50代から始めても怖くない！『今さら遅い』は完全に間違い</h2>
+                <p class="article-description">
+                    「もう遅いのでは？」という不安を、具体的な数字で完全解消。52歳から始めても410万円の利益が見込める理由を、実際のシミュレーションを使って詳しく解説します。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">50代投資</span>
+                    <span class="tag">シミュレーション</span>
+                    <span class="tag">初心者</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
+           <!-- 記事2 -->
+            <article class="article-card" onclick="location.href='nisa-start-guide2.html'" style="cursor: pointer;">
+                <div class="article-meta">
+                    <span class="article-date">2025.09.09</span>
+                    <span class="article-level level-beginner">初心者向け</span>
+                </div>
+                <h2 class="article-title">新NISAの始め方完全ガイド！今からでも間に合う老後資金の作り方</h2>
+                <p class="article-description">
+                    口座開設から商品選び、積立設定まで、スマホで15分で完了する新NISA開始の全手順をわかりやすく解説。実は3ステップで完了します。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">口座開設</span>
+                    <span class="tag">始め方</span>
+                    <span class="tag">3ステップ</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
+        </div>
+
+        <!-- トップページに戻る -->
+        <div class="back-to-top-section">
+            <a href="../index.html" class="back-to-top-btn">トップページに戻る</a>
+        </div>
+    </div>
+
+    <script>
+        // 記事カードのホバーエフェクト
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
