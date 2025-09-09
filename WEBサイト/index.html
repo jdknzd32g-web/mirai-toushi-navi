@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -37,17 +36,38 @@
             font-size: 13px;
         }
         
-        h1 {
-            font-size: 32px;
+        .hero h1 {
             font-weight: 900;
-            line-height: 1.25;
+            line-height: 1.3;
             margin-bottom: 15px;
             color: #ffffff;
             text-shadow: 
-            2px 2px 0 #1a2a4d,
-            4px 4px 0 rgba(0,0,0,0.2),
-            4px 4px 20px rgba(0,0,0,0.4);
+                0 0 5px rgba(255,255,255,0.3),
+                0 0 10px rgba(76, 175, 80, 0.3),
+                2px 2px 2px rgba(0,0,0,0.5);
             letter-spacing: 0.05em;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .hero h1 .highlight {
+            background: -webkit-linear-gradient(45deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 5px rgba(255,255,255,0.2),
+                    0 0 10px rgba(76, 175, 80, 0.2),
+                    2px 2px 2px rgba(0,0,0,0.5);
+            }
+            to {
+                text-shadow: 
+                    0 0 15px rgba(255,255,255,0.4),
+                    0 0 25px rgba(76, 175, 80, 0.4),
+                    2px 2px 2px rgba(0,0,0,0.5);
+            }
         }
         
         .sub-copy {
@@ -660,8 +680,8 @@
 
         /* レスポンシブ対応 */
         @media (min-width: 768px) {
-            h1 {
-                font-size: 34px;
+            .hero h1 {
+                font-size: 42px;
             }
             
             .solution-grid {
@@ -696,8 +716,8 @@
                 padding: 15px 0 25px;
             }
             
-            h1 {
-                font-size: 22px;
+            .hero h1 {
+                font-size: 28px;
             }
             
             .sub-copy {
