@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>複利計算シミュレーション表 - 未来投資navi</title>
+    <meta name="description" content="50代・60代のための複利計算シミュレーション。毎月5万円積立で老後2,000万円は可能？">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #5a6268;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin: 40px 0 30px 0;
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin: 30px 0 20px 0;
+            font-size: 1.2rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            min-width: 500px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        td {
+            padding: 12px 8px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.95rem;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .highlight {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+        
+        .special-row {
+            background: #fff3cd !important;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+        
+        .download-section h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-box h4 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .info-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .info-box li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .line-cta {
+            background: linear-gradient(135deg, #00C300 0%, #00A000 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .line-cta h4 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .line-btn {
+            background: white;
+            color: #00C300;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .line-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+                font-size: 0.8rem;
+            }
+            
+            table {
+                min-width: 450px;
+            }
+            
+            button {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← メインページに戻る</a>
+            <h1>複利計算シミュレーション表</h1>
+            <p class="subtitle">未来投資navi - 50代・60代のための資産形成データ</p>
+        </div>
+
+        <div class="line-cta">
+            <h4>もっと詳しい投資情報をお求めの方へ</h4>
+            <p>公式LINEでは、個別相談や最新の投資情報を配信中！</p>
+            <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">
+                公式LINEに登録する
+            </a>
+        </div>
+
+        <div class="download-section">
+            <h3>表データをダウンロード</h3>
+            <button onclick="downloadCSV()">CSVファイル</button>
+            <button onclick="downloadExcel()">Excelファイル</button>
+            <p style="margin-top: 10px; color: #666; font-size: 0.85rem;">※ ご自身の計画にお役立てください</p>
+        </div>
+
+        <h2>毎月5万円積立のシミュレーション</h2>
+        
+        <h3>年利3％の場合（堅実シナリオ）</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>期間</th>
+                        <th>積立元本</th>
+                        <th>運用益</th>
+                        <th>資産総額</th>
+                        <th>運用益の割合</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5年後</td>
+                        <td>300万円</td>
+                        <td>23万円</td>
+                        <td class="highlight">323万円</td>
+                        <td>7.1%</td>
+                    </tr>
+                    <tr>
+                        <td>10年後</td>
+                        <td>600万円</td>
+                        <td>98万円</td>
+                        <td class="highlight">698万円</td>
+                        <td>14.0%</td>
+                    </tr>
+                    <tr>
+                        <td>15年後</td>
+                        <td>900万円</td>
+                        <td>237万円</td>
+                        <td class="highlight">1,137万円</td>
+                        <td>20.8%</td>
+                    </tr>
+                    <tr>
+                        <td>20年後</td>
+                        <td>1,200万円</td>
+                        <td>456万円</td>
+                        <td class="highlight">1,656万円</td>
+                        <td>27.5%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>年利5％の場合（標準シナリオ）</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>期間</th>
+                        <th>積立元本</th>
+                        <th>運用益</th>
+                        <th>資産総額</th>
+                        <th>運用益の割合</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5年後</td>
+                        <td>300万円</td>
+                        <td>40万円</td>
+                        <td class="highlight">340万円</td>
+                        <td>11.8%</td>
+                    </tr>
+                    <tr>
+                        <td>10年後</td>
+                        <td>600万円</td>
+                        <td>176万円</td>
+                        <td class="highlight">776万円</td>
+                        <td>22.7%</td>
+                    </tr>
+                    <tr>
+                        <td>15年後</td>
+                        <td>900万円</td>
+                        <td>437万円</td>
+                        <td class="highlight">1,337万円</td>
+                        <td>32.7%</td>
+                    </tr>
+                    <tr class="special-row">
+                        <td><strong>20年後</strong></td>
+                        <td><strong>1,200万円</strong></td>
+                        <td><strong>871万円</strong></td>
+                        <td class="highlight" style="font-size: 1.2rem;"><strong>2,071万円</strong></td>
+                        <td><strong>42.1%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>年利7％の場合（積極シナリオ）</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>期間</th>
+                        <th>積立元本</th>
+                        <th>運用益</th>
+                        <th>資産総額</th>
+                        <th>運用益の割合</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5年後</td>
+                        <td>300万円</td>
+                        <td>58万円</td>
+                        <td class="highlight">358万円</td>
+                        <td>16.2%</td>
+                    </tr>
+                    <tr>
+                        <td>10年後</td>
+                        <td>600万円</td>
+                        <td>266万円</td>
+                        <td class="highlight">866万円</td>
+                        <td>30.7%</td>
+                    </tr>
+                    <tr>
+                        <td>15年後</td>
+                        <td>900万円</td>
+                        <td>692万円</td>
+                        <td class="highlight">1,592万円</td>
+                        <td>43.5%</td>
+                    </tr>
+                    <tr>
+                        <td>20年後</td>
+                        <td>1,200万円</td>
+                        <td>1,448万円</td>
+                        <td class="highlight">2,648万円</td>
+                        <td>54.7%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>毎月10万円積立のシミュレーション</h2>
+
+        <h3>年利5％の場合（標準シナリオ）</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>期間</th>
+                        <th>積立元本</th>
+                        <th>運用益</th>
+                        <th>資産総額</th>
+                        <th>運用益の割合</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5年後</td>
+                        <td>600万円</td>
+                        <td>80万円</td>
+                        <td class="highlight">680万円</td>
+                        <td>11.8%</td>
+                    </tr>
+                    <tr>
+                        <td>10年後</td>
+                        <td>1,200万円</td>
+                        <td>353万円</td>
+                        <td class="highlight">1,553万円</td>
+                        <td>22.7%</td>
+                    </tr>
+                    <tr>
+                        <td>15年後</td>
+                        <td>1,800万円</td>
+                        <td>874万円</td>
+                        <td class="highlight">2,674万円</td>
+                        <td>32.7%</td>
+                    </tr>
+                    <tr>
+                        <td>20年後</td>
+                        <td>2,400万円</td>
+                        <td>1,742万円</td>
+                        <td class="highlight">4,142万円</td>
+                        <td>42.1%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>退職金活用：一括投資360万円＋月5万円積立</h2>
+
+        <h3>年利5％の場合</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>期間</th>
+                        <th>初期投資の成長</th>
+                        <th>積立分の成長</th>
+                        <th>資産総額</th>
+                        <th>総投資額</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5年後</td>
+                        <td>459万円</td>
+                        <td>340万円</td>
+                        <td class="highlight">799万円</td>
+                        <td>660万円</td>
+                    </tr>
+                    <tr>
+                        <td>10年後</td>
+                        <td>586万円</td>
+                        <td>776万円</td>
+                        <td class="highlight">1,362万円</td>
+                        <td>960万円</td>
+                    </tr>
+                    <tr>
+                        <td>15年後</td>
+                        <td>749万円</td>
+                        <td>1,337万円</td>
+                        <td class="highlight">2,086万円</td>
+                        <td>1,260万円</td>
+                    </tr>
+                    <tr>
+                        <td>20年後</td>
+                        <td>956万円</td>
+                        <td>2,071万円</td>
+                        <td class="highlight">3,027万円</td>
+                        <td>1,560万円</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-box">
+            <h4>複利のポイント</h4>
+            <ul>
+                <li><strong>「毎月5万円でも20年後には2,000万円が見えてくる」</strong><br>
+                年利5％なら元本1,200万円が2,071万円に成長！</li>
+                <li><strong>「退職金360万円を寝かせるのはもったいない！」</strong><br>
+                最初に新NISA枠を満額使えば、複利の力がフル活用できます</li>
+                <li><strong>「時間こそが最大の味方」</strong><br>
+                10年と20年では運用益が約5倍も違います</li>
+            </ul>
+        </div>
+
+        <div class="line-cta">
+            <h4>個別相談をご希望の方へ</h4>
+            <p>あなたに最適な投資プランを一緒に考えませんか？<br>
+            公式LINEからお気軽にご相談ください。</p>
+            <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">
+                無料相談を申し込む
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // CSV ダウンロード機能
+        function downloadCSV() {
+            const data = [
+                ['未来投資navi 複利計算シミュレーション'],
+                [''],
+                ['毎月5万円積立 - 年利5%の場合'],
+                ['期間', '積立元本', '運用益', '資産総額', '運用益の割合'],
+                ['5年後', '300万円', '40万円', '340万円', '11.8%'],
+                ['10年後', '600万円', '176万円', '776万円', '22.7%'],
+                ['15年後', '900万円', '437万円', '1,337万円', '32.7%'],
+                ['20年後', '1,200万円', '871万円', '2,071万円', '42.1%']
+            ];
+            
+            let csvContent = '\uFEFF'; // BOM for UTF-8
+            data.forEach(row => {
+                csvContent += row.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '複利計算シミュレーション_未来投資navi.csv';
+            link.click();
+        }
+
+        // Excel ダウンロード機能
+        function downloadExcel() {
+            const wb = XLSX.utils.book_new();
+            
+            const sheetData = [
+                ['未来投資navi 複利計算シミュレーション'],
+                [''],
+                ['毎月5万円積立の場合'],
+                [''],
+                ['年利5% (標準シナリオ)'],
+                ['期間', '積立元本', '運用益', '資産総額', '運用益の割合'],
+                ['5年後', '300万円', '40万円', '340万円', '11.8%'],
+                ['10年後', '600万円', '176万円', '776万円', '22.7%'],
+                ['15年後', '900万円', '437万円', '1,337万円', '32.7%'],
+                ['20年後', '1,200万円', '871万円', '2,071万円', '42.1%']
+            ];
+            
+            const ws = XLSX.utils.aoa_to_sheet(sheetData);
+            XLSX.utils.book_append_sheet(wb, ws, '積立シミュレーション');
+            
+            XLSX.writeFile(wb, '複利計算シミュレーション_未来投資navi.xlsx');
+        }
+    </script>
+</body>
+</html>
