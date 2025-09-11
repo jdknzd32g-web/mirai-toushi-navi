@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>純資産総額1位の投資信託って本当に「買い」なの？ランキングの罠を暴く | 未来投資navi</title>
-    <meta name="description" content="人気ランキング上位の半分が年間2％もの手数料を取る高コストファンド。純資産総額トップ10の投資信託を徹底分析して、その裏側にある投資家心理まで暴きます。">
+    <title>新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン | 未来投資navi</title>
+    <meta name="description" content="バフェット指標217％、シラーPER39倍...今の相場で全力投資は危険？暴落を味方につける戦略的投資法を解説。">
     <style>
         * {
             margin: 0;
@@ -77,7 +77,7 @@
         
         .category {
             display: inline-block;
-            background: #ff6b6b;
+            background: #4CAF50;
             color: white;
             padding: 4px 12px;
             border-radius: 15px;
@@ -117,14 +117,71 @@
             line-height: 1.8;
         }
         
-        ul, ol {
-            margin: 20px 0;
-            padding-left: 30px;
+        .intro-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
         }
         
-        li {
+        .intro-box h2 {
+            color: white;
+            border: none;
+            margin-top: 0;
+        }
+        
+        .warning-signs {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-card {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .warning-card h4 {
+            color: #ff6b00;
             margin-bottom: 10px;
-            line-height: 1.7;
+            font-size: 18px;
+        }
+        
+        .number-big {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff6b00;
+            display: block;
+            margin: 10px 0;
+        }
+        
+        .comparison-table {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
         }
         
         .highlight {
@@ -133,86 +190,23 @@
             padding: 2px 4px;
         }
         
-        .fund-card {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 25px 0;
-        }
-        
-        .fund-card h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        
-        .fund-rank {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
-        .fund-amount {
-            color: #4CAF50;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        
-        .cost-label {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            margin: 5px 5px 5px 0;
-        }
-        
-        .cost-low {
+        .strategy-box {
             background: #e8f5e8;
-            color: #4CAF50;
-        }
-        
-        .cost-high {
-            background: #ffebee;
-            color: #f44336;
-        }
-        
-        .alert-box {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 25px 0;
-        }
-        
-        .alert-box h4 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-        
-        .success-box {
-            background: #d4edda;
             border: 2px solid #4CAF50;
             border-radius: 10px;
-            padding: 20px;
-            margin: 25px 0;
+            padding: 25px;
+            margin: 30px 0;
         }
         
-        .success-box h4 {
-            color: #155724;
-            margin-bottom: 10px;
+        .strategy-box h3 {
+            color: #4CAF50;
+            margin-top: 0;
         }
         
         .youtube-cta {
             background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
             color: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
             margin: 30px 0;
             text-align: center;
@@ -221,17 +215,14 @@
         .youtube-cta h3 {
             color: white;
             margin-top: 0;
-            margin-bottom: 10px;
         }
         
         .youtube-btn {
             background: white;
             color: #FF0000;
             padding: 12px 30px;
-            border: none;
             border-radius: 25px;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: none;
             display: inline-block;
             margin-top: 10px;
@@ -243,24 +234,60 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-            border-radius: 12px;
-            margin: 25px 0;
+        .simulation-box {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
         }
         
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+        .plan-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .plan-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+        
+        .plan-card.recommended {
+            border-color: #4CAF50;
+            background: #f8fff8;
+        }
+        
+        .plan-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .result-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 10px;
+        }
+        
+        .buffett-quote {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+        
+        .key-point {
+            background: #fff9c4;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed #ffd600;
         }
         
         .line-cta {
@@ -297,112 +324,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .comparison-table {
-            overflow-x: auto;
-            margin: 25px 0;
-        }
-        
-        .comparison-table table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-        
-        .comparison-table th {
-            background: #667eea;
-            color: white;
-            padding: 12px;
-            text-align: left;
-            font-size: 14px;
-        }
-        
-        .comparison-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 14px;
-        }
-        
-        .comparison-table tr:hover {
-            background: #f8f9fa;
-        }
-        
-        .related-articles {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 10px;
-            margin-top: 40px;
-        }
-        
-        .related-articles h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        
-        .article-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: all 0.3s;
-            border: 1px solid #eee;
-        }
-        
-        .article-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .article-card h4 {
-            color: #667eea;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .article-card p {
-            color: #666;
-            font-size: 14px;
-            margin: 0;
-            line-height: 1.5;
-        }
-        
-        .footer-cta {
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px;
-        }
-        
-        .footer-cta h3 {
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .main-cta-btn {
-            background: white;
-            color: #667eea;
-            padding: 16px 40px;
-            border: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-            transition: all 0.3s;
-        }
-        
-        .main-cta-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -417,19 +338,21 @@
                 font-size: 20px;
             }
             
+            .plan-comparison {
+                grid-template-columns: 1fr;
+            }
+            
             .header-content {
                 flex-direction: column;
                 gap: 15px;
             }
             
             .comparison-table {
-                font-size: 12px;
+                overflow-x: auto;
             }
             
-            .comparison-table th,
-            .comparison-table td {
-                padding: 8px;
-                font-size: 12px;
+            .comparison-table table {
+                min-width: 600px;
             }
         }
     </style>
@@ -444,237 +367,238 @@
 
     <div class="container">
         <div class="article-meta">
-            <span class="category">投資信託</span>
-            <div class="date">2025.09.12</div>
+            <span class="category">新NISA</span>
+            <div class="date">2025.09.11</div>
         </div>
 
-        <h1>純資産総額1位の投資信託って本当に「買い」なの？ランキングの罠を暴く</h1>
-
-        <!-- ヘッダー画像 -->
-        <div style="margin: 25px -40px; overflow: hidden;">
-            <img src="../blog/images/article-header-image3.jpg" 
-                 alt="投資信託分析レポート" 
-                 style="width: 100%; height: auto; display: block; border-radius: 0;">
-        </div>
-
+        <h1>新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</h1>
+        
         <p>こんにちは、りょうです。</p>
-
-        <p>「え？純資産総額1位の投資信託が本当にベストなの？」って思ったことありませんか？</p>
-
-        <p>実は、<span class="highlight">人気ランキング上位の半分が、年間2％もの手数料を取る高コストファンド</span>なんです。</p>
-
-        <p>これって、スーパーの特売品コーナーに、なぜか定価の高級品が混ざってるようなもの。みんな「人気だから」という理由で買っちゃってるんですよ。</p>
-
-        <p>今回は、純資産総額トップ10の投資信託を徹底分析して、その裏側にある「投資家心理」まで暴いていきます。</p>
-
-        <div class="video-container">
-            <iframe 
-                src="https://www.youtube.com/embed/4hVf9QpjD2U?si=5EAeCsvmmtP-N1jH" 
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allowfullscreen>
-            </iframe>
+        
+        <div class="intro-box">
+            <h2>⚠️ 今、新NISAに全力投資は危険かも？</h2>
+            <p>「新NISAの1800万円枠、早く埋めないと損する！」<br>
+            「みんな5年で使い切ってるらしいよ」</p>
+            <p>こんな話を聞いて、焦っていませんか？</p>
+            <p><strong>でも、ちょっと待ってください。</strong></p>
+            <p style="font-size: 20px; margin-top: 20px;">
+                <span class="highlight" style="background: rgba(255,255,255,0.3); color: white;">焦って5年で使い切る必要はありません</span>
+            </p>
         </div>
-
+        
+        <p>特に投資初心者の方が毎月30万円ペースで突っ込むのは、かなりリスキーな選択です。</p>
+        
+        <p>これって、バーゲンセールじゃない時期に、貯金全額使って買い物するようなもの。来月のセールで半額になるかもしれないのに…もったいないですよね。</p>
+        
+        <div class="buffett-quote">
+            <p>💡 投資の神様ウォーレン・バフェットは今、<strong>過去最高の約50兆円</strong>もの現金を抱えています。</p>
+            <p>なぜ投資の達人が、今、現金を温存しているのか。これが全てを物語っているんです。</p>
+        </div>
+        
         <div class="youtube-cta">
             <h3>🎥 YouTubeもやってます♪</h3>
             <p>文字だけじゃ伝えきれない話は、動画でゆっくり解説してます〜<br>
             よかったら覗いてみてください👇</p>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin: 20px 0;">
+                <iframe 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 10px;"
+                    src="https://www.youtube.com/embed/1SedHF8KlXY?si=dHynSKSl2jn-N44T" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
             <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
-                未来投資naviを見てみる
+                チャンネル登録はこちら
             </a>
         </div>
-
-        <h2>第1章：投資信託選びの3つの鉄則</h2>
-
-        <h3>鉄則1：まず自分の直感を働かせる</h3>
-
-        <p>「データじゃないの？」って思いますよね。でも、その前に<strong>「自分はどう考えるか」という軸</strong>がないと、情報に振り回されます。</p>
-
-        <p>例えば、こんな質問を自分に投げかけてみてください。</p>
-
-        <ul>
-            <li>アメリカはこれからも世界のトップで居続けるのか？</li>
-            <li>インドの成長は本物なのか？</li>
-            <li>日本は復活するのか？</li>
-        </ul>
-
-        <p>50年、60年と生きてきた皆さんは、バブル崩壊もリーマンショックも中国の台頭も、全部リアルタイムで見てきましたよね。その経験から生まれる直感は、実はめちゃくちゃ価値があるんです。</p>
-
-        <h3>鉄則2：徹底的にリサーチする</h3>
-
-        <p>直感を持ったら、ChatGPTやGeminiの「ディープリサーチ」機能を使って調べましょう。「今後20年の米国経済の見通し」って入力すると、世界中の情報を数分で整理してくれます。</p>
-
-        <p>大事なのは<strong>「答えはない」</strong>ということ。でも、自分で徹底的に調べて決めた商品なら、暴落しても「これは一時的なもの」と冷静でいられるんです。</p>
-
-        <h3>鉄則3：市場平均に投資する</h3>
-
-        <p>特定セクターは避けて、その市場全体の平均に連動するインデックスファンドを選びます。</p>
-
-        <p>なぜか？今調子がいいセクターには、みんなが飛びつく「モメンタム心理」が働きます。でも、ITバブルでNASDAQは<strong>80％下落</strong>した事実があるんです。市場平均なら、自動調整機能が働いて、長期投資に不可欠な安定性が得られます。</p>
-
-        <h2>第2章：純資産総額トップ10徹底解説</h2>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第1位</span>eMAXIS Slim 米国株式（S&P500）</h4>
-            <p class="fund-amount">純資産総額：8兆円超え</p>
-            <p><span class="cost-label cost-low">総経費率 0.1％</span></p>
-            <p><strong>総経費率0.1％</strong>という驚異的な低コスト。100万円投資しても年間たったの1,000円です。しかも純資産が増えるほど信託報酬が下がる仕組み。</p>
-            <p>7年前に100万円投資していたら、今<strong>350万円</strong>になっています。なんと7年で3.5倍！まさに「投資信託の教科書」みたいな商品です。</p>
-        </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第2位</span>eMAXIS Slim 全世界株式（オール・カントリー）</h4>
-            <p class="fund-amount">純資産総額：7兆円超え</p>
-            <p><span class="cost-label cost-low">総経費率 0.08％</span></p>
-            <p>通称オルカン。<strong>総経費率0.08％</strong>で、100万円投資して年間800円。ラーメン1杯分で世界中の株式に投資できます。</p>
-            <p>47ヵ国、約3,000銘柄で世界の株式時価総額の85％をカバー。アメリカが約65％を占めますが、これは世界のお金がアメリカに集まってる証拠。勝ち馬に自動で乗っかれるんです。</p>
-        </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第3位</span>アライアンス・バーンスタイン米国成長株投信Dコース</h4>
-            <p class="fund-amount">純資産総額：3.4兆円</p>
-            <p><span class="cost-label cost-high">総経費率 1.72％</span><span class="cost-label cost-high">購入時手数料 3.3％</span></p>
-            <div class="alert-box">
-                <h4>⚠️ 要注意ポイント</h4>
-                <p><strong>毎月分配型</strong>で人気ですが、要注意。「毎月20％の分配金！」って聞くとすごそうですが、これってせっかく貯金箱に貯めたお金を毎月少しずつ取り出してるようなもの。複利効果がなくなるんです。しかも<strong>新NISA対象外</strong>です。</p>
+        
+        <h2>第1章：今の株式市場が「高すぎる」4つの証拠</h2>
+        
+        <p>なぜ今、新NISA枠を急いで埋める必要がないのか？理由は単純です。</p>
+        <p><span class="highlight">株式市場が割高だから</span>。特に米国株は歴史的な高値圏にあります。</p>
+        
+        <div class="warning-signs">
+            <div class="warning-card">
+                <h4>警告サイン① バフェット指標</h4>
+                <span class="number-big">217%</span>
+                <p>「今の株式市場が高いのか安いのか」を判断する指標が、現在なんと<strong>217％</strong>。</p>
+                <p>アメリカの1年間の稼ぎ（GDP）に対して、企業の値段（時価総額）が2倍以上！<br>
+                通常は100％前後が適正とされています。</p>
+            </div>
+            
+            <div class="warning-card">
+                <h4>警告サイン② シラーPER</h4>
+                <span class="number-big">39倍</span>
+                <p>過去10年の企業利益の平均で計算するPERが<strong>38～39倍</strong>。</p>
+                <p>これは100年で2番目の高さ！<br>
+                2000年のドットコムバブル（44倍）に次ぐ危険水準です。</p>
+            </div>
+            
+            <div class="warning-card">
+                <h4>警告サイン③ 株式リスクプレミアム</h4>
+                <span class="number-big">ほぼ0%</span>
+                <p>リスクを取って株式投資をする見返りが<strong>ほぼゼロ</strong>という異常事態。</p>
+                <p>安全な米国債（年利4％以上）と変わらないリターンなら、<br>
+                リスクを取る意味がありません。</p>
+            </div>
+            
+            <div class="warning-card">
+                <h4>警告サイン④ 円安という重し</h4>
+                <span class="number-big">147円</span>
+                <p>ドル円レートは140円台後半。歴史的に見て<strong>かなり円安水準</strong>です。</p>
+                <p>2020年と比べて、同じ米国株を買うのに<strong>37％も高く</strong>なっています。</p>
             </div>
         </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第4位</span>世界厳選株式オープン</h4>
-            <p class="fund-amount">純資産総額：2.5兆円</p>
-            <p><span class="cost-label cost-high">総経費率 1.91％</span></p>
-            <p>これも毎月分配型。総経費率<strong>1.91％で、26年運用して基準価額は9,434円。つまり元本割れ</strong>してます。いわゆる「タコ足配当」ですね。</p>
-            <p>2.5兆円という数字は、まだまだ「毎月分配」の呪縛から解放されていない投資家が多いことを物語っています。</p>
+        
+        <h2>第2章：暴落時に買い増しする威力がヤバい</h2>
+        
+        <p>じゃあ、どうすればいいのか？</p>
+        <p>答えは<span class="highlight">暴落を待って買い増しできる余力を残しておく</span>ことです。</p>
+        
+        <div class="strategy-box">
+            <h3>📊 暴落後のリターンは驚異的</h3>
+            <p>ブラックロックの検証によると、1950年以降、2ヶ月で15％以上下落した後の平均リターンは：</p>
+            <ul style="list-style: none; padding: 0;">
+                <li>✅ <strong>3ヶ月後：+10％</strong>（90％の確率でプラス）</li>
+                <li>✅ <strong>12ヶ月後：+26％</strong>（88％の確率でプラス）</li>
+            </ul>
+            <p style="margin-top: 15px;">つまり、暴落後1年間、<strong>9割近い確率で利益が出ている</strong>んです。</p>
         </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第5位</span>SBI・V・S&P500</h4>
-            <p class="fund-amount">純資産総額：2.2兆円</p>
-            <p><span class="cost-label cost-low">総経費率 0.09％</span></p>
-            <p>1位のeMAXIS Slimとほぼ同じ商品。コカ・コーラにするかペプシ・コーラにするか、もはや飲み比べても違いが分からないレベルです。どっちでもOK！</p>
+        
+        <div class="key-point">
+            <h4>💡 具体的な買い増しルール</h4>
+            <ol style="padding-left: 20px;">
+                <li><strong>トリガーを決める</strong>
+                    <ul>
+                        <li>高値から20％下落→積立1ヶ月分追加</li>
+                        <li>高値から30％下落→さらに1ヶ月分追加</li>
+                    </ul>
+                </li>
+                <li><strong>現金を準備しておく</strong>
+                    <ul>
+                        <li>生活防衛資金とは別に「買い増し枠」を確保</li>
+                    </ul>
+                </li>
+                <li><strong>対象はインデックスファンド</strong>
+                    <ul>
+                        <li>S&P500や全世界株式など（個別株は避ける）</li>
+                    </ul>
+                </li>
+                <li><strong>分割して投入</strong>
+                    <ul>
+                        <li>一度に全額ではなく2～3回に分けて投資</li>
+                    </ul>
+                </li>
+            </ol>
         </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第6位</span>楽天・全米株式（楽天VTI）</h4>
-            <p class="fund-amount">純資産総額：1.98兆円</p>
-            <p><span class="cost-label cost-low">総経費率 0.13％</span></p>
-            <p>S&P500が米国の大型株500社なのに対し、こちらは<strong>約4,000銘柄</strong>に投資。テスラやエヌビディアも、最初は小型株でした。こういった「明日のスター企業」を最初から持てるのが強みです。</p>
-        </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第7位</span>アライアンス・バーンスタインBコース</h4>
-            <p class="fund-amount">純資産総額：1.7兆円</p>
-            <p><span class="cost-label cost-high">総経費率 1.72％</span></p>
-            <p>DコースとBコースの違いは決算頻度だけ。Bコースは毎月分配ではないので<strong>新NISA対応</strong>です。どう考えてもDコースよりBコースを買うべきですね。</p>
-        </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第8位</span>netWIN GSテクノロジー株式</h4>
-            <p class="fund-amount">純資産総額：1.2兆円</p>
-            <p><span class="cost-label cost-high">総経費率 2.09％</span></p>
-            <p>ゴールドマン・サックスが運用するテクノロジー特化型。総経費率<strong>2.09％</strong>は高すぎます。10年で約7倍という驚異的なリターンですが、下がる時もえげつない。50代60代の長期資産形成の軸にするには危険です。</p>
-        </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第9位</span>GESG ハイクオリティ成長株式</h4>
-            <p class="fund-amount">純資産総額：1.07兆円</p>
-            <p><span class="cost-label cost-high">総経費率 2.09％</span></p>
-            <p>ESG重視型ファンドですが、組入銘柄を見ると「META（Facebook）」「UBER」など、イメージと違いませんか？純資産1兆円と2％の手数料は「ESG」のブランド料にも見えます。</p>
-        </div>
-
-        <div class="fund-card">
-            <h4><span class="fund-rank">第10位</span>外株インデックスファンドMSCI-KOKUSAI</h4>
-            <p class="fund-amount">純資産総額：1.02兆円</p>
-            <p><span class="cost-label cost-low">総経費率 0.12％</span></p>
-            <div class="success-box">
-                <h4>✅ 確定拠出年金（DC）専用の優良ファンド</h4>
-                <p>総経費率0.12％と低コスト。企業型DCやiDeCoで選択肢にあれば優良な選択肢です。</p>
+        
+        <h2>第3章：1,000万円投資で300万円の差が生まれる理由</h2>
+        
+        <p>具体的なシミュレーションをお見せしましょう。</p>
+        
+        <div class="simulation-box">
+            <h3>💰 10年間の投資シミュレーション（1,000万円投資）</h3>
+            
+            <div class="plan-comparison">
+                <div class="plan-card">
+                    <div class="plan-title">プランA：毎月8.3万円を淡々と積立</div>
+                    <ul style="padding-left: 20px; margin: 10px 0;">
+                        <li>暴落時の対応：なし</li>
+                        <li>投資総額：1,000万円</li>
+                    </ul>
+                    <div class="result-amount">10年後：約1,500万円</div>
+                </div>
+                
+                <div class="plan-card recommended">
+                    <div class="plan-title">プランB：毎月5万円積立＋暴落時追加</div>
+                    <ul style="padding-left: 20px; margin: 10px 0;">
+                        <li>通常積立：600万円</li>
+                        <li>暴落時追加：400万円</li>
+                    </ul>
+                    <div class="result-amount">10年後：約1,800万円</div>
+                </div>
             </div>
+            
+            <p style="text-align: center; font-size: 24px; color: #4CAF50; margin-top: 20px;">
+                <strong>差額は300万円！</strong>
+            </p>
+            <p style="text-align: center;">これは老後の生活の質を大きく左右する金額です。</p>
         </div>
-
-        <h2>まとめ：衝撃の真実</h2>
-
+        
         <div class="comparison-table">
+            <h3>📈 過去の暴落と回復期間</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>分類</th>
-                        <th>ファンド数</th>
-                        <th>平均総経費率</th>
-                        <th>新NISA対応</th>
+                        <th>暴落の名前</th>
+                        <th>下落率</th>
+                        <th>回復までの期間</th>
+                        <th>底値から1年後のリターン</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>低コストインデックス</td>
-                        <td>5本</td>
-                        <td>0.10％</td>
-                        <td>◎</td>
+                        <td>リーマンショック（2008年）</td>
+                        <td>-56%</td>
+                        <td>4年</td>
+                        <td>+70%以上</td>
                     </tr>
                     <tr>
-                        <td>高コストアクティブ</td>
-                        <td>5本</td>
-                        <td>1.90％</td>
-                        <td>△</td>
+                        <td>コロナショック（2020年）</td>
+                        <td>-34%</td>
+                        <td>5ヶ月</td>
+                        <td>+75%以上</td>
+                    </tr>
+                    <tr>
+                        <td>ドットコムバブル（2000年）</td>
+                        <td>-49%</td>
+                        <td>7年</td>
+                        <td>+35%以上</td>
                     </tr>
                 </tbody>
             </table>
+            <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                ※底値から1年後のリターンは、S&P500の最安値を起点として計算
+            </p>
         </div>
-
-        <p>純資産総額トップ10を分析した結果、<span class="highlight">半分が高コストのアクティブファンド</span>でした。</p>
-
-        <p><strong>なぜこうなってるのか？</strong></p>
-
-        <ol>
-            <li><strong>「高いコスト＝好成績」という思い込み</strong></li>
-            <li><strong>売手と買手の知識差</strong></li>
-            <li><strong>毎月分配への執着</strong></li>
-        </ol>
-
-        <p>要するに、純資産総額ランキングは「人気ランキング」であって、「優良ファンドランキング」ではないんです。</p>
-
-        <div class="alert-box">
-            <h4>💡 投資で成功する秘訣</h4>
-            <p>実はめちゃくちゃシンプル。<strong>「欲張らずにコツコツやる」</strong>これだけです。</p>
-            <p>これは欲望の塊である人間が一番苦手な行為ですが、できた人は上位数％の非凡な存在になれます。</p>
-        </div>
-
-        <p>結論、何かよくわからないんだったら<span class="highlight">オルカン1本</span>買っておけばとりあえずOK。</p>
-
-        <p>時間があれば、自分で配分を考えてもいいですが、50代・60代の投資初心者の方は、なるべくシンプルにすることをおすすめします。</p>
-
-        <p>甘い誘惑を断ち切って、周りから頭1つ抜け出す存在になりましょう。</p>
-
-        <p>それではまた。</p>
-
+        
         <div class="line-cta">
-            <h3>💬「どの投資信託を選べばいいの？」</h3>
+            <h3>💬「老後資金、どうやって増やせば…？」</h3>
             <p>そんなお悩みにお答えするヒントを、LINEで無料配信中！<br>
             個別相談も承っています。</p>
             <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">
                 無料LINE登録はこちら
             </a>
         </div>
-
-        <div class="related-articles">
-            <h3>関連記事</h3>
-            
-            <a href="nisa-start-guide.html" class="article-card">
-                <h4>新NISA 50代から始めても怖くない！『今さら遅い』は完全に間違い</h4>
-                <p>50代からの新NISA、全然遅くありません。52歳から始めても410万円の利益が見込める理由を、実際のシミュレーションで解説。</p>
-            </a>
+        
+        <h2>まとめ：焦らず戦略的に投資しよう</h2>
+        
+        <div class="key-point">
+            <h3>📝 今回のポイント</h3>
+            <ul style="padding-left: 20px;">
+                <li>新NISA枠を5年で埋めることが目的になってはいけない</li>
+                <li><strong>4つの指標が全て「割高」を示している今</strong>、全力投資は避けるべき</li>
+                <li>暴落時に買い増しできる余力を残しておくことが重要</li>
+                <li>バフェットも現金を温存している理由を考える</li>
+            </ul>
         </div>
-
-        <div class="footer-cta">
-            <h3>もっと詳しい投資情報をお求めの方へ</h3>
-            <p>公式LINEでは、個別相談や最新の投資情報を配信中！<br>
-            50代・60代に特化した資産形成のヒントをお届けします。</p>
-            <a href="../index.html" class="main-cta-btn">
-                メインページで詳細を見る
+        
+        <p>重要なのは未来を予測することではありません。</p>
+        <p><span class="highlight">どんな状況になっても大丈夫なように準備すること</span>。これが戦略的投資家の考え方です。</p>
+        
+        <p>追いかければ逃げていく。これは投資の世界でも同じです。</p>
+        <p>お金を追いかけて逃げられることのないよう、冷静に、戦略的に投資していきましょう。</p>
+        
+        <p>それではまた。</p>
+        
+        <div class="youtube-cta">
+            <h3>💬「老後資金」どうやって増やせば…？</h3>
+            <p>そんなお悩みに答えるヒントを、YouTubeでわかりやすく解説しています！</p>
+            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
+                チャンネルはこちら
             </a>
         </div>
     </div>
