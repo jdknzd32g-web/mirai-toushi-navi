@@ -822,6 +822,206 @@
                 aspect-ratio: 16 / 7;
             }
         }
+
+        /* 返金保証セクション */
+        .guarantee-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guarantee-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+        }
+
+        .guarantee-wrapper {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .guarantee-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .guarantee-icon {
+            font-size: 24px;
+        }
+
+        .guarantee-text {
+            color: #333;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .guarantee-title {
+            font-size: 48px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            animation: gs-fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes gs-fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight-red {
+            color: #ff4757;
+            background: linear-gradient(transparent 60%, rgba(255, 71, 87, 0.3) 60%);
+            padding: 0 5px;
+        }
+
+        .guarantee-subtitle {
+            font-size: 24px;
+            color: #e53935; /* 赤文字 */
+            margin-bottom: 50px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            /* 白フチは削除し、黒の影のみ残す */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            animation: gs-fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* 料金プランボタン */
+        .price-plan-button-wrapper {
+            margin-top: 40px;
+            animation: gs-fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .price-plan-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 60px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .price-plan-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .price-plan-btn:hover::before {
+            left: 100%;
+        }
+
+        .price-plan-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-arrow {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 26px;
+        }
+
+        .price-plan-btn:hover .btn-arrow {
+            transform: translateX(8px);
+            animation: gs-arrowBounce 0.6s ease-in-out;
+        }
+
+        @keyframes gs-arrowBounce {
+            0%, 100% { transform: translateX(8px); }
+            50% { transform: translateX(15px); }
+        }
+
+        /* パルスエフェクト */
+        .price-plan-btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 60px;
+            background: inherit;
+            z-index: -1;
+            animation: pricePulse 2s infinite;
+        }
+
+        @keyframes pricePulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .guarantee-title {
+                font-size: 32px;
+            }
+            
+            .guarantee-subtitle {
+                font-size: 20px;
+                margin-bottom: 40px;
+            }
+            
+            .price-plan-btn {
+                font-size: 18px;
+                padding: 18px 45px;
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            .guarantee-section {
+                padding: 60px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1064,6 +1264,32 @@
             <a href="https://lin.ee/FxIOpk1" class="cta-button" style="background: white; color: #1e3c72; font-size: 20px; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block;">
                 特典を無料で受け取る
             </a>
+        </div>
+    </div>
+
+</section>
+
+<!-- 返金保証セクション -->
+<section class="guarantee-section">
+    <div class="container">
+        <div class="guarantee-wrapper">
+            <div class="guarantee-badge">
+                <span class="guarantee-icon">🛡️</span>
+                <span class="guarantee-text">安心の保証</span>
+            </div>
+            
+            <h2 class="guarantee-title">返金保証付き</h2>
+            
+            <p class="guarantee-subtitle">
+                まずは体験してください
+            </p>
+            
+            <div class="price-plan-button-wrapper">
+                <button class="price-plan-btn" onclick="window.location.href='pricing.html'">
+                    <span class="btn-text">料金プラン</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
         </div>
     </div>
 </section>
@@ -1492,6 +1718,50 @@
 //         });
 //     });
 // } 
+        // 料金プランボタンのクリック処理
+        function showPricePlans() {
+            // クリック時のエフェクト
+            const button = event.currentTarget;
+            
+            // リップルエフェクトを追加
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // ここに料金プランモーダルを開く処理
+            // または料金プランセクションへスクロール
+            console.log('料金プランを表示');
+            
+            // 例：料金プランセクションへスムーズスクロール
+            // const pricingSection = document.getElementById('pricing');
+            // if (pricingSection) {
+            //     pricingSection.scrollIntoView({ behavior: 'smooth' });
+            // }
+        }
+
+        // ページ読み込み時のアニメーション
+        document.addEventListener('DOMContentLoaded', function() {
+            const guaranteeSection = document.querySelector('.guarantee-section');
+            
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                },
+                { threshold: 0.1 }
+            );
+            
+            if (guaranteeSection) {
+                observer.observe(guaranteeSection);
+            }
+        });
     </script>
 </body>
 </html>
