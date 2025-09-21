@@ -63,7 +63,7 @@
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -113,10 +113,11 @@
             margin: 0 auto;
         }
         
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
+        /* 縦並びレイアウト */
+        .articles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
             margin-bottom: 50px;
         }
         
@@ -272,11 +273,6 @@
                 font-size: 16px;
             }
             
-            .articles-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
             .article-card {
                 padding: 20px;
             }
@@ -326,26 +322,9 @@
             </p>
         </div>
 
-        <!-- 記事一覧 -->
-        <div class="articles-grid">
-            <!-- 記事3（新着） -->
-            <article class="article-card" onclick="location.href='nisa-start-guide3.html'">
-                <div class="article-meta">
-                    <span class="article-date">2025.09.11<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-intermediate">中級者向け</span>
-                </div>
-                <h2 class="article-title">新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</h2>
-                <p class="article-description">
-                    バフェット指標217％、シラーPER39倍...今の相場で全力投資は危険？暴落を味方につける戦略的投資法を解説。
-                </p>
-                <div class="article-tags">
-                    <span class="tag">新NISA戦略</span>
-                    <span class="tag">相場分析</span>
-                    <span class="tag">リスク管理</span>
-                </div>
-                <div class="read-more">続きを読む →</div>
-            </article>
-
+        <!-- 記事一覧（縦並び） -->
+        <div class="articles-list">
+            
             <!-- 記事1 -->
             <article class="article-card" onclick="location.href='nisa-start-guide.html'">
                 <div class="article-meta">
@@ -364,13 +343,13 @@
                 <div class="read-more">続きを読む →</div>
             </article>
 
-           <!-- 記事2 -->
+            <!-- 記事2 -->
             <article class="article-card" onclick="location.href='nisa-start-guide2.html'">
                 <div class="article-meta">
                     <span class="article-date">2025.09.09</span>
                     <span class="article-level level-beginner">初心者向け</span>
                 </div>
-                <h2 class="article-title">新NISAの始め方完全ガイド！今からでも間に合う老後資金の作り方</h2>
+                <h2 class="article-title">新NISAの始め方完全ガイド｜今からでも間に合う老後資金の作り方</h2>
                 <p class="article-description">
                     口座開設から商品選び、積立設定まで、スマホで15分で完了する新NISA開始の全手順をわかりやすく解説。実は3ステップで完了します。
                 </p>
@@ -378,6 +357,42 @@
                     <span class="tag">口座開設</span>
                     <span class="tag">始め方</span>
                     <span class="tag">3ステップ</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
+            <!-- 記事3 -->
+            <article class="article-card" onclick="location.href='nisa-start-guide3.html'">
+                <div class="article-meta">
+                    <span class="article-date">2025.09.11<span class="new-badge">NEW</span></span>
+                    <span class="article-level level-intermediate">中級者向け</span>
+                </div>
+                <h2 class="article-title">新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</h2>
+                <p class="article-description">
+                    バフェット指標217％、シラーPER39倍...今の相場で全力投資は危険？暴落を味方につける戦略的投資法を解説。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">新NISA戦略</span>
+                    <span class="tag">相場分析</span>
+                    <span class="tag">リスク管理</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
+            <!-- 記事4（新規追加） -->
+            <article class="article-card" onclick="location.href='nisa-start-guide4.html'">
+                <div class="article-meta">
+                    <span class="article-date">2025.09.22<span class="new-badge">NEW</span></span>
+                    <span class="article-level level-intermediate">中級者向け</span>
+                </div>
+                <h2 class="article-title">【新NISA デメリット】知らないと老後破産する3つの落とし穴</h2>
+                <p class="article-description">
+                    新NISAは必ず儲かる？その幻想が危険です。経済の四季、暴落の歴史、商品選びの罠。50代・60代が投資で失敗しないための3つの重要ポイントを解説。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">投資心理</span>
+                    <span class="tag">リスク管理</span>
+                    <span class="tag">商品選び</span>
                 </div>
                 <div class="read-more">続きを読む →</div>
             </article>
