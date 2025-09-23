@@ -144,6 +144,11 @@
             height: 3px;
             background: #667eea;
         }
+
+        /* 返金保証つき見出しは既定の下線を非表示 */
+        .guarantee-section .guarantee-title::after {
+            display: none;
+        }
         
         .worries {
             background: #fff5f5;
@@ -676,14 +681,14 @@
         
         .profile-band-text .title {
             color: rgba(255,255,255,0.9);
-            font-size: 18px;
+            font-size: 27px;
             font-weight: bold;
             margin: 0;
         }
         
         .profile-band-text .name {
             color: white;
-            font-size: 32px;
+            font-size: 48px;
             font-weight: bold;
             margin: 8px 0;
         }
@@ -693,8 +698,8 @@
         }
         
         .profile-band-image img {
-            width: 120px;
-            height: 120px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             border: 4px solid white;
             display: block;
@@ -808,12 +813,12 @@
             }
             
             .profile-band-text .name {
-                font-size: 28px;
+                font-size: 42px;
             }
             
             .profile-band-image img {
-                width: 100px;
-                height: 100px;
+                width: 150px;
+                height: 150px;
             }
 
             /* スマホではPCと同じ縦横比(16:7)を維持してリサイズ */
@@ -879,11 +884,38 @@
 
         .guarantee-title {
             font-size: 48px;
-            color: #2c3e50;
+            color: #ffffff; /* 白文字 */
             margin-bottom: 20px;
             font-weight: 900;
             letter-spacing: -1px;
-            animation: gs-fadeInUp 0.8s ease-out;
+            line-height: 1.6; /* バンド高(1.6em)と揃えて中央揃え */
+            /* グラデは無効化し、白文字を明確に */
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: #ffffff;
+            /* コンパクトな赤い発光（そのまま） */
+            text-shadow:
+                0 0 4px rgba(255, 107, 107, 0.75),
+                0 0 8px rgba(255, 30, 30, 0.75),
+                2px 2px 2px rgba(0, 0, 0, 0.6);
+            animation: gs-fadeInUp 0.8s ease-out, guaranteeGlow 1.5s ease-in-out infinite alternate;
+            position: relative; /* 帯の基準にする */
+            z-index: 1; /* テキストを帯より前面に */
+        }
+
+        /* 見出し背面に半透明の黒帯（セクション全幅） */
+        .guarantee-section .guarantee-title::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 100vw; /* 端から端まで（セクションは全幅） */
+            height: 100%; /* 見出し行高(1.6em)と同じに */
+            background: rgba(0, 0, 0, 0.7); /* 半透明黒（0.7） */
+            border-radius: 0; /* 角丸なし */
+            z-index: -1; /* テキストの背面 */
+            pointer-events: none;
         }
 
         @keyframes gs-fadeInUp {
@@ -894,6 +926,22 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* 返金保証見出し用の発光アニメ（赤・小さめ半径、速度1.5s） */
+        @keyframes guaranteeGlow {
+            from {
+                text-shadow:
+                    0 0 4px rgba(255, 107, 107, 0.75),
+                    0 0 8px rgba(255, 30, 30, 0.75),
+                    2px 2px 2px rgba(0, 0, 0, 0.6);
+            }
+            to {
+                text-shadow:
+                    0 0 6px rgba(255, 107, 107, 0.75),
+                    0 0 12px rgba(255, 30, 30, 0.75),
+                    2px 2px 2px rgba(0, 0, 0, 0.6);
             }
         }
 
@@ -937,6 +985,8 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
             letter-spacing: 1px;
+            /* お問い合わせボタンと同じ脈動アニメ */
+            animation: pulse 2s infinite;
         }
 
         .price-plan-btn::before {
@@ -974,6 +1024,8 @@
             0%, 100% { transform: translateX(8px); }
             50% { transform: translateX(15px); }
         }
+
+        
 
         /* パルスエフェクト */
         .price-plan-btn::after {
@@ -1278,7 +1330,7 @@
                 <span class="guarantee-text">安心の保証</span>
             </div>
             
-            <h2 class="guarantee-title">返金保証付き</h2>
+            <h2 class="guarantee-title">返金保証つき</h2>
             
             <p class="guarantee-subtitle">
                 まずは体験してください
@@ -1287,7 +1339,6 @@
             <div class="price-plan-button-wrapper">
                 <button class="price-plan-btn" onclick="window.location.href='pricing.html'">
                     <span class="btn-text">料金プラン</span>
-                    <span class="btn-arrow">→</span>
                 </button>
             </div>
         </div>
