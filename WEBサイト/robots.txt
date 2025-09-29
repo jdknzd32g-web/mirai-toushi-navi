@@ -1,3 +1,7 @@
+# 未来投資navi - robots.txt
 User-agent: *
 Allow: /
-Sitemap: https://eva-solution.netlify.app/sitemap.xml
+# Google認証ファイルは除外
+Disallow: /google4ae5f88a1184db39.html
+# サイトマップ
+Sitemap: https://eva-solution.netlify.app/sitemap.xml OK?
