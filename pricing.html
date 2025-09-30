@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K4EG9Q6FL6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>料金プラン | 未来投資navi - 安心の3ステップでスタート</title>
+    <meta name="description" content="未来投資naviの料金プラン。まずは無料相談から。50代・60代の方でも安心して始められる段階的な料金体系をご用意しています。">
+    
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="料金プラン | 未来投資navi - 安心の3ステップでスタート">
+    <meta property="og:description" content="未来投資naviの料金プラン。まずは無料相談から。50代・60代の方でも安心して始められる段階的な料金体系をご用意しています。">
+    <meta property="og:url" content="https://eva-solution.netlify.app/pricing.html">
+    <meta property="og:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
+    <meta property="og:site_name" content="未来投資navi">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="料金プラン | 未来投資navi - 安心の3ステップでスタート">
+    <meta name="twitter:description" content="未来投資naviの料金プラン。まずは無料相談から。50代・60代の方でも安心して始められる段階的な料金体系をご用意しています。">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f5f7fa;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        /* ヘッダー */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        
+        .back-btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #5569d0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* ステップカード */
+        .steps-section {
+            background: white;
+            padding: 60px 20px 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 50px;
+            font-weight: bold;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            border-color: #667eea;
+        }
+        
+        /* オススメバッジ */
+        .recommended {
+            position: relative;
+        }
+        
+        .recommended::before {
+            content: 'オススメ';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #ff4757;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(255, 71, 87, 0.3);
+        }
+        
+        /* ステップ番号 */
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.3);
+            margin: 0 auto 20px;
+        }
+        
+        /* バッジ */
+        .step-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0 0 20px;
+        }
+        
+        .badge-free {
+            background: linear-gradient(135deg, #00C851 0%, #00A846 100%);
+            color: white;
+        }
+        
+        .badge-trial {
+            background: linear-gradient(135deg, #FFB700 0%, #FFA000 100%);
+            color: white;
+        }
+        
+        .badge-annual {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .step-title {
+            font-size: 26px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .step-price {
+            font-size: 36px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .step-price .unit {
+            font-size: 16px;
+            color: #999;
+        }
+        
+        .step-description {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+        
+        .step-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .step-features li {
+            padding: 12px 0;
+            color: #444;
+            position: relative;
+            padding-left: 35px;
+            font-size: 15px;
+        }
+        
+        .step-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        /* 年間プラン詳細 */
+        .plan-details {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .plan-details-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .plan-option {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .plan-option-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .plan-option-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        
+        .plan-option-price {
+            font-size: 22px;
+            color: #667eea;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .save-badge {
+            display: inline-block;
+            background: #ff4757;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .plan-option-detail {
+            color: #666;
+            font-size: 14px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* 保証バッジ */
+        .guarantee-badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+        }
+        
+        /* 支払い方法の説明 */
+        .payment-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 10px;
+        }
+        
+        .payment-info p {
+            margin: 0;
+            color: #667eea;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* カード内のCTAボタン */
+        .card-cta-button {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 14px 20px;
+            margin-top: 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .cta-free {
+            background: linear-gradient(135deg, #00C851 0%, #00A846 100%);
+            color: white;
+        }
+        
+        .cta-trial {
+            background: linear-gradient(135deg, #FFB700 0%, #FFA000 100%);
+            color: white;
+        }
+        
+        .cta-annual {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .card-cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* よくある質問 */
+        .faq-section {
+            background: #f8f9fa;
+            padding: 60px 20px;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-title {
+            font-size: 28px;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .faq-item {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 24px;
+            color: #667eea;
+        }
+        
+        .faq-item.active .faq-question::after {
+            content: '−';
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: #666;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        /* 注意事項 */
+        .notice-section {
+            background: white;
+            padding: 60px 20px;
+        }
+        
+        .notice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff5f5;
+            border-left: 4px solid #ff6b6b;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .notice-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .notice-content {
+            color: #444;
+            line-height: 1.8;
+        }
+        
+        .notice-content strong {
+            color: #ff4757;
+        }
+        
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .cta-subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .cta-note {
+            margin-top: 25px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .steps-grid { 
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .step-card { 
+                padding: 30px 20px;
+            }
+            .cta-title { font-size: 28px; }
+            .header-content { 
+                flex-direction: column; 
+                gap: 15px;
+                text-align: center;
+            }
+            
+            /* プラン詳細のレスポンシブ対応 */
+            .plan-details {
+                padding: 15px;
+            }
+            
+            .plan-option {
+                padding: 15px;
+            }
+            
+            .plan-option-price {
+                font-size: 20px;
+            }
+            
+            .save-badge {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+            
+            /* 保証バッジの調整 */
+            .guarantee-badge {
+                font-size: 12px;
+                padding: 10px 15px;
+            }
+            
+            /* ステップ価格の調整 */
+            .step-price {
+                font-size: 28px;
+            }
+            
+            .step-price .unit {
+                font-size: 14px;
+            }
+            
+            /* おすすめバッジの位置調整 */
+            .recommended::before {
+                font-size: 10px;
+                padding: 4px 30px;
+                right: -25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">未来投資navi</a>
+            <a href="index.html" class="back-btn">トップに戻る</a>
+        </div>
+    </header>
+
+    <!-- ステップカード -->
+    <section class="steps-section">
+        <h1 class="section-title">料金プラン</h1>
+        <div class="steps-grid">
+            <!-- ステップ1 -->
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <span class="step-badge badge-free">完全無料</span>
+                <h3 class="step-title">無料面談</h3>
+                <div class="step-price">
+                    0<span class="unit">円（30分）</span>
+                </div>
+                <p class="step-description">
+                    まずは60分の無料相談でお悩みをお聞かせください。あなたの状況に合わせた最適なプランをご提案します。
+                </p>
+                <ul class="step-features">
+                    <li>30分のオンライン面談</li>
+                    <li>現状分析とヒアリング</li>
+                    <li>最適なプランのご提案</li>
+                    <li>押し売りは一切なし</li>
+                </ul>
+                <a href="https://docs.google.com/forms/d/1Yqpmo284n8yO6ZBk7S1zN-7jIFKyAe2jTdTWKdWpnAI/edit" class="card-cta-button cta-free" target="_blank">
+                    無料相談を申し込む
+                </a>
+            </div>
+
+            <!-- ステップ2 -->
+            <div class="step-card recommended">
+                <div class="step-number">2</div>
+                <span class="step-badge badge-trial">お試し</span>
+                <h3 class="step-title">体験プラン</h3>
+                <div class="step-price">
+                    5,500<span class="unit">円（税込）</span>
+                </div>
+                <p class="step-description">
+                    1ヶ月間、本格的なサポートを体験。実際のサービスを体感していただけます。
+                </p>
+                <ul class="step-features">
+                    <li>オーダーメイドのライフプラン作成</li>
+                    <li>オンライン面談（60分）</li>
+                    <li>LINE無制限サポート</li>
+                </ul>
+                <div class="payment-info">
+                    <p>💳 支払方法：銀行振込<br>
+                    ※振込手数料はお客様負担</p>
+                </div>
+                <a href="https://docs.google.com/forms/d/1Yqpmo284n8yO6ZBk7S1zN-7jIFKyAe2jTdTWKdWpnAI/edit" class="card-cta-button cta-trial" target="_blank">
+                    体験プランを申し込む
+                </a>
+            </div>
+
+            <!-- ステップ3 -->
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <span class="step-badge badge-annual">本契約</span>
+                <h3 class="step-title">年間プラン</h3>
+                
+                <div class="plan-details">
+                    <p class="plan-details-title">選べる2つの支払い方法</p>
+                    
+                    <div class="plan-option">
+                        <div class="plan-option-header">
+                            <span class="plan-option-name">一括払い</span>
+                            <div class="plan-option-price">
+                                <span>59,800円</span>
+                                <span class="save-badge">6,200円お得！</span>
+                            </div>
+                        </div>
+                        <div class="plan-option-detail">
+                            💳 支払方法：銀行振込<br>（振込手数料はお客様負担）
+                        </div>
+                    </div>
+                    
+                    <div class="plan-option">
+                        <div class="plan-option-header">
+                            <span class="plan-option-name">分割払い</span>
+                            <div class="plan-option-price">5,500円/月</div>
+                        </div>
+                        <div class="plan-option-detail">
+                            💳 支払方法：クレジットカード/PayPal<br>（毎月自動決済）<br>
+                            ※12ヶ月総額：66,000円（税込）
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="step-features" style="margin-top: 25px;">
+                    <li>2ヶ月に1回のオンライン面談（60分）</li>
+                    <li>面談時20分の小セミナー</li>
+                    <li>LINE無制限サポート</li>
+                    <li>面談時最新情報の提供</li>
+                    <li>ライフプランの定期見直し</li>
+                </ul>
+                
+                <div class="guarantee-badge">
+                    🛡️ 不満があれば途中解約可・残期間返金
+                </div>
+                
+                <a href="https://docs.google.com/forms/d/1Yqpmo284n8yO6ZBk7S1zN-7jIFKyAe2jTdTWKdWpnAI/edit" class="card-cta-button cta-annual" target="_blank">
+                    年間プランの詳細を見る
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="faq-title">よくある質問</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    無料相談だけでも大丈夫ですか？
+                </div>
+                <div class="faq-answer">
+                    もちろん大丈夫です。無理な勧誘は一切いたしません。まずはあなたのお悩みをお聞かせください。
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    体験プランから本契約への移行は必須ですか？
+                </div>
+                <div class="faq-answer">
+                    いいえ、必須ではありません。体験期間終了の7日前までに継続の意思確認をさせていただきます。継続を希望されない場合は、自動的に終了となります。
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    途中解約はできますか？
+                </div>
+                <div class="faq-answer">
+                    はい、できます。年間プランの場合、残りの期間分を日割り計算で返金いたします。ただし、振込手数料はお客様負担となります。
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    相談は対面でも可能ですか？
+                </div>
+                <div class="faq-answer">
+                    基本的にはオンラインでの対応となりますが、佐賀・福岡県内であれば対面相談も可能です。詳しくはお問い合わせください。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 注意事項 -->
+    <section class="notice-section">
+        <div class="notice-container">
+            <h3 class="notice-title">📝 ご注意事項</h3>
+            <div class="notice-content">
+                <strong>【プラン移行について】</strong><br>
+                体験期間終了の7日前までに、メール・LINE等で継続意思を確認します。<br>
+                「継続希望」の返信をいただいた場合、年間プランへ移行します。<br>
+                返信がない場合は、体験期間満了で自動終了となります。<br><br>
+                
+                <strong>【サービス内容について】</strong><br>
+                • 投資助言業ではありません<br>
+                • 特定の金融商品の販売・勧誘は行いません<br>
+                • あくまで情報提供とサポートが中心です<br><br>
+                
+                ※無理な勧誘は一切いたしません<br>
+                ※個人情報は厳重に管理いたします
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 class="cta-title">まずは無料相談から</h2>
+        <p class="cta-subtitle">30分の無料面談で、あなたの資産形成をサポートします</p>
+        <a href="https://docs.google.com/forms/d/1Yqpmo284n8yO6ZBk7S1zN-7jIFKyAe2jTdTWKdWpnAI/edit" class="cta-button" target="_blank">
+            無料相談を予約する（お問い合わせフォーム）
+        </a>
+        <p class="cta-note">
+            ※しつこい勧誘は一切ありません<br>
+            ※オンラインで全国対応<br>
+            ※Googleフォームが開きます
+        </p>
+    </section>
+
+    <script>
+        // FAQの開閉
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+                
+                // 他のFAQを閉じる
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
