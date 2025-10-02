@@ -114,8 +114,8 @@
         }
         
         .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            display: flex;
+            flex-direction: column; /* 1列（縦並び）に統一 */
             gap: 30px;
             margin-bottom: 50px;
         }
@@ -346,6 +346,24 @@
                 <div class="read-more">続きを読む →</div>
             </article>
 
+            <!-- 記事2 -->
+            <article class="article-card" onclick="location.href='mutual_fund2.html'">
+                <div class="article-meta">
+                    <span class="article-date">2025.09.13</span>
+                    <span class="article-level level-intermediate">中級者向け</span>
+                </div>
+                <h2 class="article-title">【新NISA成長投資枠】インド株で資産を増やす！今すぐ始めるべき理由と具体的投資方法</h2>
+                <p class="article-description">
+                    人口14億人・GDP成長率7%のインドに投資する魅力とは？新NISAの成長投資枠で買えるインド株ファンド3選と、リスクを抑えた投資戦略を詳しく解説します。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">インド株</span>
+                    <span class="tag">成長投資枠</span>
+                    <span class="tag">海外投資</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
             <!-- 記事3（オルカン1本投資） -->
             <article class="article-card" onclick="location.href='mutual_fund3.html'">
                 <div class="article-meta">
@@ -365,24 +383,6 @@
             </article>
 
         </div>
-
-        <!-- 記事2 -->
-<article class="article-card" onclick="location.href='mutual_fund2.html'">
-    <div class="article-meta">
-        <span class="article-date">2025.09.13</span>
-        <span class="article-level level-intermediate">中級者向け</span>
-    </div>
-    <h2 class="article-title">【新NISA成長投資枠】インド株で資産を増やす！今すぐ始めるべき理由と具体的投資方法</h2>
-    <p class="article-description">
-        人口14億人・GDP成長率7%のインドに投資する魅力とは？新NISAの成長投資枠で買えるインド株ファンド3選と、リスクを抑えた投資戦略を詳しく解説します。
-    </p>
-    <div class="article-tags">
-        <span class="tag">インド株</span>
-        <span class="tag">成長投資枠</span>
-        <span class="tag">海外投資</span>
-    </div>
-    <div class="read-more">続きを読む →</div>
-</article>
 
         <!-- トップページに戻る -->
         <div class="back-to-top-section">
