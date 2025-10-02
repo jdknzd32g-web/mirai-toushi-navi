@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>投資信託記事一覧 | 未来投資navi</title>
+    <meta name="description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="投資信託記事一覧 | 未来投資navi">
+    <meta property="og:description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/category-mutual-fund.html">
+    <meta property="og:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
+    <meta property="og:site_name" content="未来投資navi">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="投資信託記事一覧 | 未来投資navi">
+    <meta name="twitter:description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
     <style>
         * {
             margin: 0;
@@ -114,8 +129,8 @@
         }
         
         .articles-grid {
-            display: flex;
-            flex-direction: column; /* 1列（縦並び）に統一 */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin-bottom: 50px;
         }
@@ -346,24 +361,6 @@
                 <div class="read-more">続きを読む →</div>
             </article>
 
-            <!-- 記事2 -->
-            <article class="article-card" onclick="location.href='mutual_fund2.html'">
-                <div class="article-meta">
-                    <span class="article-date">2025.09.13</span>
-                    <span class="article-level level-intermediate">中級者向け</span>
-                </div>
-                <h2 class="article-title">【新NISA成長投資枠】インド株で資産を増やす！今すぐ始めるべき理由と具体的投資方法</h2>
-                <p class="article-description">
-                    人口14億人・GDP成長率7%のインドに投資する魅力とは？新NISAの成長投資枠で買えるインド株ファンド3選と、リスクを抑えた投資戦略を詳しく解説します。
-                </p>
-                <div class="article-tags">
-                    <span class="tag">インド株</span>
-                    <span class="tag">成長投資枠</span>
-                    <span class="tag">海外投資</span>
-                </div>
-                <div class="read-more">続きを読む →</div>
-            </article>
-
             <!-- 記事3（オルカン1本投資） -->
             <article class="article-card" onclick="location.href='mutual_fund3.html'">
                 <div class="article-meta">
@@ -383,6 +380,24 @@
             </article>
 
         </div>
+
+        <!-- 記事2 -->
+<article class="article-card" onclick="location.href='mutual_fund2.html'">
+    <div class="article-meta">
+        <span class="article-date">2025.09.13</span>
+        <span class="article-level level-intermediate">中級者向け</span>
+    </div>
+    <h2 class="article-title">【新NISA成長投資枠】インド株で資産を増やす！今すぐ始めるべき理由と具体的投資方法</h2>
+    <p class="article-description">
+        人口14億人・GDP成長率7%のインドに投資する魅力とは？新NISAの成長投資枠で買えるインド株ファンド3選と、リスクを抑えた投資戦略を詳しく解説します。
+    </p>
+    <div class="article-tags">
+        <span class="tag">インド株</span>
+        <span class="tag">成長投資枠</span>
+        <span class="tag">海外投資</span>
+    </div>
+    <div class="read-more">続きを読む →</div>
+</article>
 
         <!-- トップページに戻る -->
         <div class="back-to-top-section">
