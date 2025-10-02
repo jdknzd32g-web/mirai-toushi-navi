@@ -11,21 +11,21 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新NISA記事一覧 | 未来投資navi</title>
-    <meta name="description" content="新NISAに関する記事一覧。50代・60代向けの運用法、始め方、注意点をわかりやすく紹介します。">
+    <title>投資信託記事一覧 | 未来投資navi</title>
+    <meta name="description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
 
     <!-- OGP -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="新NISA記事一覧 | 未来投資navi">
-    <meta property="og:description" content="新NISAに関する記事一覧。50代・60代向けの運用法、始め方、注意点をわかりやすく紹介します。">
-    <meta property="og:url" content="https://eva-solution.netlify.app/blog/category-nisa.html">
+    <meta property="og:title" content="投資信託記事一覧 | 未来投資navi">
+    <meta property="og:description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/category-mutual-fund.html">
     <meta property="og:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
     <meta property="og:site_name" content="未来投資navi">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="新NISA記事一覧 | 未来投資navi">
-    <meta name="twitter:description" content="新NISAに関する記事一覧。50代・60代向けの運用法、始め方、注意点をわかりやすく紹介します。">
+    <meta name="twitter:title" content="投資信託記事一覧 | 未来投資navi">
+    <meta name="twitter:description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
     <meta name="twitter:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
     <style>
         * {
@@ -86,7 +86,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -113,7 +113,7 @@
         
         .category-badge {
             display: inline-block;
-            background: #4CAF50;
+            background: #ff6b6b;
             color: white;
             padding: 10px 25px;
             border-radius: 25px;
@@ -136,11 +136,10 @@
             margin: 0 auto;
         }
         
-        /* 縦並びレイアウト */
-        .articles-list {
+        .articles-grid {
             display: flex;
-            flex-direction: column;
-            gap: 25px;
+            flex-direction: column; /* すべて行（縦並び）に統一 */
+            gap: 30px;
             margin-bottom: 50px;
         }
         
@@ -219,8 +218,8 @@
         }
         
         .tag {
-            background: #f0f4ff;
-            color: #667eea;
+            background: #fff0f0;
+            color: #ff6b6b;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 12px;
@@ -296,6 +295,11 @@
                 font-size: 16px;
             }
             
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
             .article-card {
                 padding: 20px;
             }
@@ -321,8 +325,8 @@
         <div class="header-content">
             <div class="logo">未来投資navi</div>
             <div class="nav-links">
-                <a href="../index.html" class="nav-link">トップページ</a>
-                <a href="index.html" class="nav-link">全記事一覧</a>
+                <a href="../../index.html" class="nav-link">トップページ</a>
+                <a href="../index.html" class="nav-link">全記事一覧</a>
             </div>
         </div>
     </header>
@@ -332,108 +336,71 @@
         <nav class="breadcrumb">
             <a href="../index.html">トップ</a> > 
             <a href="index.html">記事一覧</a> > 
-            <span>新NISA</span>
+            <span>投資信託</span>
         </nav>
 
         <!-- カテゴリヘッダー -->
         <div class="category-header">
-            <div class="category-badge">新NISA</div>
-            <h1 class="category-title">新NISA関連記事</h1>
+            <div class="category-badge">投資信託</div>
+            <h1 class="category-title">投資信託関連記事</h1>
             <p class="category-description">
-                50代・60代から始める新NISAの基礎知識から実践的な活用方法まで、
-                わかりやすく解説した記事をまとめています。
+                50代・60代向けの投資信託選びから運用方法まで、
+                失敗しない投資信託活用法を解説した記事をまとめています。
             </p>
         </div>
 
-        <!-- 記事一覧（縦並び） -->
-        <div class="articles-list">
-            
+        <!-- 記事一覧 -->
+        <div class="articles-grid">
             <!-- 記事1 -->
-            <article class="article-card" onclick="location.href='nisa-start-guide.html'">
+            <article class="article-card" onclick="location.href='../2025/mutual-fund1/mutual-fund1.html'">
                 <div class="article-meta">
-                    <span class="article-date">2025.09.07</span>
+                    <span class="article-date">2025.01.20</span>
                     <span class="article-level level-beginner">初心者向け</span>
                 </div>
-                <h2 class="article-title">新NISA 50代から始めても怖くない！『今さら遅い』は完全に間違い</h2>
+                <h2 class="article-title">純資産総額1位の投資信託って本当に「買い」なの？ランキングの罠を暴く</h2>
                 <p class="article-description">
-                    「もう遅いのでは？」という不安を、具体的な数字で完全解消。52歳から始めても410万円の利益が見込める理由を、実際のシミュレーションを使って詳しく解説します。
+                    投資初心者の方がどんなところを注意すべきか？また、具体的な商品の中身を紹介。手数料や運用方針を理解して、長期投資に適した商品を見つけましょう。
                 </p>
                 <div class="article-tags">
-                    <span class="tag">50代投資</span>
-                    <span class="tag">シミュレーション</span>
+                    <span class="tag">商品選び</span>
+                    <span class="tag">手数料比較</span>
                     <span class="tag">初心者</span>
                 </div>
                 <div class="read-more">続きを読む →</div>
             </article>
 
             <!-- 記事2 -->
-            <article class="article-card" onclick="location.href='nisa-start-guide2.html'">
+            <article class="article-card"onclick="location.href='../2025/mutual-fund2/mutual-fund2.html'"'">
                 <div class="article-meta">
-                    <span class="article-date">2025.09.09</span>
+                    <span class="article-date">2025.09.13</span>
+                    <span class="article-level level-intermediate">中級者向け</span>
+                </div>
+                <h2 class="article-title">【新NISA成長投資枠】インド株で資産を増やす！今すぐ始めるべき理由と具体的投資方法</h2>
+                <p class="article-description">
+                    人口14億人・GDP成長率7%のインドに投資する魅力とは？新NISAの成長投資枠で買えるインド株ファンド3選と、リスクを抑えた投資戦略を詳しく解説します。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">インド株</span>
+                    <span class="tag">成長投資枠</span>
+                    <span class="tag">海外投資</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
+            <!-- 記事3（オルカン1本投資） -->
+           <article class="article-card"onclick="location.href='../2025/mutual-fund3/mutual-fund3.html'"'">
+                <div class="article-meta">
+                    <span class="article-date">2025.09.15</span>
                     <span class="article-level level-beginner">初心者向け</span>
                 </div>
-                <h2 class="article-title">新NISAの始め方完全ガイド｜今からでも間に合う老後資金の作り方</h2>
+                <h2 class="article-title">投資初心者が迷わず選ぶべき「オルカン1本投資」の圧倒的メリット</h2>
                 <p class="article-description">
-                    口座開設から商品選び、積立設定まで、スマホで15分で完了する新NISA開始の全手順をわかりやすく解説。実は3ステップで完了します。
+                    なぜオルカン（eMAXIS Slim全世界株式）1本だけで十分なのか？投資初心者が陥りがちな「買い過ぎ」問題の解決策を、理論とデータで分かりやすく解説します。
                 </p>
                 <div class="article-tags">
-                    <span class="tag">口座開設</span>
-                    <span class="tag">始め方</span>
-                    <span class="tag">3ステップ</span>
-                </div>
-                <div class="read-more">続きを読む →</div>
-            </article>
-
-            <!-- 記事3 -->
-            <article class="article-card" onclick="location.href='nisa-start-guide3.html'">
-                <div class="article-meta">
-                    <span class="article-date">2025.09.11<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-intermediate">中級者向け</span>
-                </div>
-                <h2 class="article-title">新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</h2>
-                <p class="article-description">
-                    バフェット指標217％、シラーPER39倍...今の相場で全力投資は危険？暴落を味方につける戦略的投資法を解説。
-                </p>
-                <div class="article-tags">
-                    <span class="tag">新NISA戦略</span>
-                    <span class="tag">相場分析</span>
-                    <span class="tag">リスク管理</span>
-                </div>
-                <div class="read-more">続きを読む →</div>
-            </article>
-
-            <!-- 記事4（新規追加） -->
-            <article class="article-card" onclick="location.href='nisa-start-guide4.html'">
-                <div class="article-meta">
-                    <span class="article-date">2025.09.22<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-intermediate">中級者向け</span>
-                </div>
-                <h2 class="article-title">【新NISA デメリット】知らないと老後破産する3つの落とし穴</h2>
-                <p class="article-description">
-                    新NISAは必ず儲かる？その幻想が危険です。経済の四季、暴落の歴史、商品選びの罠。50代・60代が投資で失敗しないための3つの重要ポイントを解説。
-                </p>
-                <div class="article-tags">
-                    <span class="tag">投資心理</span>
-                    <span class="tag">リスク管理</span>
-                    <span class="tag">商品選び</span>
-                </div>
-                <div class="read-more">続きを読む →</div>
-            </article>
-
-            <!-- 記事5（新規追加） -->
-            <article class="article-card" onclick="location.href='nisa-start-guide5.html'">
-                <div class="article-meta">
-                    <span class="article-date">2025.10.01<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-intermediate">中級者向け</span>
-                </div>
-                <h2 class="article-title">【2025年新NISA】残り3ヶ月をどう使う？迷いを断ち切る投資戦略</h2>
-                <p class="article-description">
-                    今年中に枠を埋めなきゃ損？株価高いし暴落怖い...そんな迷いを完全に断ち切る投資戦略を解説。アメリカ経済の不確実性に備え、債券を組み合わせた分散投資の方法を提供。
-                </p>
-                <div class="article-tags">
-                    <span class="tag">2025年戦略</span>
-                    <span class="tag">分散投資</span>
-                    <span class="tag">債券</span>
+                    <span class="tag">オルカン</span>
+                    <span class="tag">全世界株式</span>
+                    <span class="tag">初心者</span>
                 </div>
                 <div class="read-more">続きを読む →</div>
             </article>
@@ -442,7 +409,7 @@
 
         <!-- トップページに戻る -->
         <div class="back-to-top-section">
-            <a href="../index.html" class="back-to-top-btn">トップページに戻る</a>
+            <a href="../../index.html" class="back-to-top-btn">トップページに戻る</a>
         </div>
     </div>
 
