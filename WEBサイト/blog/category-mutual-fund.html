@@ -1,9 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+      gtag('config', 'G-K4EG9Q6FL6');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>投資信託記事一覧 | 未来投資navi</title>
+    <meta name="description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="投資信託記事一覧 | 未来投資navi">
+    <meta property="og:description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/category-mutual-fund.html">
+    <meta property="og:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
+    <meta property="og:site_name" content="未来投資navi">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="投資信託記事一覧 | 未来投資navi">
+    <meta name="twitter:description" content="投資信託に関する記事一覧。選び方、手数料、インデックス/アクティブの違いなどをわかりやすく解説します。">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
     <style>
         * {
             margin: 0;
@@ -115,7 +138,7 @@
         
         .articles-grid {
             display: flex;
-            flex-direction: column; /* 1列（縦並び）に統一 */
+            flex-direction: column; /* すべて行（縦並び）に統一 */
             gap: 30px;
             margin-bottom: 50px;
         }
@@ -302,8 +325,8 @@
         <div class="header-content">
             <div class="logo">未来投資navi</div>
             <div class="nav-links">
-                <a href="../index.html" class="nav-link">トップページ</a>
-                <a href="index.html" class="nav-link">全記事一覧</a>
+                <a href="../../index.html" class="nav-link">トップページ</a>
+                <a href="../index.html" class="nav-link">全記事一覧</a>
             </div>
         </div>
     </header>
@@ -329,7 +352,7 @@
         <!-- 記事一覧 -->
         <div class="articles-grid">
             <!-- 記事1 -->
-            <article class="article-card" onclick="location.href='mutual_fund1.html'">
+           <article class="article-card" onclick="location.href='2025/mutual-fund1/mutual-fund1.html'">
                 <div class="article-meta">
                     <span class="article-date">2025.01.20</span>
                     <span class="article-level level-beginner">初心者向け</span>
@@ -347,7 +370,7 @@
             </article>
 
             <!-- 記事2 -->
-            <article class="article-card" onclick="location.href='mutual_fund2.html'">
+            <article class="article-card"onclick="location.href='2025/mutual-fund2/mutual-fund2.html'"'">
                 <div class="article-meta">
                     <span class="article-date">2025.09.13</span>
                     <span class="article-level level-intermediate">中級者向け</span>
@@ -365,7 +388,7 @@
             </article>
 
             <!-- 記事3（オルカン1本投資） -->
-            <article class="article-card" onclick="location.href='mutual_fund3.html'">
+           <article class="article-card"onclick="location.href='2025/mutual-fund3/mutual-fund3.html'"'">
                 <div class="article-meta">
                     <span class="article-date">2025.09.15</span>
                     <span class="article-level level-beginner">初心者向け</span>
@@ -384,9 +407,27 @@
 
         </div>
 
+        <!-- 記事4（投資信託4） -->
+        <article class="article-card" onclick="location.href='2025/mutual-fund4/mutual-fund4.html'">
+            <div class="article-meta">
+                <span class="article-date">2025.09.XX<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">中級者向け</span>
+            </div>
+            <h2 class="article-title">【S&P500のチャート】完全ガイド｜現在の水準は？今後どうなる？</h2>
+            <p class="article-description">
+                簡単にできるS&P500のチャートの見方をご紹介。これを知るだけでかなり割安で買うことができます。
+            </p>
+            <div class="article-tags">
+                <span class="tag">S&P500</span>
+                <span class="tag">新nisa</span>
+                <span class="tag">インデックスファンド</span>
+            </div>
+            <div class="read-more">続きを読む →</div>
+        </article>
+
         <!-- トップページに戻る -->
         <div class="back-to-top-section">
-            <a href="../index.html" class="back-to-top-btn">トップページに戻る</a>
+            <a href="../../index.html" class="back-to-top-btn">トップページに戻る</a>
         </div>
     </div>
 
