@@ -4,7 +4,9 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../.. && pwd)"
 cd "$PROJECT_DIR"
 
 # Sync latest from origin
-git pull --rebase origin main
+# Rebase onto origin/main even if there are local unstaged/unstashed changes
+# (stash automatically and re-apply)
+git pull --rebase --autostash origin main
 
 # Stage all changes (including untracked)
 git add -A
