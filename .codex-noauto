@@ -1,0 +1,2 @@
+NO_AUTO_ANALYSIS=1
+EXCLUDE_ON_START=index.html,sitemap.xml
