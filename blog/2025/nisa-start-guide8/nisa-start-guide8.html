@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+      gtag('config', 'G-K4EG9Q6FL6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資産運用シミュレーション！50代から老後資金を2倍にする現実的な方法 | 未来投資navi</title>
+    <meta name="description" content="50代・60代からでも遅くない！無料シミュレーションツールを使って、あなたの老後資金を計算。年利5%で運用する具体的なポートフォリオも公開。">
+    
+    <!-- OGP -->
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide8.html">
+    <meta property="og:title" content="資産運用シミュレーション！50代から老後資金を2倍にする現実的な方法 | 未来投資navi">
+    <meta property="og:description" content="50代・60代からでも遅くない！無料シミュレーションツールを使って、あなたの老後資金を計算。年利5%で運用する具体的なポートフォリオも公開。">
+    <meta property="og:image" content="https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide-image8.jpg">
+    <meta property="og:site_name" content="未来投資navi">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="資産運用シミュレーション！50代から老後資金を2倍にする現実的な方法 | 未来投資navi">
+    <meta name="twitter:description" content="50代・60代からでも遅くない！無料シミュレーションツールを使って、あなたの老後資金を計算。年利5%で運用する具体的なポートフォリオも公開。">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide-image8.jpg">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .back-btn {
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #5569d0;
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+        
+        .article-meta {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .category {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        h2 {
+            font-size: 22px;
+            color: #667eea;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: #764ba2;
+            margin: 30px 0 15px 0;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 70%, #fff59d 70%);
+            font-weight: bold;
+            padding: 2px 4px;
+        }
+        
+        .number-box {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .number-box h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .calculation {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .calculation-highlight {
+            background: #e8f5e8;
+            border-left-color: #4CAF50;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .concept-box h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .youtube-cta {
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .youtube-cta h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .youtube-btn {
+            background: white;
+            color: #FF0000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .youtube-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .line-cta {
+            background: linear-gradient(135deg, #00C300 0%, #00A000 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .line-cta h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .line-btn {
+            background: white;
+            color: #00C300;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .line-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .related-articles {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .related-articles h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .article-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .article-card h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .article-card p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .footer-cta {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .footer-cta h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .main-cta-btn {
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .main-cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .portfolio-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .portfolio-box h4 {
+            color: #ff9800;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">eva solution</div>
+            <a href="../../../index.html" class="back-btn">トップページへ戻る</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- ヘッダー画像 -->
+        <div class="article-header-image" style="
+                margin: -40px -40px 30px -40px;
+                border-radius: 12px 12px 0 0;
+                overflow: hidden;
+        ">
+            <img src="nisa-start-guide-image8.jpg"
+            alt="50代から始める資産運用シミュレーション - タブレットでグラフを見せる笑顔の投資家" 
+            style="width: 100%; height: auto; display: block;"
+            width="1200"
+            height="800">
+        </div>
+        
+        <div class="article-meta">
+            <span class="category">新NISA</span>
+            <div class="date">2025.10.08</div>
+        </div>    
+
+        <h1>資産運用シミュレーション！50代から老後資金を2倍にする現実的な方法</h1>
+
+        <p>こんにちは、りょうです。</p>
+
+        <p>「貯金はあるけど、もうちょっとお金が欲しい」<br>
+        「投資で資産を増やしたい。でもいつ何に投資すればいいかわからない」<br>
+        「情報が多すぎて、どれを信用すればいいかわからない」</p>
+
+        <p>今、この記事をご覧になっているあなたは、こんな不安を抱えているのではないでしょうか？</p>
+
+        <p>実は僕のところにも、50代・60代の方から「老後資金が足りるか不安...」「今から投資しても遅いんじゃないか...」という相談がめちゃくちゃ多く寄せられています。</p>
+
+        <p>でも安心してください。<span class="highlight">50代からでも、正しいシミュレーションと戦略があれば、老後資金を2倍にすることは十分可能</span>なんです。</p>
+
+        <p>今回は、無料で使える「資産運用シミュレーションツール」を使って、あなたの老後資金がいくらになるか、具体的に計算する方法をお伝えします。</p>
+
+        <p>さらに、年利5%を安定的に狙える「50代・60代向けポートフォリオ」も公開しますので、ぜひ最後まで読んでくださいね。</p>
+
+        <div class="youtube-cta">
+            <h3>🎥 YouTubeもやってます♪</h3>
+            <p>文字だけじゃ伝えきれない話は、動画でゆっくり解説してます〜<br>
+            よかったら覗いてみてください👇</p>
+            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
+                未来投資naviを見てみる
+            </a>
+        </div>
+
+        <h2>第1章：無料シミュレーションツールで「10年後の資産」を見える化する</h2>
+
+        <p>「自分はいくら用意すればいいのか？」</p>
+
+        <p>多くの方が最初につまずくのが、この問いなんです。</p>
+
+        <p>ネット上では「老後資金は3,000万円必要だ」という人もいれば、「年金だけで十分」という人もいる。情報が錯綜していて、もはやミステリー小説状態ですよね。</p>
+
+        <p>でも、実はこの答えは<span class="highlight">「人それぞれ違う」</span>が正解なんです。</p>
+
+        <p>だからこそ、まずは「あなた専用のシミュレーション」をすることが大切。そこで使うのが、無料の資産運用シミュレーションツールです。</p>
+
+        <h3>めちゃくちゃ簡単！シミュレーションは3つの数字を入れるだけ</h3>
+
+        <p>僕は三菱UFJアセットマネジメントの無料ツールをよく使っています。入力するのは、たったこれだけです：</p>
+
+        <ol>
+            <li><strong>初期投資額と毎月の積立額</strong>（いくら投資するか？）</li>
+            <li><strong>目標期間</strong>（いつまで運用するか？）</li>
+            <li><strong>想定利回り</strong>（何パーセントで増やすか？）</li>
+        </ol>
+
+        <p>例えば、こんな感じで入力してみましょう。</p>
+
+        <div class="number-box">
+            <h4>💰 55歳・田中さんのシミュレーション例</h4>
+            
+            <div class="calculation">
+                <strong>【入力内容】</strong><br>
+                • 初期投資額：200万円<br>
+                • 毎月の積立額：7万円<br>
+                • 目標期間：10年間（55歳→65歳）<br>
+                • 想定利回り：6%
+            </div>
+
+            <div class="calculation calculation-highlight">
+                <strong>🎯 シミュレーション結果</strong><br>
+                • <strong>10年後の運用資産：約1,500万円</strong><br>
+                • 退職金1,000万円と合わせると：<strong>2,500万円</strong><br>
+                • この資産で年利5%運用を続けると：<strong>月11.5万円の取り崩しが可能</strong>（90歳まで）
+            </div>
+        </div>
+
+        <p>どうですか？数字で見ると、「今からでも間に合う」という確かな手応えを感じませんか？</p>
+
+        <p>「でも、年利6%なんて本当に可能なの？」と思うかもしれませんが、全世界株式の過去30年の平均リターンは約8%。つまり、6%という数字はむしろ控えめな設定なんです。</p>
+
+        <p>まずは、このツールを使って、あなたの「10年後の資産」を見える化してみてください。それが資産運用の第一歩です。</p>
+
+        <h2>第2章：「72の法則」で資産2倍までの道のりを把握する</h2>
+
+        <p>「資産を2倍にする」と聞くと、途方もない話に聞こえるかもしれません。</p>
+
+        <p>でも実は、<span class="highlight">「72の法則」</span>という簡単な計算式を使えば、いつ資産が2倍になるかが一瞬でわかるんです。</p>
+
+        <h3>72の法則とは？</h3>
+
+        <p>計算式はめちゃくちゃシンプル：</p>
+
+        <div class="concept-box">
+            <h4>📊 72の法則</h4>
+            <p><strong>72 ÷ 年利（%） = 資産が2倍になるまでの年数</strong></p>
+        </div>
+
+        <p>例えば、こんな感じで計算できます：</p>
+
+        <ul>
+            <li><strong>銀行預金（年利0.3%）の場合</strong><br>
+            72 ÷ 0.3 = 240年（！）<br>
+            つまり240年後にようやく2倍...今60歳の人なら300歳まで生きないといけません（笑）</li>
+            
+            <li><strong>全世界株式（年利6%想定）の場合</strong><br>
+            72 ÷ 6 = 12年<br>
+            たった12年で資産が2倍になる計算です！</li>
+        </ul>
+
+        <p>この差、めちゃくちゃ大きいと思いませんか？</p>
+
+        <h3>50代から始めても十分間に合う理由</h3>
+
+        <p>仮に52歳から始めたとしても：</p>
+
+        <ul>
+            <li>52歳→64歳（12年）：資産が2倍</li>
+            <li>その後も運用を続ければ、70代でさらに増える可能性も</li>
+        </ul>
+
+        <p>つまり、<strong>「今からじゃ遅い」なんてことは全然ない</strong>んです。</p>
+
+        <p>ただし、注意点があります。</p>
+
+        <p>全資産を株式に突っ込むのはリスクが高すぎます。例えば3,000万円を全て全世界株式に投資したら、暴落時に1,500万円まで減るリスクがあります。</p>
+
+        <p>だからこそ、次の章でお話しする「正しい分散投資」が重要になってくるんです。</p>
+
+        <div class="line-cta">
+            <h3>💬「老後資金」どうやって増やせば...？</h3>
+            <p>そんなお悩みにお答えするヒントを、LINEで無料配信中！<br>
+            個別相談も承っています。</p>
+            <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">
+                無料LINE登録はこちら
+            </a>
+        </div>
+
+        <h2>第3章：年利5%を安定的に狙う「50代向けポートフォリオ」</h2>
+
+        <p>「分散投資が大事」というのは、誰もが聞いたことがあると思います。</p>
+
+        <p>でも、多くの人が<span class="highlight">「分散投資＝たくさんの商品を買うこと」</span>だと勘違いしているんです。</p>
+
+        <p>「FANG+が最強！」「いや、インド株だ！」「ビットコインも入れろ！」</p>
+
+        <p>こんな風に、あれもこれも買ってしまうのは、分散投資じゃなくて、ただの「コレクション」です。</p>
+
+        <h3>本当の分散投資とは？</h3>
+
+        <p>正しい分散投資とは、<strong>異なる値動きをする資産クラスに分散すること</strong>です。</p>
+
+        <p>株式だけをいろいろ買っても、暴落時には全部一緒に下がります。でも、株式と債券、金（ゴールド）を組み合わせれば、お互いの弱点を補い合えるんです。</p>
+
+        <p>漫才で言うと、ボケとツッコミの関係ですね。片方がボケたら、もう片方がツッコんで笑いをとってくれる。そんなイメージです。</p>
+
+        <h3>50代・60代におすすめ「年利5%ポートフォリオ」</h3>
+
+        <p>僕が50代・60代の方におすすめしているのは、このポートフォリオです：</p>
+
+        <div class="portfolio-box">
+            <h4>✅ 年利5%を狙うポートフォリオ</h4>
+            
+            <div class="calculation">
+                <strong>【資産配分】</strong><br>
+                • <strong>全世界株式：60％</strong><br>
+                • <strong>先進国債券：20％</strong><br>
+                • <strong>金（ゴールド）：10％</strong><br>
+                • <strong>現金：10％</strong>
+            </div>
+
+            <div class="calculation calculation-highlight">
+                <strong>【期待リターン計算】</strong><br>
+                • 全世界株式60％ × 6％ = 3.6％<br>
+                • 先進国債券20％ × 3％ = 0.6％<br>
+                • 金10％ × 6％ = 0.6％<br>
+                • 現金10％ × 0.3％ = 0.03％<br>
+                <strong>合計：約4.83％（ほぼ5％！）</strong>
+            </div>
+        </div>
+
+        <h3>なぜこの配分なのか？</h3>
+
+        <ul>
+            <li><strong>株式60％</strong>：メインの稼ぎ頭。でも100％だとリスクが高すぎる</li>
+            <li><strong>債券20％</strong>：景気後退時に株式と逆の動きをすることが多い</li>
+            <li><strong>金10％</strong>：インフレに強く、安全資産としての信頼度が高い</li>
+            <li><strong>現金10％</strong>：最低1年分の生活防衛資金として確保</li>
+        </ul>
+
+        <p>このバランスなら、<strong>暴落時でも資産が半分になるリスクを避けながら、年利5%程度のリターンが期待できる</strong>んです。</p>
+
+        <p>2,000万円をこのポートフォリオで年利5%運用すれば、65歳から90歳まで<strong>月額11.5万円の取り崩しが可能</strong>になります。年金と合わせれば、十分な老後資金になりますよね。</p>
+
+        <p>リバランスも年に1回程度でOK。炊飯器でご飯を炊くぐらい簡単です。</p>
+
+        <h2>まとめ：今から始めれば、65歳の自分が感謝する</h2>
+
+        <p>今回のポイントをまとめると：</p>
+
+        <ul>
+            <li><strong>無料のシミュレーションツールを使えば、10年後の資産が一目瞭然。</strong>まずは三菱UFJアセットマネジメントなどの無料ツールで、初期投資額・積立額・期間・利回りを入力してみましょう。</li>
+            <li><strong>「72の法則」で資産2倍までの道のりを把握。</strong>年利6%なら12年で2倍。50代から始めても十分間に合います。</li>
+            <li><strong>正しい分散投資で年利5%を安定的に狙える。</strong>全世界株式60％、債券20％、金10％、現金10％の配分がおすすめ。</li>
+        </ul>
+
+        <p>「もう50代だし、今さら投資なんて...」</p>
+
+        <p>そう思う気持ちもわかります。でも考えてみてください。何もしなければ、65歳になった時に「あの時始めておけばよかった」と後悔することになります。</p>
+
+        <p>逆に今始めれば、65歳の自分が「52歳の時に決断してくれて、ありがとう」と感謝してくれるはずです。</p>
+
+        <p><span class="highlight">資産運用は、早く始めた人が勝つゲームではありません。正しい方法で、継続した人が勝つゲームです。</span></p>
+
+        <p>まずは無料のシミュレーションツールで、あなたの「10年後の資産」を計算してみてください。きっと「今からでも間に合う」という確信が持てるはずです。</p>
+
+        <p>それではまた。</p>
+
+        <div class="youtube-cta">
+            <h3>💬「老後資金」どうやって増やせば…？</h3>
+            <p>そんなお悩みに答えるヒントを、YouTubeでわかりやすく解説しています！</p>
+            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
+                チャンネルはこちら
+            </a>
+        </div>
+
+        <div class="related-articles">
+            <h3>関連記事</h3>
+            
+            <a href="../nisa-start-guide1/nisa-start-guide.html" class="article-card">
+                <h4>新NISA 50代から始めても怖くない！『今さら遅い』は完全に間違い</h4>
+                <p>52歳から新NISAを始める具体的なシミュレーション。13年間で410万円の利益が期待できる理由を解説。</p>
+            </a>
+            
+            <a href="../nisa-start-guide2/nisa-start-guide2.html" class="article-card">
+                <h4>新NISAの始め方完全ガイド｜今からでも間に合う老後資金の作り方</h4>
+                <p>口座開設から商品選び、積立設定まで、スマホで15分で完了する新NISA開始の全手順をわかりやすく解説。</p>
+            </a>
+            
+            <a href="../nisa-start-guide3/nisa-start-guide3.html" class="article-card">
+                <h4>新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</h4>
+                <p>バフェット指標217％、シラーPER39倍...今の相場で全力投資は危険？暴落を味方につける戦略的投資法を解説。</p>
+            </a>
+        </div>
+
+        <div class="footer-cta">
+            <h3>もっと詳しい投資情報をお求めの方へ</h3>
+            <p>公式LINEでは、個別相談や最新の投資情報を配信中！<br>
+            50代・60代に特化した資産形成のヒントをお届けします。</p>
+            <a href="../../../index.html" class="main-cta-btn">
+                メインページで詳細を見る
+            </a>
+        </div>
+    </div>
+</body>
+</html>

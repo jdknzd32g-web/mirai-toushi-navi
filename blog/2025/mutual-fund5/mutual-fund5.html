@@ -69,6 +69,21 @@
     .youtube-btn { background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%); }
     .main-cta-btn { background: #2c3e50; }
 
+    /* 比較テーブル */
+    .comparison-table { overflow-x: auto; margin: 25px 0; }
+    .comparison-table table { width: 100%; border-collapse: collapse; background: #fff; }
+    .comparison-table th { background: #667eea; color: #fff; padding: 12px; text-align: left; font-size: 14px; }
+    .comparison-table td { padding: 12px; border-bottom: 1px solid #e9ecef; font-size: 14px; }
+    .comparison-table tr:hover { background: #f8f9fa; }
+
+    /* 記事カード */
+    .related-articles { background: #f8f9fa; padding: 30px; border-radius: 10px; margin-top: 40px; }
+    .related-articles h3 { text-align: center; margin-bottom: 20px; color: #333; }
+    .article-card { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-decoration: none; color: inherit; display: block; transition: all .2s; border: 1px solid #eee; }
+    .article-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .article-card h4 { color: #667eea; margin-bottom: 8px; font-size: 16px; }
+    .article-card p { color: #666; font-size: 14px; margin: 0; line-height: 1.6; }
+
     @media (max-width: 640px) {
       .container { padding: 20px; }
       h1 { font-size: 24px; }
@@ -164,6 +179,60 @@
       <li><strong>下がったらすぐ売る？</strong> …… 長期投資では<strong>積立継続</strong>が王道</li>
     </ul>
 
+    <h2>どっちが良い？インデックス vs アクティブ</h2>
+    <div class="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>インデックス</th>
+            <th>アクティブ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ねらい</td>
+            <td>指数と同じ動き</td>
+            <td>指数超えを目指す</td>
+          </tr>
+          <tr>
+            <td>コスト</td>
+            <td><strong>低い（年0.1％台〜）</strong></td>
+            <td>高い（年1〜2％台）</td>
+          </tr>
+          <tr>
+            <td>成績のぶれ</td>
+            <td>小さめで安定</td>
+            <td>大きく上下</td>
+          </tr>
+          <tr>
+            <td>初心者向き</td>
+            <td><strong>◎</strong></td>
+            <td>△</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="number-box">
+      <h4>失敗しないチェックリスト（保存版）</h4>
+      <ul>
+        <li>購入時手数料は<strong>0円（ノーロード）</strong></li>
+        <li>信託報酬は<strong>年0.2％以下</strong>を目安</li>
+        <li>分配金は<strong>再投資型</strong>を選ぶ</li>
+        <li>商品は<strong>1〜2本</strong>にしぼる（増やしすぎない）</li>
+        <li>毎月の積立額を決めて<strong>機械的に継続</strong></li>
+      </ul>
+    </div>
+
+    <h2>初心者に多い質問（Q&A）</h2>
+    <h3>Q. オルカンとS&P500、どちらが良い？</h3>
+    <p>どちらも優れた選択肢です。<strong>国の偏りを避けたい方はオルカン</strong>、<strong>米国の成長に賭けたい方はS&P500</strong>が向いています。迷ったらオルカン1本でもOK。</p>
+    <h3>Q. 暴落が怖いです。どうすれば？</h3>
+    <p>つみたて投資は「下落時に多く買える」仕組み。長期では平均購入単価が下がり、回復の恩恵を受けやすくなります。<strong>売らない・続ける</strong>が基本です。</p>
+    <h3>Q. 50代からでも遅くない？</h3>
+    <p>十分間に合います。<strong>15年程度の運用期間</strong>でも複利を活かせます。生活防衛資金を確保しつつ、無理のない金額でスタートしましょう。</p>
+
     <div class="line-cta">
       <h3>💬「うちの場合、どれを選べば？」</h3>
       <p>公式LINEで無料アドバイスを配信中。個別相談も承ります。</p>
@@ -176,12 +245,27 @@
       <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">チャンネルを見る</a>
     </div>
 
-    <div class="footer-cta">
+    <div class="related-articles">
       <h3>関連記事</h3>
-      <p><a href="../../category-mutual-fund.html">投資信託カテゴリの記事一覧</a>から、続けて学べます。</p>
-      <a href="../../index.html" class="main-cta-btn">メインページへ</a>
+      <a href="../mutual-fund1/mutual-fund1.html" class="article-card">
+        <h4>純資産総額ランキングの罠｜人気＝優良ではない理由</h4>
+        <p>ランキング上位でも高コストや毎月分配の落とし穴に注意。見るべき指標を解説。</p>
+      </a>
+      <a href="../mutual-fund3/mutual-fund3.html" class="article-card">
+        <h4>オルカン1本投資のメリット</h4>
+        <p>なぜ全世界株式1本で十分なのか。理論と実務の両面から説明します。</p>
+      </a>
+      <a href="../mutual-fund4/mutual-fund4.html" class="article-card">
+        <h4>S&P500のチャートの見方完全ガイド</h4>
+        <p>ローソク足・移動平均・RSIの基礎を押さえて買い増しタイミングを考える。</p>
+      </a>
+    </div>
+
+    <div class="footer-cta">
+      <h3>迷ったらまずは相談を</h3>
+      <p>公式LINEで個別の状況に合わせてアドバイスをお届けします。</p>
+      <a href="../../index.html" class="main-cta-btn">ブログ記事一覧へ</a>
     </div>
   </main>
 </body>
 </html>
-
