@@ -1,271 +1,686 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} 
-    gtag('js', new Date());
-    gtag('config', 'G-K4EG9Q6FL6');
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>投資信託とは？初心者向けに仕組み・メリット・リスクをやさしく解説 | 未来投資navi</title>
-  <meta name="description" content="投資信託の基本・仕組み・メリット/デメリット・費用の種類・はじめ方まで、50代・60代の方にも分かりやすくやさしく解説します。">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投資信託とは？50代から始める資産運用の基本をやさしく解説 | 未来投資navi</title>
+    <meta name="description" content="投資信託って結局なに？50代・60代の投資初心者でも理解できるように、お弁当に例えてやさしく解説。手数料の罠から選び方まで、老後資産形成に必要な知識を全網羅。">
+    
+    <!-- OGP -->
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund5.html">
+    <meta property="og:title" content="投資信託とは？50代から始める資産運用の基本をやさしく解説 | 未来投資navi">
+    <meta property="og:description" content="投資信託って結局なに？50代・60代の投資初心者でも理解できるように、お弁当に例えてやさしく解説。">
+    <meta property="og:image" content="https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund-image5.jpg">
+    <meta property="og:site_name" content="未来投資navi">
 
-  <!-- OGP -->
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="投資信託とは？初心者向けに仕組み・メリット・リスクをやさしく解説 | 未来投資navi">
-  <meta property="og:description" content="投資信託の基本・仕組み・費用・はじめ方を丁寧に解説。50代・60代でも今日から理解できる実践ガイド。">
-  <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund5.html">
-  <meta property="og:image" content="https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund5-image1.jpg">
-  <meta property="og:site_name" content="未来投資navi">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="投資信託とは？初心者向けに仕組み・メリット・リスクをやさしく解説 | 未来投資navi">
-  <meta name="twitter:description" content="投資信託の基本・仕組み・費用・はじめ方を丁寧に解説。50代・60代でも今日から理解できる実践ガイド。">
-  <meta name="twitter:image" content="https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund5-image1.jpg">
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      line-height: 1.8;
-      color: #333;
-      background: #f8f9fa;
-      font-size: 16px;
-    }
-
-    .header { background: #fff; padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-    .header-content { max-width: 800px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: bold; color: #2c3e50; }
-    .back-btn { background: #667eea; color: #fff; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 14px; transition: .2s; }
-    .back-btn:hover { background: #5569d0; transform: translateY(-2px); }
-
-    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; margin-top: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
-    .article-meta { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
-    .category { display: inline-block; background: #ff6b6b; color: #fff; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
-    .date { color: #999; font-size: 14px; }
-
-    h1 { font-size: 28px; color: #2c3e50; margin-bottom: 20px; line-height: 1.4; }
-    h2 { font-size: 22px; color: #667eea; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #667eea; }
-    h3 { font-size: 18px; color: #764ba2; margin: 30px 0 15px; }
-    p { margin-bottom: 20px; }
-    ul, ol { margin: 20px 0; padding-left: 30px; }
-    li { margin-bottom: 10px; line-height: 1.7; }
-
-    .article-header-image img { width: 100%; height: auto; display: block; border-radius: 12px 12px 0 0; }
-    .highlight { background: linear-gradient(transparent 70%, #fff59d 70%); font-weight: 700; padding: 2px 4px; }
-    .number-box { background: #f0f4ff; border: 2px solid #667eea; border-radius: 10px; padding: 20px; margin: 25px 0; }
-    .number-box h4 { color: #667eea; margin-bottom: 15px; font-size: 16px; }
-
-    .line-cta, .youtube-cta, .footer-cta { margin-top: 40px; padding: 24px; border-radius: 12px; }
-    .line-cta { background: #e8f5e9; border: 1px solid #c8e6c9; }
-    .youtube-cta { background: #fce8e6; border: 1px solid #f5c6cb; }
-    .footer-cta { background: #f8f9fa; border: 1px solid #eee; text-align: center; }
-    .line-btn, .youtube-btn, .main-cta-btn { display: inline-block; margin-top: 10px; padding: 10px 20px; background: #667eea; color: #fff; border-radius: 24px; text-decoration: none; font-weight: 700; }
-    .youtube-btn { background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%); }
-    .main-cta-btn { background: #2c3e50; }
-
-    /* 比較テーブル */
-    .comparison-table { overflow-x: auto; margin: 25px 0; }
-    .comparison-table table { width: 100%; border-collapse: collapse; background: #fff; }
-    .comparison-table th { background: #667eea; color: #fff; padding: 12px; text-align: left; font-size: 14px; }
-    .comparison-table td { padding: 12px; border-bottom: 1px solid #e9ecef; font-size: 14px; }
-    .comparison-table tr:hover { background: #f8f9fa; }
-
-    /* 記事カード */
-    .related-articles { background: #f8f9fa; padding: 30px; border-radius: 10px; margin-top: 40px; }
-    .related-articles h3 { text-align: center; margin-bottom: 20px; color: #333; }
-    .article-card { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 15px; text-decoration: none; color: inherit; display: block; transition: all .2s; border: 1px solid #eee; }
-    .article-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    .article-card h4 { color: #667eea; margin-bottom: 8px; font-size: 16px; }
-    .article-card p { color: #666; font-size: 14px; margin: 0; line-height: 1.6; }
-
-    @media (max-width: 640px) {
-      .container { padding: 20px; }
-      h1 { font-size: 24px; }
-      h2 { font-size: 20px; }
-      .header-content { flex-direction: column; gap: 12px; }
-    }
-  </style>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="投資信託とは？50代から始める資産運用の基本をやさしく解説 | 未来投資navi">
+    <meta name="twitter:description" content="投資信託って結局なに？50代・60代の投資初心者でも理解できるように、お弁当に例えてやさしく解説。">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund-image5.jpg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .back-btn {
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #5569d0;
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+        
+        .article-header-image {
+            margin: -40px -40px 30px -40px;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+        }
+        
+        .article-header-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .article-meta {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .category {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .date {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        h2 {
+            font-size: 22px;
+            color: #667eea;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: #764ba2;
+            margin: 30px 0 15px 0;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 70%, #fff59d 70%);
+            font-weight: bold;
+            padding: 2px 4px;
+        }
+        
+        .number-box {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .number-box h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .calculation {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .calculation-highlight {
+            background: #e8f5e8;
+            border-left-color: #4CAF50;
+        }
+        
+        .concept-box {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .concept-box h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .youtube-cta {
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .youtube-cta h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .youtube-btn {
+            background: white;
+            color: #FF0000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .youtube-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .line-cta {
+            background: linear-gradient(135deg, #00C300 0%, #00A000 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .line-cta h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .line-btn {
+            background: white;
+            color: #00C300;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .line-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .related-articles {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .related-articles h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .article-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .article-card h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .article-card p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .footer-cta {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .footer-cta h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .main-cta-btn {
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .main-cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-content">
-      <div class="logo">eva solution</div>
-      <a href="../../category-mutual-fund.html" class="back-btn">投資信託カテゴリへ戻る</a>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">eva solution</div>
+            <a href="/index.html" class="back-btn">トップページへ戻る</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- ヘッダー画像 -->
+        <div class="article-header-image">
+            <img src="mutual-fund-image5.jpg"
+            alt="投資信託の基本をやさしく解説 - 50代から始める資産運用" 
+            width="1200"
+            height="800">
+        </div>
+        
+        <div class="article-meta">
+            <span class="category">投資信託</span>
+            <div class="date">2025.01.15</div>
+        </div>    
+
+        <h1>投資信託とは？50代から始める資産運用の基本をやさしく解説</h1>
+
+        <p>こんにちは、りょうです。</p>
+
+        <p>「投資信託って聞いたことあるけど、結局なんなの？株とは違うの？」</p>
+
+        <p>「銀行の窓口で勧められたけど、よくわからないまま買っちゃった...」</p>
+
+        <p>そんな経験、ありませんか？</p>
+
+        <p>実は投資信託って、非常にシンプルな仕組みなんです。でも金融機関の説明って、なんだか難しくて分かりにくいですよね。</p>
+
+        <p>今日は「投資信託」を、近所のスーパーで例えながら、中学生でも理解できるように解説していきます。</p>
+
+        <p>この記事を読み終わる頃には、「なーんだ、そういうことか！」と腑に落ちるはずです。</p>
+
+        <div class="youtube-cta">
+            <h3>🎥 YouTubeもやってます♪</h3>
+            <p>文字だけじゃ伝えきれない話は、動画でゆっくり解説してます〜<br>
+            よかったら覗いてみてください👇</p>
+            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
+                未来投資naviを見てみる
+            </a>
+        </div>
+
+        <h2>第1章：投資信託を「お弁当」に例えてみたら、非常に分かりやすくなった</h2>
+
+        <p><span class="highlight">投資信託とは、一言で言うと「プロが作ってくれる、おかずがいっぱい入った幕の内弁当」みたいなもの</span>です。</p>
+
+        <p>えっ？お弁当？って思いましたよね。</p>
+
+        <p>でも、これが非常に分かりやすいんです。</p>
+
+        <h3>投資信託の仕組みを弁当で説明すると...</h3>
+
+        <p>想像してみてください。</p>
+
+        <p>あなたが毎日のランチを考えているとします。</p>
+
+        <p><strong>個別株を買う</strong> = 唐揚げだけ大量に買う<br>
+        <strong>投資信託を買う</strong> = バランスの取れた幕の内弁当を買う</p>
+
+        <p>個別株（唐揚げだけ）の場合：</p>
+        <ul>
+            <li>唐揚げ屋さんが潰れたら、ランチが全滅</li>
+            <li>非常に美味しい日もあれば、まずい日もある</li>
+            <li>栄養バランスが偏る</li>
+        </ul>
+
+        <p>投資信託（幕の内弁当）の場合：</p>
+        <ul>
+            <li>いろんなおかずが入ってるから、1つくらい失敗しても大丈夫</li>
+            <li>プロの料理人が作ってくれる</li>
+            <li>栄養バランスもバッチリ</li>
+        </ul>
+
+        <div class="number-box">
+            <h4>💰 投資信託の基本構造</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li style="border-bottom: 1px solid #e0e0e0; padding: 10px 0;">
+                    <strong>みんなのお金を集める</strong>（1万円から投資可能）
+                </li>
+                <li style="border-bottom: 1px solid #e0e0e0; padding: 10px 0;">
+                    <strong>プロ（ファンドマネージャー）が運用</strong>
+                </li>
+                <li style="border-bottom: 1px solid #e0e0e0; padding: 10px 0;">
+                    <strong>複数の株や債券に分散投資</strong>
+                </li>
+                <li style="padding: 10px 0;">
+                    <strong>利益は投資額に応じて分配</strong>
+                </li>
+            </ul>
+        </div>
+
+        <p>つまり、<span class="highlight">「少額から始められて」「プロにお任せできて」「リスク分散もできる」</span>という、投資初心者にとって三拍子そろった商品なんです。</p>
+
+        <p>でも、「プロに任せるって、手数料高いんじゃない？」</p>
+
+        <p>その通り！実はここに落とし穴があるんです...</p>
+
+        <h2>第2章：銀行で買うと損する？投資信託の「手数料の罠」</h2>
+
+        <p>「投資信託なら銀行でも買えますよ〜」</p>
+
+        <p>確かにその通りなんですが、<span class="highlight">銀行で買う投資信託と、ネット証券で買う投資信託では、手数料が全然違うんです</span>。</p>
+
+        <h3>衝撃の手数料比較</h3>
+
+        <p>例えば、100万円を投資信託で運用する場合：</p>
+
+        <div class="number-box">
+            <h4>💰 手数料の比較</h4>
+            
+            <div class="calculation calculation-highlight">
+                <strong>🏦 銀行の投資信託</strong><br>
+                • 購入手数料：3%（3万円）<br>
+                • 信託報酬：年2%（年2万円）<br>
+                • 10年間の手数料合計：<strong>約23万円</strong>
+            </div>
+
+            <div class="calculation">
+                <strong>💻 ネット証券の投資信託</strong><br>
+                • 購入手数料：0円<br>
+                • 信託報酬：年0.1%（年1,000円）<br>
+                • 10年間の手数料合計：<strong>約1万円</strong>
+            </div>
+        </div>
+
+        <p>どうですか？その差、なんと<strong>22万円</strong>！</p>
+
+        <p>これ、非常に大きくないですか？</p>
+
+        <h3>なぜ銀行の手数料は高いのか？</h3>
+
+        <p>理由はシンプルです。</p>
+
+        <p>銀行は：</p>
+        <ul>
+            <li>店舗の家賃がかかる</li>
+            <li>窓口の人件費がかかる</li>
+            <li>その分を手数料で回収する必要がある</li>
+        </ul>
+
+        <p>一方、ネット証券は：</p>
+        <ul>
+            <li>店舗がない（ネットだけ）</li>
+            <li>人件費も最小限</li>
+            <li>だから手数料を安くできる</li>
+        </ul>
+
+        <p>要するに、<span class="highlight">「同じ商品でも、どこで買うかで将来のリターンが全然変わってくる」</span>ということなんです。</p>
+
+        <div class="line-cta">
+            <h3>💬「じゃあ、どの投資信託を選べばいいの？」</h3>
+            <p>そんな疑問にお答えする情報を、LINEで無料配信中！<br>
+            個別相談も承っています。</p>
+            <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">
+                無料LINE登録はこちら
+            </a>
+        </div>
+
+        <h2>第3章：50代から始める投資信託、選ぶならこの3つのポイント</h2>
+
+        <p>「投資信託の仕組みは分かった。でも種類が多すぎて選べない...」</p>
+
+        <p>その気持ち、非常に分かります。</p>
+
+        <p>日本で販売されている投資信託、なんと<strong>約6,000本</strong>もあるんです。</p>
+
+        <p>でも大丈夫。50代・60代の方が選ぶべき投資信託のポイントは、たった3つだけです。</p>
+
+        <h3>ポイント①：信託報酬は0.3%以下を選ぶ</h3>
+
+        <p>信託報酬とは、投資信託を持っている間ずっとかかる「管理費」みたいなもの。</p>
+
+        <p>これが高いと、せっかくの利益が手数料で消えちゃいます。</p>
+
+        <div class="concept-box">
+            <h4>📊 信託報酬の目安</h4>
+            <p><strong>優良</strong>：0.1%以下（eMAXIS Slimシリーズなど）<br>
+            <strong>許容範囲</strong>：0.3%以下<br>
+            <strong>避けるべき</strong>：1%以上</p>
+        </div>
+
+        <h3>ポイント②：純資産総額は100億円以上</h3>
+
+        <p>純資産総額とは、その投資信託に集まっているお金の総額。</p>
+
+        <p>これが少ないと、途中で運用が終了（繰上償還）するリスクがあります。</p>
+
+        <p>ラーメン屋さんで例えると：</p>
+        <ul>
+            <li>純資産総額が大きい = いつも行列ができてる人気店</li>
+            <li>純資産総額が小さい = ガラガラで潰れそうな店</li>
+        </ul>
+
+        <p>どっちが安心か、一目瞭然ですよね。</p>
+
+        <h3>ポイント③：インデックス型を選ぶ</h3>
+
+        <p>投資信託には2種類あります：</p>
+
+        <p><strong>インデックス型</strong>（パッシブ型）</p>
+        <ul>
+            <li>市場平均と同じ動きを目指す</li>
+            <li>手数料が安い（0.1%程度）</li>
+            <li>長期的に見ると8割以上が勝つ</li>
+        </ul>
+
+        <p><strong>アクティブ型</strong></p>
+        <ul>
+            <li>市場平均を上回ろうとする</li>
+            <li>手数料が高い（1-2%）</li>
+            <li>長期的に見ると8割以上が負ける</li>
+        </ul>
+
+        <p><span class="highlight">データが示す事実：プロが運用するアクティブ型の約80%は、10年以上の長期で見るとインデックス型に負けている</span>んです。</p>
+
+        <p>だったら最初から、手数料が安くて勝率の高いインデックス型を選んだ方が賢いと思いませんか？</p>
+
+        <h3>50代・60代におすすめの投資信託</h3>
+
+        <p>結論から言うと、この2つのどちらかでOKです：</p>
+
+        <ol>
+            <li><strong>eMAXIS Slim 全世界株式（オルカン）</strong>
+                <ul>
+                    <li>世界中の株式に分散投資</li>
+                    <li>信託報酬：0.05775%</li>
+                    <li>これ1本で世界分散が完成</li>
+                </ul>
+            </li>
+            
+            <li><strong>eMAXIS Slim 米国株式（S&P500）</strong>
+                <ul>
+                    <li>アメリカの優良企業500社に投資</li>
+                    <li>信託報酬：0.09372%</li>
+                    <li>過去の実績が最も優秀</li>
+                </ul>
+            </li>
+        </ol>
+
+        <p>「どっちがいいの？」と聞かれたら、<strong>迷ったら「オルカン」</strong>です。</p>
+
+        <p>世界中に分散できるので、アメリカ一国に偏るリスクを避けられますから。</p>
+
+        <h2>まとめ：投資信託は「老後の味方」になる最強ツール</h2>
+
+        <p>今回のポイントをまとめると：</p>
+
+        <ul>
+            <li><strong>投資信託は「プロが作る幕の内弁当」</strong>。少額から始められて、リスク分散もできる初心者向けの商品。</li>
+            <li><strong>銀行ではなくネット証券で買う</strong>。手数料の差は10年で20万円以上になることも。</li>
+            <li><strong>選ぶなら「低コスト」「純資産100億円以上」「インデックス型」</strong>。具体的にはeMAXIS Slimシリーズがおすすめ。</li>
+            <li><strong>50代・60代からでも全然遅くない</strong>。むしろ知識と経験がある分、冷静な投資判断ができる。</li>
+        </ul>
+
+        <p>「でも、やっぱり投資って怖い...」</p>
+
+        <p>その気持ち、よく分かります。</p>
+
+        <p>でも考えてみてください。何もしなければ、銀行預金の0.数%の金利で、お金の価値は実質的に目減りしていくだけです。</p>
+
+        <p>一方、投資信託なら年3-5%のリターンが期待できます。</p>
+
+        <p><span class="highlight">月3万円の積立を10年続ければ、元本360万円が約420万円になる可能性がある</span>んです。</p>
+
+        <p>この差、老後の生活に大きな影響を与えると思いませんか？</p>
+
+        <p>投資信託は、決して難しいものではありません。</p>
+
+        <p>正しい知識を身につけて、一歩踏み出すだけ。</p>
+
+        <p>あなたの老後を豊かにする第一歩を、今日から始めてみませんか？</p>
+
+        <p>それでは、また。</p>
+
+        <div class="youtube-cta">
+            <h3>💬「もっと詳しく知りたい！」という方へ</h3>
+            <p>投資信託の選び方から、実際の買い方まで<br>
+            YouTubeでわかりやすく解説しています！</p>
+            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
+                チャンネルはこちら
+            </a>
+        </div>
+
+        <div class="related-articles">
+            <h3>関連記事</h3>
+            
+            <a href="../nisa-start-guide1/nisa-start-guide.html" class="article-card">
+                <h4>新NISA 50代から始めても怖くない！『今さら遅い』は完全に間違い</h4>
+                <p>50代から新NISAを始めても全然遅くない！具体的な数字とシミュレーションで、50代の投資戦略を分かりやすく解説します。</p>
+            </a>
+            
+            <a href="../nisa-start-guide2/nisa-start-guide2.html" class="article-card">
+                <h4>新NISAの始め方完全ガイド｜今からでも間に合う老後資金の作り方</h4>
+                <p>口座開設から商品選び、積立設定まで、スマホで15分で完了する新NISA開始の全手順をわかりやすく解説。</p>
+            </a>
+            
+            <a href="../nisa-start-guide3/nisa-start-guide3.html" class="article-card">
+                <h4>新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</h4>
+                <p>バフェット指標217％、シラーPER39倍...今の相場で全力投資は危険？暴落を味方につける戦略的投資法を解説。</p>
+            </a>
+        </div>
+
+        <div class="footer-cta">
+            <h3>もっと詳しい投資情報をお求めの方へ</h3>
+            <p>公式LINEでは、個別相談や最新の投資情報を配信中！<br>
+            50代・60代に特化した資産形成のヒントをお届けします。</p>
+            <a href="/index.html" class="main-cta-btn">
+                メインページで詳細を見る
+            </a>
+        </div>
     </div>
-  </header>
-
-  <main class="container">
-    <!-- ヘッダー画像（container内・全幅展開） -->
-    <div class="article-header-image" style="margin: -40px -40px 30px -40px; overflow: hidden;">
-      <img src="mutual-fund5-image1.jpg" alt="投資信託とは？のイメージ" loading="lazy" decoding="async" width="1200" height="800">
-    </div>
-
-    <div class="article-meta">
-      <span class="category">投資信託</span>
-      <div class="date">2025.10.05</div>
-    </div>
-
-    <h1>投資信託とは？初心者向けに仕組み・メリット・リスクをやさしく解説</h1>
-
-    <p>こんにちは、りょうです。この記事では<strong>「投資信託とは？」</strong>という基本から、仕組み、メリット・デメリット、費用、そして始め方までを、<span class="highlight">50代・60代の方にもやさしく</span>解説します。難しい専門用語はなるべく使わず、今日から実践できる内容にまとめました。</p>
-
-    <h2>投資信託とは？一言でいうと「みんなでお金を出し合う仕組み」</h2>
-    <p>投資信託（ファンド）は、<strong>多くの投資家から集めたお金</strong>を、<strong>運用のプロ</strong>が株式や債券などに分散投資する商品です。少額から分散でき、ひとりでは買いにくい幅広い資産に投資できるのが特徴です。</p>
-    <div class="number-box">
-      <h4>投資信託の関係者</h4>
-      <ul>
-        <li><strong>運用会社：</strong>集めたお金を実際に運用するプロ</li>
-        <li><strong>販売会社：</strong>証券会社や銀行。購入の窓口</li>
-        <li><strong>信託銀行：</strong>資産の保管・管理を担当</li>
-      </ul>
-    </div>
-
-    <h2>メリット：少額で分散、プロにお任せ、手間いらず</h2>
-    <ul>
-      <li><strong>分散投資：</strong>1本で世界中の株式や債券に分散できる商品も</li>
-      <li><strong>少額から：</strong>月1,000円〜積立可能。続けやすい</li>
-      <li><strong>プロ運用：</strong>指数に連動させる運用（インデックス）ならぶれが少ない</li>
-      <li><strong>自動積立：</strong>新NISAのつみたて設定で<strong>仕組み化</strong>できる</li>
-    </ul>
-
-    <h2>デメリット・注意点：価格は上下する、手数料に注意</h2>
-    <ul>
-      <li><strong>元本保証なし：</strong>短期ではマイナスもあり得る</li>
-      <li><strong>手数料（コスト）：</strong>購入時手数料、<strong>信託報酬（管理費用）</strong>、解約時の信託財産留保額など</li>
-      <li><strong>商品選び：</strong>同じ指数でもコストが違う。<span class="highlight">年0.1%台</span>を目安に</li>
-    </ul>
-
-    <h2>費用の種類はこの3つを押さえる</h2>
-    <ol>
-      <li><strong>購入時手数料：</strong>いまは<strong>0円</strong>の商品が主流（ノーロード）</li>
-      <li><strong>信託報酬：</strong>保有中にかかる年率の費用。<strong>0.2%以下</strong>が目安</li>
-      <li><strong>信託財産留保額：</strong>解約時にかかることがある。最近は<strong>0%</strong>も多い</li>
-    </ol>
-
-    <h2>どれを選ぶ？初めては「全世界株式」か「S&P500」</h2>
-    <p>迷ったら、<strong>全世界株式（オルカン）</strong>か<strong>S&amp;P500</strong>のインデックスファンドが定番です。分散・実績・コストのバランスが良く、続けやすいのが理由です。</p>
-    <ul>
-      <li>全世界株式：世界全体に分散。国の偏りを抑えたい人向け</li>
-      <li>S&amp;P500：米国の大型株500社。成長性と実績のバランス</li>
-    </ul>
-
-    <div class="number-box">
-      <h4>商品チェックの3ポイント</h4>
-      <ul>
-        <li><strong>信託報酬：</strong>同じ指数なら<strong>より低コスト</strong>を</li>
-        <li><strong>純資産残高：</strong>右肩上がりか、十分な規模があるか</li>
-        <li><strong>運用方針：</strong>インデックスかアクティブかを理解</li>
-      </ul>
-    </div>
-
-    <h2>はじめ方：新NISAで「自動積立」を設定するだけ</h2>
-    <ol>
-      <li>新NISA口座を開設（ネット証券が手数料面で有利）</li>
-      <li>商品を1〜2本に絞る（基本は1本でOK）</li>
-      <li>毎月の積立額を決めて<strong>自動積立</strong>を設定</li>
-      <li>相場に一喜一憂せず、<strong>長期で継続</strong></li>
-    </ol>
-
-    <h2>よくある勘違い</h2>
-    <ul>
-      <li><strong>人気ランキング＝良い商品？</strong> …… 手数料が高い商品も多いので要注意</li>
-      <li><strong>分配金が多い＝お得？</strong> …… 税金や基準価額に影響。<strong>再投資</strong>型が基本</li>
-      <li><strong>下がったらすぐ売る？</strong> …… 長期投資では<strong>積立継続</strong>が王道</li>
-    </ul>
-
-    <h2>どっちが良い？インデックス vs アクティブ</h2>
-    <div class="comparison-table">
-      <table>
-        <thead>
-          <tr>
-            <th>項目</th>
-            <th>インデックス</th>
-            <th>アクティブ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ねらい</td>
-            <td>指数と同じ動き</td>
-            <td>指数超えを目指す</td>
-          </tr>
-          <tr>
-            <td>コスト</td>
-            <td><strong>低い（年0.1％台〜）</strong></td>
-            <td>高い（年1〜2％台）</td>
-          </tr>
-          <tr>
-            <td>成績のぶれ</td>
-            <td>小さめで安定</td>
-            <td>大きく上下</td>
-          </tr>
-          <tr>
-            <td>初心者向き</td>
-            <td><strong>◎</strong></td>
-            <td>△</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="number-box">
-      <h4>失敗しないチェックリスト（保存版）</h4>
-      <ul>
-        <li>購入時手数料は<strong>0円（ノーロード）</strong></li>
-        <li>信託報酬は<strong>年0.2％以下</strong>を目安</li>
-        <li>分配金は<strong>再投資型</strong>を選ぶ</li>
-        <li>商品は<strong>1〜2本</strong>にしぼる（増やしすぎない）</li>
-        <li>毎月の積立額を決めて<strong>機械的に継続</strong></li>
-      </ul>
-    </div>
-
-    <h2>初心者に多い質問（Q&A）</h2>
-    <h3>Q. オルカンとS&P500、どちらが良い？</h3>
-    <p>どちらも優れた選択肢です。<strong>国の偏りを避けたい方はオルカン</strong>、<strong>米国の成長に賭けたい方はS&P500</strong>が向いています。迷ったらオルカン1本でもOK。</p>
-    <h3>Q. 暴落が怖いです。どうすれば？</h3>
-    <p>つみたて投資は「下落時に多く買える」仕組み。長期では平均購入単価が下がり、回復の恩恵を受けやすくなります。<strong>売らない・続ける</strong>が基本です。</p>
-    <h3>Q. 50代からでも遅くない？</h3>
-    <p>十分間に合います。<strong>15年程度の運用期間</strong>でも複利を活かせます。生活防衛資金を確保しつつ、無理のない金額でスタートしましょう。</p>
-
-    <div class="line-cta">
-      <h3>💬「うちの場合、どれを選べば？」</h3>
-      <p>公式LINEで無料アドバイスを配信中。個別相談も承ります。</p>
-      <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">無料LINE登録はこちら</a>
-    </div>
-
-    <div class="youtube-cta">
-      <h3>🎥 YouTubeでもやさしく解説</h3>
-      <p>文章だけでは伝わりにくい点を、動画で図解しています。</p>
-      <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">チャンネルを見る</a>
-    </div>
-
-    <div class="related-articles">
-      <h3>関連記事</h3>
-      <a href="../mutual-fund1/mutual-fund1.html" class="article-card">
-        <h4>純資産総額ランキングの罠｜人気＝優良ではない理由</h4>
-        <p>ランキング上位でも高コストや毎月分配の落とし穴に注意。見るべき指標を解説。</p>
-      </a>
-      <a href="../mutual-fund3/mutual-fund3.html" class="article-card">
-        <h4>オルカン1本投資のメリット</h4>
-        <p>なぜ全世界株式1本で十分なのか。理論と実務の両面から説明します。</p>
-      </a>
-      <a href="../mutual-fund4/mutual-fund4.html" class="article-card">
-        <h4>S&P500のチャートの見方完全ガイド</h4>
-        <p>ローソク足・移動平均・RSIの基礎を押さえて買い増しタイミングを考える。</p>
-      </a>
-    </div>
-
-    <div class="footer-cta">
-      <h3>迷ったらまずは相談を</h3>
-      <p>公式LINEで個別の状況に合わせてアドバイスをお届けします。</p>
-      <a href="../../index.html" class="main-cta-btn">ブログ記事一覧へ</a>
-    </div>
-  </main>
 </body>
 </html>
