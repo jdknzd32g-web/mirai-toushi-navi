@@ -519,6 +519,23 @@
     </div>
 
     <script>
+        // 日付降順（YYYY.MM.DD）で記事カードを並び替え
+        document.addEventListener('DOMContentLoaded', function () {
+            const list = document.querySelector('.articles-list');
+            if (!list) return;
+            const cards = Array.from(list.querySelectorAll('.article-card'));
+            const toNum = (t) => {
+                const m = (t || '').match(/(\d{4})\.(\d{2})\.(\d{2})/);
+                return m ? Number(m[1] + m[2] + m[3]) : 0;
+            };
+            cards.sort((a, b) => {
+                const da = toNum(a.querySelector('.article-date')?.textContent);
+                const db = toNum(b.querySelector('.article-date')?.textContent);
+                return db - da; // 降順
+            });
+            cards.forEach(card => list.appendChild(card));
+        });
+
         // 記事カードのホバーエフェクト
         document.querySelectorAll('.article-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
