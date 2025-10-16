@@ -80,9 +80,12 @@ function env(key: string): string {
   return v;
 }
 
-main().catch(err => {
-  // Output concise error one-liner to stderr
-  process.stderr.write(`ERROR: ${err?.message || String(err)}\n`);
+main().catch((err: any) => {
+  // Enhanced diagnostics on failure
+  const code = err?.code || err?.status || 'ERR';
+  const body = err?.data || err?.errors || err?.response?.data;
+  const bodyStr = body ? (typeof body === 'string' ? body : JSON.stringify(body)) : '';
+  const msg = err?.message || String(err);
+  process.stderr.write(`ERROR ${code}: ${msg}${bodyStr ? ' | ' + bodyStr : ''}\n`);
   process.exit(1);
 });
-
