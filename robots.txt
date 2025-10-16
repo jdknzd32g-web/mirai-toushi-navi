@@ -4,4 +4,4 @@ Allow: /
 # Google認証ファイルは除外
 Disallow: /google4ae5f88a1184db39.html
 # サイトマップ
-Sitemap: https://eva-solution.netlify.app/sitemap.xml OK?
+Sitemap: https://eva-solution.netlify.app/sitemap.xml
