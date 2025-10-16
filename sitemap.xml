@@ -1,18 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Root & blog index -->
   <url>
     <loc>https://eva-solution.netlify.app/</loc>
+    <lastmod>2025-10-16</lastmod>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/</loc>
+    <lastmod>2025-10-16</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Top-level pages -->
+  <url>
+    <loc>https://eva-solution.netlify.app/pricing.html</loc>
+    <lastmod>2025-10-04</lastmod>
   </url>
   <url>
+    <loc>https://eva-solution.netlify.app/corporate-seminar.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/simulation.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+
+  <!-- Category pages -->
+  <url>
     <loc>https://eva-solution.netlify.app/blog/category-nisa.html</loc>
+    <lastmod>2025-10-16</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/category-mutual-fund.html</loc>
+    <lastmod>2025-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/category-region.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+
+  <!-- NISA guides -->
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide1/nisa-start-guide.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide2/nisa-start-guide2.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide3/nisa-start-guide3.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide4/nisa-start-guide4.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide5/nisa-start-guide5.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide6/nisa-start-guide6.html</loc>
+    <lastmod>2025-10-07</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide7/nisa-start-guide7.html</loc>
+    <lastmod>2025-10-06</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide8.html</loc>
+    <lastmod>2025-10-09</lastmod>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide9/nisa-start-guide9.html</loc>
     <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- Mutual fund articles -->
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund1/mutual-fund1.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund2/mutual-fund2.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund3/mutual-fund3.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund4/mutual-fund4.html</loc>
+    <lastmod>2025-10-04</lastmod>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund5.html</loc>
+    <lastmod>2025-10-09</lastmod>
+  </url>
+
+  <!-- Region articles -->
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/region/region1.html</loc>
+    <lastmod>2025-10-04</lastmod>
   </url>
 </urlset>
