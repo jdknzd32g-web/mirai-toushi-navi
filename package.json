@@ -1,0 +1,25 @@
+{
+  "name": "mirai-toushi-x-autopost",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dry": "tsx src/dry-run.ts",
+    "post": "tsx src/x-post.ts",
+    "post:morning": "tsx src/x-post.ts --slot morning",
+    "post:noon": "tsx src/x-post.ts --slot noon",
+    "post:evening": "tsx src/x-post.ts --slot evening"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "twitter-api-v2": "^1.17.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3"
+  }
+}
+
