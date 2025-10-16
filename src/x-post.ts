@@ -7,7 +7,7 @@ import { buildPost } from './lib/style.js';
 import { appendPosted, readPosted } from './lib/queue.js';
 import { signature, tooSimilar } from './lib/dedupe.js';
 
-type Args = { slot?: string; root?: string; dry?: boolean };
+type Args = { slot?: string; root?: string; dry?: boolean; file?: string; force?: boolean };
 function parseArgs(): Args {
   const args: Args = {};
   for (let i = 2; i < process.argv.length; i++) {
@@ -15,23 +15,29 @@ function parseArgs(): Args {
     if (a === '--slot') args.slot = process.argv[++i];
     else if (a === '--root') args.root = process.argv[++i];
     else if (a === '--dry-run' || a === '--dry') args.dry = true;
+    else if (a === '--file') args.file = process.argv[++i];
+    else if (a === '--force') args.force = true;
   }
   return args;
 }
 
 async function main() {
-  const { slot, root, dry } = parseArgs();
+  const { slot, root, dry, file: fileArg, force } = parseArgs();
 
-  const roots = await listContentRoots(root);
-  if (!roots.length) throw new Error('No content roots found');
-  let files: string[] = [];
-  for (const r of roots) {
-    const cand = await findCandidateFiles(r);
-    if (cand.length) { files = cand.map(c => c.file); break; }
+  let file: string;
+  if (fileArg) {
+    file = fileArg;
+  } else {
+    const roots = await listContentRoots(root);
+    if (!roots.length) throw new Error('No content roots found');
+    let files: string[] = [];
+    for (const r of roots) {
+      const cand = await findCandidateFiles(r);
+      if (cand.length) { files = cand.map(c => c.file); break; }
+    }
+    if (!files.length) throw new Error('No candidate files (.md|.mdx|.txt)');
+    file = files[0];
   }
-  if (!files.length) throw new Error('No candidate files (.md|.mdx|.txt)');
-
-  const file = files[0];
   const raw = await readText(file);
   const { topic, point } = extract(raw);
   const hashtags = suggestTags(raw);
@@ -39,7 +45,7 @@ async function main() {
 
   const posted = await readPosted();
   const isSimilar = tooSimilar(text, posted.posted, 0.85);
-  if (isSimilar) throw new Error('Too similar to a recent post (<=60 days)');
+  if (isSimilar && !force) throw new Error('Too similar to a recent post (<=60 days)');
 
   if (dry) {
     console.log('--- dry-run (x-post) ---');

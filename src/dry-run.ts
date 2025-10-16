@@ -6,36 +6,42 @@ import { buildPost } from './lib/style.js';
 import { readPosted } from './lib/queue.js';
 import { tooSimilar } from './lib/dedupe.js';
 
-type Args = { slot?: string; root?: string };
+type Args = { slot?: string; root?: string; file?: string };
 function parseArgs(): Args {
   const args: Args = {};
   for (let i = 2; i < process.argv.length; i++) {
     const a = process.argv[i];
     if (a === '--slot') args.slot = process.argv[++i];
     else if (a === '--root') args.root = process.argv[++i];
+    else if (a === '--file') args.file = process.argv[++i];
   }
   return args;
 }
 
 async function main() {
-  const { slot, root } = parseArgs();
-  const roots = await listContentRoots(root);
-  if (!roots.length) {
-    console.error('No content roots found');
-    process.exit(1);
+  const { slot, root, file: fileArg } = parseArgs();
+  let file: string;
+  if (fileArg) {
+    file = fileArg;
+  } else {
+    const roots = await listContentRoots(root);
+    if (!roots.length) {
+      console.error('No content roots found');
+      process.exit(1);
+    }
+    // Pick first root with files
+    let files: string[] = [];
+    for (const r of roots) {
+      const cand = await findCandidateFiles(r);
+      if (cand.length) { files = cand.map(c => c.file); break; }
+    }
+    if (!files.length) {
+      console.error('No candidate files (.md|.mdx|.txt)');
+      process.exit(1);
+    }
+    // Take newest
+    file = files[0];
   }
-  // Pick first root with files
-  let files: string[] = [];
-  for (const r of roots) {
-    const cand = await findCandidateFiles(r);
-    if (cand.length) { files = cand.map(c => c.file); break; }
-  }
-  if (!files.length) {
-    console.error('No candidate files (.md|.mdx|.txt)');
-    process.exit(1);
-  }
-  // Take newest
-  const file = files[0];
   const raw = await readText(file);
   const { topic, point } = extract(raw);
   const hashtags = suggestTags(raw);
@@ -71,4 +77,3 @@ main().catch(err => {
   console.error(`ERR: ${err?.message || String(err)}`);
   process.exit(1);
 });
-
