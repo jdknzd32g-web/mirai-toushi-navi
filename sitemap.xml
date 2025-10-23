@@ -16,7 +16,7 @@
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/index.html</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -50,7 +50,7 @@
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/category-region.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -131,7 +131,19 @@
 
   <!-- Region articles -->
   <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/region/region1.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <loc>https://eva-solution.netlify.app/blog/2025/region1/region1.html</loc>
+    <lastmod>2025-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/region2/region2.html</loc>
+    <lastmod>2025-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/region2/region2-image.jpeg</image:loc>
+      <image:title>鳥栖市で資産運用の相談、どこに行けばいい？50代からでも遅くない賢いお金の増やし方</image:title>
+    </image:image>
   </url>
 </urlset>
