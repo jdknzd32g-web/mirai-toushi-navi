@@ -5,42 +5,42 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
+      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-K4EG9Q6FL6');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>地域情報 | 未来投資navi</title>
-    <meta name="description" content="福岡・佐賀エリアを中心とした地域に根差した投資・資産運用情報をお届けします。鳥栖市での対面相談も可能です。">
-    
+    <title>地域別資産運用記事一覧 | 未来投資navi</title>
+    <meta name="description" content="地域別の資産運用相談に関する記事一覧。佐賀県鳥栖市を中心に、50代・60代向けの地域密着型資産運用情報を提供します。">
+
     <!-- OGP -->
-    <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/category-region.html">
-    <meta property="og:title" content="地域情報 | 未来投資navi">
-    <meta property="og:description" content="福岡・佐賀エリアを中心とした地域に根差した投資・資産運用情報をお届けします。鳥栖市での対面相談も可能です。">
-    <meta property="og:image" content="https://eva-solution.netlify.app/images/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="地域別資産運用記事一覧 | 未来投資navi">
+    <meta property="og:description" content="地域別の資産運用相談に関する記事一覧。佐賀県鳥栖市を中心に、50代・60代向けの地域密着型資産運用情報を提供します。">
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/category-region.html">
+    <meta property="og:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
     <meta property="og:site_name" content="未来投資navi">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="地域情報 | 未来投資navi">
-    <meta name="twitter:description" content="福岡・佐賀エリアを中心とした地域に根差した投資・資産運用情報をお届けします。鳥栖市での対面相談も可能です。">
-    <meta name="twitter:image" content="https://eva-solution.netlify.app/images/og-image.jpg">
-
+    <meta name="twitter:title" content="地域別資産運用記事一覧 | 未来投資navi">
+    <meta name="twitter:description" content="地域別の資産運用相談に関する記事一覧。佐賀県鳥栖市を中心に、50代・60代向けの地域密着型資産運用情報を提供します。">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/images/ryo-profile3.png">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.8;
-            color: #333;
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
             background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
-        
+
         .header {
             background: white;
             padding: 15px 0;
@@ -49,23 +49,28 @@
             top: 0;
             z-index: 100;
         }
-        
+
         .header-content {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             color: #2c3e50;
         }
-        
-        .back-btn {
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-link {
             background: #667eea;
             color: white;
             padding: 8px 20px;
@@ -74,247 +79,229 @@
             font-size: 14px;
             transition: all 0.3s;
         }
-        
-        .back-btn:hover {
+
+        .nav-link:hover {
             background: #5569d0;
             transform: translateY(-2px);
         }
-        
+
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
         }
-        
-        .page-title {
+
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .category-header {
             text-align: center;
             margin-bottom: 50px;
         }
-        
-        .page-title h1 {
-            font-size: 32px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .page-title p {
-            font-size: 16px;
-            color: #666;
-        }
-        
+
         .category-badge {
             display: inline-block;
-            background: #667eea;
+            background: #4CAF50;
             color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 16px;
             font-weight: bold;
             margin-bottom: 20px;
         }
-        
-        .articles-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
+
+        .category-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 縦並びレイアウト */
+        .articles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
             margin-bottom: 50px;
         }
-        
-        .blog-card {
+
+        .article-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
             display: block;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
         }
-        
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
-        
-        .card-meta {
+
+        .article-meta {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-        
-        .card-category {
-            background: #667eea;
-            color: white;
+
+        .article-date {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .article-level {
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 12px;
             font-weight: bold;
         }
-        
-        .card-date {
-            color: #999;
-            font-size: 13px;
+
+        .level-beginner {
+            background: #e8f5e8;
+            color: #4CAF50;
         }
-        
-        .card-title {
-            font-size: 18px;
-            margin-bottom: 12px;
-            color: #2c3e50;
+
+        .article-title {
+            font-size: 22px;
             font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
             line-height: 1.4;
         }
-        
-        .card-description {
-            font-size: 14px;
+
+        .article-description {
             color: #666;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 20px;
         }
-        
-        .youtube-cta {
-            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin: 50px 0;
-            text-align: center;
+
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-        
-        .youtube-cta h3 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 24px;
+
+        .tag {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
         }
-        
-        .youtube-btn {
-            background: white;
-            color: #FF0000;
-            padding: 14px 35px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-            transition: all 0.3s;
+
+        .read-more {
+            color: #667eea;
             font-size: 16px;
-        }
-        
-        .youtube-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .line-cta {
-            background: linear-gradient(135deg, #00C300 0%, #00A000 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin: 50px 0;
-            text-align: center;
-        }
-        
-        .line-cta h3 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-        
-        .line-btn {
-            background: white;
-            color: #00C300;
-            padding: 14px 35px;
-            border: none;
-            border-radius: 25px;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             transition: all 0.3s;
-            font-size: 16px;
         }
-        
-        .line-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
+        .read-more:hover {
+            color: #5569d0;
+            transform: translateX(4px);
         }
-        
-        .other-categories {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-top: 50px;
-        }
-        
-        .other-categories h3 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #2c3e50;
-            font-size: 24px;
-        }
-        
-        .category-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .category-link {
-            display: block;
-            padding: 20px;
-            background: #f8f9fa;
+
+        .new-badge {
+            background: #ff4444;
+            color: white;
+            padding: 3px 8px;
             border-radius: 10px;
-            text-decoration: none;
-            color: #2c3e50;
-            text-align: center;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            font-size: 11px;
+            margin-left: 8px;
+            animation: pulse 2s infinite;
         }
-        
-        .category-link:hover {
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .back-to-top-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .back-to-top-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-to-top-btn:hover {
             background: #667eea;
             color: white;
-            border-color: #667eea;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
-        
-        .category-link-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-        
-        .category-link-count {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-        
+
         @media (max-width: 768px) {
-            .articles-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .page-title h1 {
-                font-size: 24px;
-            }
-            
             .container {
-                padding: 20px 10px;
+                padding: 30px 15px;
             }
-            
+
+            .category-title {
+                font-size: 28px;
+            }
+
+            .category-description {
+                font-size: 16px;
+            }
+
+            .article-card {
+                padding: 20px;
+            }
+
+            .article-title {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
             .header-content {
                 flex-direction: column;
                 gap: 15px;
-            }
-            
-            .youtube-cta, .line-cta {
-                padding: 25px 20px;
-            }
-            
-            .youtube-cta h3, .line-cta h3 {
-                font-size: 20px;
             }
         }
     </style>
@@ -322,69 +309,107 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="logo">eva solution</div>
-            <a href="../index.html" class="back-btn">トップページへ戻る</a>
+            <div class="logo">未来投資navi</div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">トップページ</a>
+                <a href="index.html" class="nav-link">全記事一覧</a>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="page-title">
-            <span class="category-badge">地域情報</span>
-            <h1>福岡・佐賀エリアにお住まいの方へ</h1>
-            <p>佐賀県鳥栖市を中心とした地域に根差した投資・資産運用のサポート情報をお届けします</p>
+        <!-- パンくずナビ -->
+        <nav class="breadcrumb">
+            <a href="../index.html">トップ</a> >
+            <a href="index.html">記事一覧</a> >
+            <span>地域別資産運用</span>
+        </nav>
+
+        <!-- カテゴリヘッダー -->
+        <div class="category-header">
+            <div class="category-badge">地域別資産運用</div>
+            <h1 class="category-title">地域別資産運用関連記事</h1>
+            <p class="category-description">
+                佐賀県鳥栖市を中心とした地域密着型の資産運用相談情報。
+                地域に根差したアドバイスをお届けします。
+            </p>
         </div>
 
-        <div class="articles-grid">
-    <!-- 記事1: 地域情報 -->
-            <a href="2025/region/region1.html" class="blog-card">
-                <div class="card-meta">
-                    <span class="card-category">地域情報</span>
-                    <span class="card-date">2025.01.13</span>
+        <!-- 記事一覧（縦並び） -->
+        <div class="articles-list">
+
+            <!-- 記事1: region2 -->
+            <article class="article-card" onclick="location.href='2025/region2/region2.html'">
+                <div class="article-meta">
+                    <span class="article-date">2025.10.24<span class="new-badge">NEW</span></span>
+                    <span class="article-level level-beginner">初心者向け</span>
                 </div>
-                <h3 class="card-title">
-                   佐賀県鳥栖市でファイナンシャルプランナーを探すなら絶対に知っておくべきこと
-                </h3>
-                <p class="card-description">
+                <h2 class="article-title">鳥栖市で資産運用の相談、どこに行けばいい？50代からでも遅くない賢いお金の増やし方</h2>
+                <p class="article-description">
+                    鳥栖市で資産運用の相談先を探している50代・60代の方へ。銀行や証券会社、独立系FPの違いと手数料の落とし穴、50代から始めても間に合う具体的な資産形成プランを解説。新NISAで10年間月5万円積立なら約298万円の利益が期待できます（年利6%想定）。
+                </p>
+                <div class="article-tags">
+                    <span class="tag">鳥栖市</span>
+                    <span class="tag">資産運用相談</span>
+                    <span class="tag">50代からの投資</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
+            <!-- 記事2: region1 -->
+            <article class="article-card" onclick="location.href='2025/region1/region1.html'">
+                <div class="article-meta">
+                    <span class="article-date">2025.10.24</span>
+                    <span class="article-level level-beginner">初心者向け</span>
+                </div>
+                <h2 class="article-title">佐賀県鳥栖市でファイナンシャルプランナーを探すなら絶対に知っておくべきこと</h2>
+                <p class="article-description">
                     鳥栖市を中心とした福岡・佐賀エリアでの対面相談も可能です。地域に根差したきめ細やかなサポートを行っています。
                 </p>
-            </a>
+                <div class="article-tags">
+                    <span class="tag">鳥栖市</span>
+                    <span class="tag">ファイナンシャルプランナー</span>
+                    <span class="tag">地域密着</span>
+                </div>
+                <div class="read-more">続きを読む →</div>
+            </article>
+
         </div>
 
-            <!-- 今後の記事用のプレースホルダー -->
-            <!-- 記事が増えたらここに追加 -->
-        </div>
-
-        <div class="youtube-cta">
-            <h3>🎥 YouTubeで地域密着型の資産運用情報を配信中!</h3>
-            <p>文字だけじゃ伝えきれない話は、動画でゆっくり解説しています。<br>
-            福岡・佐賀エリアの方に特化した情報もお届けしています。</p>
-            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
-                未来投資naviを見てみる
-            </a>
-        </div>
-
-        <div class="line-cta">
-            <h3>💬 個別相談はLINEから!</h3>
-            <p>鳥栖市での対面相談、またはオンライン相談も可能です。<br>
-            まずはお気軽にLINEでお問い合わせください。</p>
-            <a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">
-                無料LINE登録はこちら
-            </a>
-        </div>
-
-        <div class="other-categories">
-            <h3>他のカテゴリーも見る</h3>
-            <div class="category-links">
-                <a href="category-nisa.html" class="category-link">
-                    <div class="category-link-title">新NISA</div>
-                    <div class="category-link-count">50代・60代向けの新NISA活用法</div>
-                </a>
-                <a href="category-mutual-fund.html" class="category-link">
-                    <div class="category-link-title">投資信託</div>
-                    <div class="category-link-count">初心者でも分かる投資信託の選び方</div>
-                </a>
-            </div>
+        <!-- トップページに戻る -->
+        <div class="back-to-top-section">
+            <a href="../index.html" class="back-to-top-btn">トップページに戻る</a>
         </div>
     </div>
+
+    <script>
+        // 日付降順（YYYY.MM.DD）で記事カードを並び替え
+        document.addEventListener('DOMContentLoaded', function () {
+            const list = document.querySelector('.articles-list');
+            if (!list) return;
+            const cards = Array.from(list.querySelectorAll('.article-card'));
+            const toNum = (t) => {
+                const m = (t || '').match(/(\d{4})\.(\d{2})\.(\d{2})/);
+                return m ? Number(m[1] + m[2] + m[3]) : 0;
+            };
+            cards.sort((a, b) => {
+                const da = toNum(a.querySelector('.article-date')?.textContent);
+                const db = toNum(b.querySelector('.article-date')?.textContent);
+                return db - da; // 降順
+            });
+            cards.forEach(card => list.appendChild(card));
+        });
+
+        // 記事カードのホバーエフェクト
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
 </body>
 </html>
