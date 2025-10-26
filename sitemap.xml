@@ -128,6 +128,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund6/mutual-fund6.html</loc>
+    <lastmod>2025-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund6/mutual-fund-image6.jpg</image:loc>
+      <image:title>投資信託とは?情報過多時代に本当に知るべき3つのポイント</image:title>
+    </image:image>
+  </url>
 
   <!-- Region articles -->
   <url>
