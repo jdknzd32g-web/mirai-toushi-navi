@@ -60,12 +60,17 @@
         }
         
         .logo {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             color: #2c3e50;
         }
-        
-        .back-btn {
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-link {
             background: #667eea;
             color: white;
             padding: 8px 20px;
@@ -74,18 +79,33 @@
             font-size: 14px;
             transition: all 0.3s;
         }
-        
-        .back-btn:hover {
+
+        .nav-link:hover {
             background: #5569d0;
             transform: translateY(-2px);
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
         }
-        
+
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
         .page-title {
             text-align: center;
             margin-bottom: 50px;
@@ -119,56 +139,98 @@
             gap: 30px;
             margin-bottom: 50px;
         }
-        
-        .blog-card {
+
+        .article-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
             display: block;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+            overflow: hidden;
         }
-        
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
-        
-        .card-meta {
+
+        .article-content {
+            padding: 30px;
+        }
+
+        .article-meta {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-        
-        .card-category {
-            background: #667eea;
+
+        .article-date {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .new-badge {
+            background: #FF5722;
             color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .article-level {
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 12px;
             font-weight: bold;
         }
-        
-        .card-date {
-            color: #999;
-            font-size: 13px;
+
+        .level-beginner {
+            background: #e8f5e8;
+            color: #4CAF50;
         }
-        
-        .card-title {
-            font-size: 18px;
-            margin-bottom: 12px;
+
+        .article-title {
+            font-size: 20px;
+            margin-bottom: 15px;
             color: #2c3e50;
             font-weight: bold;
-            line-height: 1.4;
+            line-height: 1.5;
         }
-        
-        .card-description {
-            font-size: 14px;
+
+        .article-description {
+            font-size: 15px;
             color: #666;
-            line-height: 1.6;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            color: #666;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .read-more {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 14px;
         }
         
         .youtube-cta {
@@ -322,12 +384,22 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="logo">eva solution</div>
-            <a href="../index.html" class="back-btn">トップページへ戻る</a>
+            <div class="logo">未来投資navi</div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">トップページ</a>
+                <a href="index.html" class="nav-link">全記事一覧</a>
+            </div>
         </div>
     </header>
 
     <div class="container">
+        <!-- パンくずナビ -->
+        <nav class="breadcrumb">
+            <a href="../index.html">トップ</a> >
+            <a href="index.html">記事一覧</a> >
+            <span>地域情報</span>
+        </nav>
+
         <div class="page-title">
             <span class="category-badge">地域情報</span>
             <h1>福岡・佐賀エリアにお住まいの方へ</h1>
@@ -335,23 +407,45 @@
         </div>
 
         <div class="articles-grid">
-    <!-- 記事1: 地域情報 -->
-            <a href="2025/region/region1.html" class="blog-card">
-                <div class="card-meta">
-                    <span class="card-category">地域情報</span>
-                    <span class="card-date">2025.01.13</span>
+            <!-- 記事1: 地域情報 -->
+            <a href="2025/region1/region1.html" class="article-card">
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-date">2025.01.13</span>
+                        <span class="article-level level-beginner">初心者向け</span>
+                    </div>
+                    <h2 class="article-title">佐賀県鳥栖市でファイナンシャルプランナーを探すなら絶対に知っておくべきこと</h2>
+                    <p class="article-description">
+                        鳥栖市を中心とした福岡・佐賀エリアでの対面相談も可能です。地域に根差したきめ細やかなサポートを行っています。
+                    </p>
+                    <div class="article-tags">
+                        <span class="tag">鳥栖市</span>
+                        <span class="tag">FP相談</span>
+                        <span class="tag">対面相談</span>
+                    </div>
+                    <div class="read-more">続きを読む →</div>
                 </div>
-                <h3 class="card-title">
-                   佐賀県鳥栖市でファイナンシャルプランナーを探すなら絶対に知っておくべきこと
-                </h3>
-                <p class="card-description">
-                    鳥栖市を中心とした福岡・佐賀エリアでの対面相談も可能です。地域に根差したきめ細やかなサポートを行っています。
-                </p>
             </a>
-        </div>
 
-            <!-- 今後の記事用のプレースホルダー -->
-            <!-- 記事が増えたらここに追加 -->
+            <!-- 記事2: 地域情報 -->
+            <a href="2025/region2/region2.html" class="article-card">
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-date">2025.10.24<span class="new-badge">NEW</span></span>
+                        <span class="article-level level-beginner">初心者向け</span>
+                    </div>
+                    <h2 class="article-title">鳥栖市で資産運用の相談、どこに行けばいい？50代からでも遅くない賢いお金の増やし方</h2>
+                    <p class="article-description">
+                        鳥栖市で資産運用の相談先を探している50代・60代の方へ。銀行や証券会社、独立系FPの違いと手数料の落とし穴、50代から始めても間に合う具体的な資産形成プランを解説。
+                    </p>
+                    <div class="article-tags">
+                        <span class="tag">鳥栖市</span>
+                        <span class="tag">資産運用</span>
+                        <span class="tag">50代</span>
+                    </div>
+                    <div class="read-more">続きを読む →</div>
+                </div>
+            </a>
         </div>
 
         <div class="youtube-cta">

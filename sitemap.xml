@@ -138,20 +138,22 @@
       <image:title>投資信託シミュレーションの正しい使い方｜50代から始める賢い資産運用</image:title>
     </image:image>
   </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund8/mutual-fund8.html</loc>
-    <lastmod>2025-10-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund8/mutual-fund-image8.jpg</image:loc>
-      <image:title>投資信託シミュレーションの正しい使い方｜50代から始める賢い資産運用</image:title>
-    </image:image>
-  </url>
 
   <!-- Region articles -->
   <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/region/region1.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <loc>https://eva-solution.netlify.app/blog/2025/region1/region1.html</loc>
+    <lastmod>2025-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/region2/region2.html</loc>
+    <lastmod>2025-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/region2/region2-image.jpeg</image:loc>
+      <image:title>鳥栖市で資産運用の相談、どこに行けばいい？50代からでも遅くない賢いお金の増やし方</image:title>
+    </image:image>
   </url>
 </urlset>
