@@ -167,10 +167,20 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/region3/region3.html</loc>
+    <loc>https://eva-solution.netlify.app/blog/2025/region4/region4.html</loc>
     <lastmod>2025-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/region4/region4-image.jpeg</image:loc>
+      <image:title>鳥栖でライフプラン相談をするなら？50代・60代が今考えるべきお金の話</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/region3/region3.html</loc>
+    <lastmod>2025-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
     <image:image>
       <image:loc>https://eva-solution.netlify.app/blog/2025/region3/region3-image.jpeg</image:loc>
       <image:title>鳥栖でライフプラン相談をするなら？50代・60代が今考えるべきお金の話</image:title>
