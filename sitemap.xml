@@ -4,19 +4,19 @@
   <!-- Root & blog index -->
   <url>
     <loc>https://eva-solution.netlify.app/</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/index.html</loc>
-    <lastmod>2025-10-24</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -38,7 +38,7 @@
   <!-- Category pages -->
   <url>
     <loc>https://eva-solution.netlify.app/blog/category-nisa.html</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -102,6 +102,16 @@
     <image:image>
       <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide10/nisa-start-guide-image10.jpeg</image:loc>
       <image:title>65歳からの逆襲：守りの資産、攻めのNISA</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide13/nisa-start-guide13.html</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide13/nisa-start-guide-image13.jpg</image:loc>
+      <image:title>新NISA積立投資枠の完全ガイド - 商品選びと成長投資枠との使い分け戦略</image:title>
     </image:image>
   </url>
 
