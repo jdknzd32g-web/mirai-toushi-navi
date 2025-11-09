@@ -1,142 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <!-- Root & blog index -->
+
+  <!-- Main Pages -->
   <url>
     <loc>https://eva-solution.netlify.app/</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
   <url>
     <loc>https://eva-solution.netlify.app/blog/</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/index.html</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Top-level pages -->
-  <url>
-    <loc>https://eva-solution.netlify.app/pricing.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/corporate-seminar.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/simulation.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-
-  <!-- Category pages -->
   <url>
     <loc>https://eva-solution.netlify.app/blog/category-nisa.html</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://eva-solution.netlify.app/blog/category-mutual-fund.html</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://eva-solution.netlify.app/blog/category-region.html</loc>
-    <lastmod>2025-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- NISA guides -->
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide1/nisa-start-guide.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide2/nisa-start-guide2.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide3/nisa-start-guide3.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide4/nisa-start-guide4.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide5/nisa-start-guide5.html</loc>
-    <lastmod>2025-10-04</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide6/nisa-start-guide6.html</loc>
-    <lastmod>2025-10-07</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide7/nisa-start-guide7.html</loc>
-    <lastmod>2025-10-06</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide8.html</loc>
-    <lastmod>2025-10-09</lastmod>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide9/nisa-start-guide9.html</loc>
-    <lastmod>2025-10-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide10/nisa-start-guide10.html</loc>
-    <lastmod>2025-10-23</lastmod>
+    <lastmod>2025-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide10/nisa-start-guide-image10.jpeg</image:loc>
-      <image:title>65歳からの逆襲：守りの資産、攻めのNISA</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide13/nisa-start-guide13.html</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide13/nisa-start-guide-image13.jpg</image:loc>
-      <image:title>新NISA積立投資枠の完全ガイド - 商品選びと成長投資枠との使い分け戦略</image:title>
-    </image:image>
   </url>
 
-  <!-- Mutual fund articles -->
+  <!-- Blog Posts -->
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund1/mutual-fund1.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund1/mutual-fund-image1.jpg</image:loc>
+      <image:title>純資産総額1位の投資信託って本当に「買い」なの？ランキングの罠を暴く</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund2/mutual-fund2.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund2/mutual-fund-image2.jpg</image:loc>
+      <image:title>【新NISA成長投資枠】インド株で資産を増やす！今すぐ始めるべき理由と具体的投資方法</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund3/mutual-fund3.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund3/mutual-fund-image3.jpg</image:loc>
+      <image:title>投資初心者が迷わず選ぶべき「オルカン1本投資」の圧倒的メリット</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund4/mutual-fund4.html</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund4/candlestick-chart.jpg</image:loc>
+      <image:title>【初心者必見】S&P500チャートの見方完全ガイド｜現在の水準は？今後どうなる？</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund5.html</loc>
     <lastmod>2025-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund5/mutual-fund-image5.jpg</image:loc>
+      <image:title>投資信託とは？50代から始める資産運用の基本をやさしく解説</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund6/mutual-fund6.html</loc>
@@ -148,17 +99,169 @@
       <image:title>投資信託とは?情報過多時代に本当に知るべき3つのポイント</image:title>
     </image:image>
   </url>
-
-  <!-- Region articles -->
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund7/mutual-fund7.html</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/mutual-fund7/mutual-fund-image7.jpg</image:loc>
+      <image:title>投資信託シミュレーションの正しい使い方｜50代から始める賢い資産運用</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide1/nisa-start-guide1.html</loc>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide1/nisa-start-guide-image1.jpg</image:loc>
+      <image:title>新NISA 50代から始めても怖くない！『今さら遅い』は完全に間違い</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide10/nisa-start-guide10.html</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide10/nisa-start-guide-image10.jpeg</image:loc>
+      <image:title>【65歳からの逆襲】守りの資産、攻めのNISA。これが最終結論</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide11/nisa-start-guide11.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide11/nisa-start-guide-image11.jpg</image:loc>
+      <image:title>新NISAのデメリット3選！50代・60代が感じる「不安」の正体と解決法</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide12/nisa-start-guide12.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide12/nisa-start-guide-image12.jpg</image:loc>
+      <image:title>NISAの始め方を初心者向けにやさしく解説｜失敗しない投資の第一歩</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide13/nisa-start-guide13.html</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide13/nisa-start-guide-image13.jpg</image:loc>
+      <image:title>【結論】新NISA「積立投資枠」で買うべき商品はこれ!成長投資枠との使い分けも解説</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide14/nisa-start-guide14.html</loc>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide14/nisa-start-guide14-image.jpg</image:loc>
+      <image:title>NISA非課税枠はいつ使う?タイミングを悩むあなたへの答え</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide2/nisa-start-guide2.html</loc>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide2/nisa-start-guide_image2.jpg</image:loc>
+      <image:title>新NISAの始め方完全ガイド！今からでも間に合う老後資金の作り方</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide3/nisa-start-guide3.html</loc>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide3/nisa-start-guide-image3.jpg</image:loc>
+      <image:title>新NISA枠を5年で埋める必要ある？焦って投資する前に知っておくべき4つの警告サイン</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide4/nisa-start-guide4.html</loc>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide4/nisa-start-guide-image4.jpg</image:loc>
+      <image:title>【新NISA デメリット】知らないと老後破産する3つの落とし穴</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide5/nisa-start-guide5.html</loc>
+    <lastmod>2025-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide5/nisa-start-guide-image5.jpg</image:loc>
+      <image:title>【2025年新NISA】残り3ヶ月をどう使う？迷いを断ち切る投資戦略</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide6/nisa-start-guide6.html</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide6/nisa-start-guide-image6.jpg</image:loc>
+      <image:title>資産運用は「しない方がいい」？NISAの前に確認するチェックリスト</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide7/nisa-start-guide7.html</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide7/nisa-start-guide-image7.jpg</image:loc>
+      <image:title>新NISAいつから始める？今すぐ始めるべき3つの理由と具体的な始め方</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide8.html</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide8/nisa-start-guide-image8.jpg</image:loc>
+      <image:title>資産運用シミュレーション！50代から老後資金を2倍にする現実的な方法</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide9/nisa-start-guide9.html</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/nisa-start-guide9/nisa-start-guide-image9.jpeg</image:loc>
+      <image:title>S&P500か?オルカンか? 世界経済の大きな地殻変動が教えてくれること</image:title>
+    </image:image>
+  </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/region1/region1.html</loc>
-    <lastmod>2025-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2025-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/region1/region-image1.jpg</image:loc>
+      <image:title>ファイナンシャルプランナーを探すなら絶対に知っておくべき「利益相反」の真実</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/region2/region2.html</loc>
-    <lastmod>2025-10-24</lastmod>
+    <lastmod>2025-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -168,17 +271,17 @@
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/region3/region3.html</loc>
-    <lastmod>2025-10-24</lastmod>
+    <lastmod>2025-11-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://eva-solution.netlify.app/blog/2025/region3/region3-image.jpg</image:loc>
-      <image:title>鳥栖でライフプラン相談を考えているあなたへ｜本当に中立的な相談ができる場所はどこ?</image:title>
+      <image:loc>https://eva-solution.netlify.app/blog/2025/region3/region3-image.jpeg</image:loc>
+      <image:title>鳥栖でライフプラン相談をするなら？50代・60代が今考えるべきお金の話</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://eva-solution.netlify.app/blog/2025/region4/region4.html</loc>
-    <lastmod>2025-11-01</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>

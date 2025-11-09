@@ -8,6 +8,11 @@ cd "$PROJECT_DIR"
 # (stash automatically and re-apply)
 git pull --rebase --autostash origin main
 
+# Generate sitemap before committing
+echo "📝 Generating sitemap..."
+npx tsx scripts/generate-sitemap.ts
+echo "✓ Sitemap generated"
+
 # Stage all changes (including untracked)
 git add -A
 
