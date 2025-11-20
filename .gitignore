@@ -1,5 +1,82 @@
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+Desktop/
+Documents/
+Downloads/
+Library/
+Movies/
+Music/
+Pictures/
+.Trash/
+
+# 開発環境
 .env
-node_modules
-logs
-dist
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude AI
+.claude/
+.claude.json
+.claude.json.backup
+.claude.json.lock
+
+# その他のAIツール
+.gemini/
+.antigravity/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.npm/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# ログ
+logs/
+*.log
+dist/
+
+# シェル設定
+.zsh_history
+.zsh_sessions/
+.bash_history
+.bash_sessions/
+
+# Git設定
+.gitconfig
+.gitignore_global
+
+# システム設定
+.config/
+.CFUserTextEncoding
+
+# プロジェクトフォルダ（Git管理しない）
+scroller/
+transcription-system/
+youtube-project/
+gdocs-export/
+ryobot-chat/
+telop-generation/
