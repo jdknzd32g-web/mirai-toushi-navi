@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date());
-      gtag('config', 'G-K4EG9Q6FL6');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-K4EG9Q6FL6');
     </script>
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9806798165325885"
-         crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新NISA記事一覧 | 未来投資navi</title>
@@ -36,23 +37,23 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
         }
-        
+
         .header {
             background: white;
             padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        
+
         .header-content {
             max-width: 1000px;
             margin: 0 auto;
@@ -61,18 +62,18 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: bold;
             color: #2c3e50;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 15px;
         }
-        
+
         .nav-link {
             background: #667eea;
             color: white;
@@ -82,38 +83,38 @@
             font-size: 14px;
             transition: all 0.3s;
         }
-        
+
         .nav-link:hover {
             background: #5569d0;
             transform: translateY(-2px);
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
         }
-        
+
         .breadcrumb {
             margin-bottom: 30px;
             font-size: 14px;
             color: #666;
         }
-        
+
         .breadcrumb a {
             color: #667eea;
             text-decoration: none;
         }
-        
+
         .breadcrumb a:hover {
             text-decoration: underline;
         }
-        
+
         .category-header {
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         .category-badge {
             display: inline-block;
             background: #4CAF50;
@@ -124,21 +125,21 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
-        
+
         .category-title {
             font-size: 36px;
             font-weight: bold;
             color: #333;
             margin-bottom: 15px;
         }
-        
+
         .category-description {
             color: #666;
             font-size: 18px;
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         /* 縦並びレイアウト */
         .articles-list {
             display: flex;
@@ -146,12 +147,12 @@
             gap: 25px;
             margin-bottom: 50px;
         }
-        
+
         .article-card {
             background: white;
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
@@ -159,46 +160,46 @@
             border: 1px solid #f0f0f0;
             cursor: pointer;
         }
-        
+
         .article-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
-        
+
         .article-meta {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        
+
         .article-date {
             color: #999;
             font-size: 14px;
         }
-        
+
         .article-level {
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 12px;
             font-weight: bold;
         }
-        
+
         .level-beginner {
             background: #e8f5e8;
             color: #4CAF50;
         }
-        
+
         .level-intermediate {
             background: #fff3e0;
             color: #ff9800;
         }
-        
+
         .level-advanced {
             background: #ffebee;
             color: #f44336;
         }
-        
+
         .article-title {
             font-size: 22px;
             font-weight: bold;
@@ -206,21 +207,21 @@
             margin-bottom: 15px;
             line-height: 1.4;
         }
-        
+
         .article-description {
             color: #666;
             line-height: 1.7;
             font-size: 15px;
             margin-bottom: 20px;
         }
-        
+
         .article-tags {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        
+
         .tag {
             background: #f0f4ff;
             color: #667eea;
@@ -228,7 +229,7 @@
             border-radius: 12px;
             font-size: 12px;
         }
-        
+
         .read-more {
             color: #667eea;
             font-size: 16px;
@@ -239,12 +240,12 @@
             gap: 6px;
             transition: all 0.3s;
         }
-        
+
         .read-more:hover {
             color: #5569d0;
             transform: translateX(4px);
         }
-        
+
         .new-badge {
             background: #ff4444;
             color: white;
@@ -254,18 +255,26 @@
             margin-left: 8px;
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
-        
+
         .back-to-top-section {
             text-align: center;
             margin-top: 60px;
         }
-        
+
         .back-to-top-btn {
             display: inline-block;
             background: white;
@@ -278,40 +287,40 @@
             text-decoration: none;
             transition: all 0.3s;
         }
-        
+
         .back-to-top-btn:hover {
             background: #667eea;
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 30px 15px;
             }
-            
+
             .category-title {
                 font-size: 28px;
             }
-            
+
             .category-description {
                 font-size: 16px;
             }
-            
+
             .article-card {
                 padding: 20px;
             }
-            
+
             .article-title {
                 font-size: 20px;
             }
-            
+
             .nav-links {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .header-content {
                 flex-direction: column;
                 gap: 15px;
@@ -319,6 +328,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="header-content">
@@ -333,7 +343,7 @@
     <div class="container">
         <!-- パンくずナビ -->
         <nav class="breadcrumb">
-            <a href="../index.html">トップ</a> > 
+            <a href="../index.html">トップ</a> >
             <a href="index.html">記事一覧</a> >
             <span>新NISA</span>
         </nav>
@@ -348,91 +358,92 @@
             </p>
         </div>
 
-                                                                                            <!-- 記事: nisa-start-guide26 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide26/nisa-start-guide26.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">2026年新NISA！年初一括投資で差をつける戦略とは？</h2>
-                <p class="article-description">こんにちは、りょうです！...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
 
-<!-- 記事: nisa-start-guide25 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide25/nisa-start-guide25.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">2026年新NISA、年初一括投資は「あり」？ 本当に怖いのは「暴落」ではなく「機会損失」だ！</h2>
-                <p class="article-description">こんにちは、りょうです。...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: nisa-start-guide26 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide26/nisa-start-guide26.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">2026年新NISA！年初一括投資で差をつける戦略とは？</h2>
+            <p class="article-description">こんにちは、りょうです！...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事: nisa-start-guide24 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide24/nisa-start-guide24.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">## 2026年新NISA、年初一括投資は「あり」？ 条件と戦略を徹底解説！</h2>
-                <p class="article-description">こんにちは、りょうです！...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: nisa-start-guide25 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide25/nisa-start-guide25.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">2026年新NISA、年初一括投資は「あり」？ 本当に怖いのは「暴落」ではなく「機会損失」だ！</h2>
+            <p class="article-description">こんにちは、りょうです。...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事: nisa-start-guide23 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide23/nisa-start-guide23.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">## 2026年新NISA！年初一括投資すべき？暴落を乗り越えるための条件とは</h2>
-                <p class="article-description">こんにちは、りょうです。...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: nisa-start-guide24 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide24/nisa-start-guide24.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">## 2026年新NISA、年初一括投資は「あり」？ 条件と戦略を徹底解説！</h2>
+            <p class="article-description">こんにちは、りょうです！...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事: nisa-start-guide22 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide22/nisa-start-guide22.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">## 2026年、新NISAは年初一括投資で勝負すべきか？</h2>
-                <p class="article-description">こんにちは、りょうです。...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: nisa-start-guide23 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide23/nisa-start-guide23.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">## 2026年新NISA！年初一括投資すべき？暴落を乗り越えるための条件とは</h2>
+            <p class="article-description">こんにちは、りょうです。...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事: nisa-start-guide21 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide21/nisa-start-guide21.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">## 2026年新NISA：年初一括投資か、積立投資か？ あなたの不安を解消する戦略</h2>
-                <p class="article-description">こんにちは、りょうです。...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: nisa-start-guide22 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide22/nisa-start-guide22.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">## 2026年、新NISAは年初一括投資で勝負すべきか？</h2>
+            <p class="article-description">こんにちは、りょうです。...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事: nisa-start-guide20 -->
-            <article class="article-card" onclick="location.href='2025/nisa-start-guide20/nisa-start-guide20.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">2026年新nisa年初一括投資すべきか？</h2>
-                <p class="article-description">こんにちはりょうです...</p>
-                <div class="article-tags"><span class="tag">新NISA</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: nisa-start-guide21 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide21/nisa-start-guide21.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">## 2026年新NISA：年初一括投資か、積立投資か？ あなたの不安を解消する戦略</h2>
+            <p class="article-description">こんにちは、りょうです。...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事一覧（縦並び） -->
+        <!-- 記事: nisa-start-guide20 -->
+        <article class="article-card" onclick="location.href='2025/nisa-start-guide20/nisa-start-guide20.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.06<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">2026年新nisa年初一括投資すべきか？</h2>
+            <p class="article-description">こんにちはりょうです...</p>
+            <div class="article-tags"><span class="tag">新NISA</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
+
+        <!-- 記事一覧（縦並び） -->
         <div class="articles-list">
 
             <!-- 記事: nisa-start-guide18 -->
@@ -514,7 +525,8 @@
                 </div>
                 <h2 class="article-title">NISA非課税枠はいつ使う?タイミングを悩むあなたへの答え</h2>
                 <p class="article-description">
-                    こんにちは、りょうです。 「新NISA枠を全部使い切ったけど、課税口座にある資金をどうしよう?」 「課税口座で利益が出てるんだけど、来年のNISA枠が空くまで待って、そこに移した方がいいのかな?」 「今は株価が高い気がするから、暴落したタイミングで来年のNISA枠を使おうかな…」 YouTubeでもこのテーマ、めちゃくちゃ議論されています。
+                    こんにちは、りょうです。 「新NISA枠を全部使い切ったけど、課税口座にある資金をどうしよう?」 「課税口座で利益が出てるんだけど、来年のNISA枠が空くまで待って、そこに移した方がいいのかな?」
+                    「今は株価が高い気がするから、暴落したタイミングで来年のNISA枠を使おうかな…」 YouTubeでもこのテーマ、めちゃくちゃ議論されています。
                 </p>
                 <div class="article-tags">
                     <span class="tag">nisa</span>
@@ -523,7 +535,7 @@
             </article>
 
             <!-- 記事1 -->
-         　 <article class="article-card" onclick="location.href='2025/nisa-start-guide1/nisa-start-guide.html'">
+            　 <article class="article-card" onclick="location.href='2025/nisa-start-guide1/nisa-start-guide.html'">
                 <div class="article-meta">
                     <span class="article-date">2025.09.07</span>
                     <span class="article-level level-beginner">初心者向け</span>
@@ -766,14 +778,15 @@
 
         // 記事カードのホバーエフェクト
         document.querySelectorAll('.article-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-4px)';
             });
-            
-            card.addEventListener('mouseleave', function() {
+
+            card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
     </script>
 </body>
+
 </html>

@@ -218,18 +218,25 @@ def beautify_text(text):
         return text
 
     prompt = f"""
-以下のYouTube台本（句読点が少なめ）を、ブログ記事として読みやすい自然な日本語に書き換えてください。
-りょう（一人称：僕）の情熱的で親身なトーンを維持しつつ、適切な句読点、段落を入れてください。
-特記事項：
-1. SEOを意識し、重要なキーワード（新NISA、一括投資、など）が自然に含まれるようにしてください。見出し（h2, h3）もSEO最適化してください。
-2. スマホでも読みやすくするため、一文を短めにし、文章の構成を工夫してください。
-HTMLタグは含めず、プレーンテキストで出力してください。
+あなたはプロのブログ編集者です。
+以下のYouTube台本（テキスト）を、ブログ記事形式にリライトしてください。
+
+【編集ルール】
+1. **句読点**: 適切な位置に「、」「。」を入れ、読みやすい日本語にしてください。
+2. **装飾**: 記事の中で特に重要な結論や強調したい文言は、`<span class="highlight">`と`</span>`で囲ってください。（例: `<span class="highlight">ここは重要です</span>`）
+3. **構成**: 見出し（h2, h3）を適切に配置し、SEOを意識した構成にしてください。
+4. **結び**: 記事の最後は必ず「それではまた。」で締めくくってください。
+5. **出力形式**: HTMLタグ（h2, h3, p, ul, li, span class="highlight"）を含んだ形式で出力してください。markdown記法（#など）は使用しないでください。
+   - タイトル行は `<h1>タイトル</h1>` ではなく、単に `タイトル：〇〇` としてください。
+   - 各段落は `<p>` タグで囲ってください。
+
+【重要】「はい」「承知しました」などの返答は一切不要です。記事の本文のみを出力してください。
 
 【台本内容】
 {text}
 """
     try:
-        model = genai.GenerativeModel('models/gemini-2.5-flash-lite')
+        model = genai.GenerativeModel('models/gemini-pro')
         response = model.generate_content(prompt)
         return response.text.strip()
     except Exception as e:
@@ -310,18 +317,8 @@ def parse_text_content(text_path):
             </a>
         </div>
 
-        <div style="margin-bottom: 30px; text-align: center;">
-            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-              <iframe 
-                src="https://www.youtube.com/embed/5LIZI7aM4ps" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen 
-                style="position: absolute; top:0; left:0; width:100%; height:100%;">
-              </iframe>
-            </div>
-        </div>
                  """)
+
              
              formatted_body.append(f"<h2>{clean_heading}</h2>")
              continue
