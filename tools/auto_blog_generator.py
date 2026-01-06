@@ -10,7 +10,8 @@ import google.generativeai as genai
 # --- Configuration ---
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 BLOG_ROOT = PROJECT_ROOT / "blog"
-YEAR_DIR = BLOG_ROOT / "2025"
+CURRENT_YEAR = str(datetime.date.today().year)
+YEAR_DIR = BLOG_ROOT / CURRENT_YEAR
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 if GEMINI_API_KEY:
@@ -31,14 +32,14 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} | 未来投資navi</title>
     <meta name="description" content="{description}">
-    <link rel="canonical" href="https://eva-solution.netlify.app/blog/2025/{slug}/{slug}.html">
+    <link rel="canonical" href="https://eva-solution.netlify.app/blog/{year}/{slug}/{slug}.html">
 
     <!-- OGP -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/{slug}/{slug}.html">
+    <meta property="og:url" content="https://eva-solution.netlify.app/blog/{year}/{slug}/{slug}.html">
     <meta property="og:title" content="{title} | 未来投資navi">
     <meta property="og:description" content="{description}">
-    <meta property="og:image" content="https://eva-solution.netlify.app/blog/2025/{slug}/{image_name}">
+    <meta property="og:image" content="https://eva-solution.netlify.app/blog/{year}/{slug}/{image_name}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="675">
     <meta property="og:image:alt" content="{title}">
@@ -53,7 +54,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
     <meta name="twitter:creator" content="@investment_navi">
     <meta name="twitter:title" content="{title}">
     <meta name="twitter:description" content="{description}">
-    <meta name="twitter:image" content="https://eva-solution.netlify.app/blog/2025/{slug}/{image_name}">
+    <meta name="twitter:image" content="https://eva-solution.netlify.app/blog/{year}/{slug}/{image_name}">
     <meta name="twitter:image:alt" content="{title}">
 
     <!-- 構造化データ (JSON-LD) -->
@@ -63,7 +64,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
       "@type": "Article",
       "headline": "{title}",
       "description": "{description}",
-      "image": "https://eva-solution.netlify.app/blog/2025/{slug}/{image_name}",
+      "image": "https://eva-solution.netlify.app/blog/{year}/{slug}/{image_name}",
       "author": {{
         "@type": "Person",
         "name": "りょう"
@@ -80,7 +81,7 @@ TEMPLATE_HTML = """<!DOCTYPE html>
       "dateModified": "{date_iso}",
       "mainEntityOfPage": {{
         "@type": "WebPage",
-        "@id": "https://eva-solution.netlify.app/blog/2025/{slug}/{slug}.html"
+        "@id": "https://eva-solution.netlify.app/blog/{year}/{slug}/{slug}.html"
       }}
     }}
     </script>
@@ -193,7 +194,7 @@ def determine_category(text_path):
     return 'region', '地域別資産運用'
 
 def get_next_slug(category):
-    # Find existing slugs in 2025/category*
+    # Find existing slugs in YEAR_DIR/category*
     # Pattern: category + number
     pattern = re.compile(rf"{category}(\d+)")
     max_num = 0
@@ -223,10 +224,18 @@ def beautify_text(text):
 
 【編集ルール】
 1. **句読点**: 適切な位置に「、」「。」を入れ、読みやすい日本語にしてください。
-2. **装飾**: 記事の中で特に重要な結論や強調したい文言は、`<span class="highlight">`と`</span>`で囲ってください。（例: `<span class="highlight">ここは重要です</span>`）
-3. **構成**: 見出し（h2, h3）を適切に配置し、SEOを意識した構成にしてください。
-4. **結び**: 記事の最後は必ず「それではまた。」で締めくくってください。
-5. **出力形式**: HTMLタグ（h2, h3, p, ul, li, span class="highlight"）を含んだ形式で出力してください。markdown記法（#など）は使用しないでください。
+2. **装飾（必須）**: 
+   - 各段落に必ず1つ以上の強調を入れてください。
+   - 特に重要な結論は、`<strong class="highlight">`と`</strong>`で囲ってください。
+   - それ以外の重要な箇所は `<strong>` タグで太字にしてください。
+3. **絵文字**: 各見出しの先頭に適切な絵文字を付けてください。（例：📌、💡、⚠️、💰、📊など）
+4. **構成**: 
+   - 大見出しは `<h2>` タグで第○章形式にする。
+   - 小見出しを積極的に `<h3>` タグで追加し、内容を分かりやすくする。
+   - 「まとめ」セクションも `<h2>` タグで章と同じデザインにする。例：`<h2>📝 まとめ</h2>`
+5. **言葉の置き換え**: 「動画」という表現はすべて「記事」に変更してください。
+6. **結び**: 記事の最後は必ず「ではまた。」で締めくくってください。
+7. **出力形式**: HTMLタグ（h2, h3, p, ul, li, strong, strong class="highlight"）を含んだ形式で出力してください。markdown記法（#など）は使用しないでください。
    - タイトル行は `<h1>タイトル</h1>` ではなく、単に `タイトル：〇〇` としてください。
    - 各段落は `<p>` タグで囲ってください。
 
@@ -236,9 +245,17 @@ def beautify_text(text):
 {text}
 """
     try:
-        model = genai.GenerativeModel('models/gemini-pro')
+        model = genai.GenerativeModel('models/gemini-2.0-flash')
         response = model.generate_content(prompt)
-        return response.text.strip()
+        result = response.text.strip()
+        # Clean up any markdown code block fences if present
+        if result.startswith("```html"):
+            result = result[7:]
+        if result.startswith("```"):
+            result = result[3:]
+        if result.endswith("```"):
+            result = result[:-3]
+        return result.strip()
     except Exception as e:
         print(f"Error in AI beautification: {e}")
         return text
@@ -284,7 +301,9 @@ def parse_text_content(text_path):
     in_quote = False  # Track if we are inside smart quotes
     
     has_greeting = any("りょうです" in line or "りょう" in line for line in body_lines[:20])
-    if not has_greeting:
+    # Skip adding greeting if AI already provided full HTML content
+    ai_provided_full_html = any("<p>" in line for line in body_lines[:5])
+    if not has_greeting and not ai_provided_full_html:
         formatted_body.append("<p>こんにちは、りょうです。</p>")
 
     for line in body_lines:
@@ -328,17 +347,17 @@ def parse_text_content(text_path):
              formatted_body.append(f"<h3>{clean_h3}</h3>")
              continue
 
-        # Lists
+        # Lists - wrap in box-style div
         if line.startswith("・") or line.startswith("- "):
             if not in_list:
-                formatted_body.append("<ul>")
+                formatted_body.append('<div class="box-style"><ul>')
                 in_list = True
             content = line[1:].strip()
             formatted_body.append(f"<li>{content}</li>")
             continue
         
         if in_list:
-            formatted_body.append("</ul>")
+            formatted_body.append("</ul></div>")
             in_list = False
 
         # Highlight
@@ -368,10 +387,48 @@ def parse_text_content(text_path):
         if formatted_line.endswith("<br>"):
             formatted_line = formatted_line[:-4]
 
-        formatted_body.append(f"<p>{formatted_line}</p>")
+        # If the line already contains HTML tags, add it as-is without extra wrapping
+        if line.startswith("<") and ">" in line:
+            formatted_body.append(line)
+        else:
+            formatted_body.append(f"<p>{formatted_line}</p>")
+
+    # Add SBI Affiliate Link
+    sbi_link = """
+        <p style="margin-top: 30px; padding: 20px; background: #f0f8ff; border-left: 4px solid #667eea; border-radius: 5px;">
+        <strong>📌 SBI証券でNISAを始める</strong><br>
+        業界最大手のネット証券。投資信託の取扱数No.1で、初心者にもおすすめです。<br>
+        <a href="https://h.accesstrade.net/sp/cc?rk=0100poxk00nng7" target="_blank" rel="noopener noreferrer" style="color: #667eea; font-weight: bold;">👉 SBI証券の口座開設はこちら</a>
+        </p>
+    """
+    formatted_body.append(sbi_link)
+
+    # Add Related Articles section
+    related_articles = """
+        <div class="related-articles">
+            <h3>📚 関連記事</h3>
+            <a href="../nisa-start-guide18/nisa-start-guide18.html" class="article-card">
+                <h4>2026年NISA改正！枠復活の神改正とプラチナNISAの罠</h4>
+                <p>「枠の年内復活」という神改正のメリットと、同時に議論されている「プラチナNISA」に潜む罠について徹底解説。</p>
+            </a>
+        </div>
+    """
+    formatted_body.append(related_articles)
 
     # Add LINE CTA at the end
     formatted_body.append('<div class="line-cta"><h3>💬「老後資金、どうやって増やせば...？」</h3><p>そんなお悩みにお答えするヒントを、LINEで無料配信中！<br>個別相談も承っています。</p><a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">無料LINE登録はこちら</a></div>')
+
+    # Add X Share Button (styled as button)
+    share_button = """
+        <div class="share-x" style="text-align: center; margin: 30px 0;">
+            <a class="x-share-btn" target="_blank" rel="noopener noreferrer"
+               href="https://x.com/intent/tweet?url=https%3A%2F%2Feva-solution.com%2Fblog%2F&text="
+               style="display: inline-block; background: #000; color: #fff; padding: 14px 30px; border-radius: 28px; font-weight: bold; text-decoration: none; letter-spacing: .5px; transition: transform .2s, box-shadow .2s;">
+                🐦 Xでシェアする
+            </a>
+        </div>
+    """
+    formatted_body.append(share_button)
 
     return title, description, "\n".join(formatted_body)
 
@@ -391,7 +448,7 @@ def update_indexes(slug, title, description, image_name, category_slug, category
     if category_file.exists():
         content = category_file.read_text(encoding='utf-8')
         new_card = f"""            <!-- 記事: {slug} -->
-            <article class="article-card" onclick="location.href='2025/{slug}/{slug}.html'">
+            <article class="article-card" onclick="location.href='{CURRENT_YEAR}/{slug}/{slug}.html'">
                 <div class="article-meta">
                     <span class="article-date">{datetime.date.today().strftime('%Y.%m.%d')}<span class="new-badge">NEW</span></span>
                     <span class="article-level level-beginner">初心者向け</span>
@@ -414,8 +471,8 @@ def update_indexes(slug, title, description, image_name, category_slug, category
     index_file = BLOG_ROOT / "index.html"
     if index_file.exists():
         content = index_file.read_text(encoding='utf-8')
-        new_card = f"""      <a class="card" href="2025/{slug}/{slug}.html">
-        <img class="thumb" src="2025/{slug}/{image_name}" alt="{title}" loading="lazy" decoding="async">
+        new_card = f"""      <a class="card" href="{CURRENT_YEAR}/{slug}/{slug}.html">
+        <img class="thumb" src="{CURRENT_YEAR}/{slug}/{image_name}" alt="{title}" loading="lazy" decoding="async">
         <div class="card-body">
           <h3 class="card-title">{title}</h3>
           <p class="card-desc">{description}</p>
@@ -438,12 +495,12 @@ def update_indexes(slug, title, description, image_name, category_slug, category
     if sitemap_file.exists():
         content = sitemap_file.read_text(encoding='utf-8')
         new_entry = f"""  <url>
-    <loc>https://eva-solution.netlify.app/blog/2025/{slug}/{slug}.html</loc>
+    <loc>https://eva-solution.netlify.app/blog/{CURRENT_YEAR}/{slug}/{slug}.html</loc>
     <lastmod>{datetime.date.today().isoformat()}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://eva-solution.netlify.app/blog/2025/{slug}/{image_name}</image:loc>
+      <image:loc>https://eva-solution.netlify.app/blog/{CURRENT_YEAR}/{slug}/{image_name}</image:loc>
       <image:title>{title}</image:title>
     </image:image>
   </url>\n"""
@@ -494,10 +551,7 @@ def generate_thumbnail_image(slug, title, output_path):
 【デザイン要件】
 - スタイル: 高品質なアニメ調。YouTubeのサムネイルのように、クリックしたくなるようなインパクトのある構成。
 - キャラクター: 添付画像の男性（りょう：眼鏡をかけた誠実な日本人の若者）を、自信に満ちた表情で中央または左右に配置。
-- テキスト: 画像内に大きく、太文字で「{catchy_text}」という日本語の文字を入れてください。
-  - 重要1: **Japanese Kanji (日本の漢字)**、**Standard Japanese Gothic font (標準的な日本語ゴシック体)**を使用すること。
-  - 重要2: 決して**Chinese characters (中国語の漢字・簡体字)**を使用しないこと。違和感のない正しい日本語を描画してください。
-  - 重要3: フォントスタイルは**Gothic (ゴシック体)**とし、太く、視認性を最優先してください。背景に埋もれないよう、白抜きや強いアウトライン（縁取り）を適用してください。
+- テキスト: **画像内に文字は一切入れないでください。**
 - 背景: 「{clean_title}」というテーマに沿った、明るくエネルギッシュな背景（上昇チャート、金貨、デジタル資産など）。
 - アスペクト比: **16:9** (1200x675px相当)。
 
@@ -594,6 +648,7 @@ def main():
         title=title,
         description=description,
         slug=slug,
+        year=CURRENT_YEAR,
         image_name=image_name,
         date_iso=datetime.date.today().isoformat(),
         date_display=datetime.date.today().strftime('%Y.%m.%d'),
