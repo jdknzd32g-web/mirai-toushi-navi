@@ -604,6 +604,7 @@ def main():
     parser.add_argument("text_file", help="Path to input text file")
     parser.add_argument("--image", help="Path to header image (optional)")
     parser.add_argument("--push", action="store_true", help="Push to GitHub after generation")
+    parser.add_argument("--category", choices=['nisa', 'mutual-fund', 'life-plan', 'region'], help="Force category (optional)")
     args = parser.parse_args()
 
     text_path = Path(args.text_file)
@@ -614,7 +615,16 @@ def main():
     print(f"Processing {text_path.name}...")
 
     # 1. Category & Slug
-    cat_slug_base, cat_label = determine_category(text_path)
+    if args.category:
+        category_map = {
+            'nisa': ('nisa-start-guide', '新NISA'),
+            'mutual-fund': ('mutual-fund', '投資信託'),
+            'life-plan': ('life-plan', 'ライフプラン'),
+            'region': ('region', '地域別資産運用')
+        }
+        cat_slug_base, cat_label = category_map[args.category]
+    else:
+        cat_slug_base, cat_label = determine_category(text_path)
     slug = get_next_slug(cat_slug_base)
     print(f"Category: {cat_label} ({cat_slug_base})")
     print(f"Slug: {slug}")

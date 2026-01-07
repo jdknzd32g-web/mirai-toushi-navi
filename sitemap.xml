@@ -419,4 +419,14 @@
       <image:title>2026年新NISA年初一括投資すべきか？</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2026/mutual-fund1/mutual-fund1.html</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2026/mutual-fund1/mutual-fund1-image.jpg</image:loc>
+      <image:title>2026年債券を買う</image:title>
+    </image:image>
+  </url>
 </urlset>
