@@ -429,4 +429,14 @@
       <image:title>2026年債券を買う</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2026/nisa-start-guide2/nisa-start-guide2.html</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2026/nisa-start-guide2/nisa-start-guide2-image.jpg</image:loc>
+      <image:title>インデックス投資の罠と、最後に勝つ人の思考法</image:title>
+    </image:image>
+  </url>
 </urlset>
