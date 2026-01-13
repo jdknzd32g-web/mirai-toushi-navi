@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date());
-      gtag('config', 'G-K4EG9Q6FL6');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-K4EG9Q6FL6');
     </script>
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9806798165325885"
-         crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>投資信託記事一覧 | 未来投資navi</title>
@@ -36,23 +37,23 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
         }
-        
+
         .header {
             background: white;
             padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        
+
         .header-content {
             max-width: 1000px;
             margin: 0 auto;
@@ -61,18 +62,18 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: bold;
             color: #2c3e50;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 15px;
         }
-        
+
         .nav-link {
             background: #667eea;
             color: white;
@@ -82,38 +83,38 @@
             font-size: 14px;
             transition: all 0.3s;
         }
-        
+
         .nav-link:hover {
             background: #5569d0;
             transform: translateY(-2px);
         }
-        
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
         }
-        
+
         .breadcrumb {
             margin-bottom: 30px;
             font-size: 14px;
             color: #666;
         }
-        
+
         .breadcrumb a {
             color: #667eea;
             text-decoration: none;
         }
-        
+
         .breadcrumb a:hover {
             text-decoration: underline;
         }
-        
+
         .category-header {
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         .category-badge {
             display: inline-block;
             background: #ff6b6b;
@@ -124,33 +125,34 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
-        
+
         .category-title {
             font-size: 36px;
             font-weight: bold;
             color: #333;
             margin-bottom: 15px;
         }
-        
+
         .category-description {
             color: #666;
             font-size: 18px;
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         .articles-grid {
             display: flex;
-            flex-direction: column; /* すべて行（縦並び）に統一 */
+            flex-direction: column;
+            /* すべて行（縦並び）に統一 */
             gap: 30px;
             margin-bottom: 50px;
         }
-        
+
         .article-card {
             background: white;
             border-radius: 16px;
             padding: 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
@@ -162,47 +164,47 @@
 
         .article-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .article-content {
             padding: 30px;
         }
-        
+
         .article-meta {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        
+
         .article-date {
             color: #999;
             font-size: 14px;
         }
-        
+
         .article-level {
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 12px;
             font-weight: bold;
         }
-        
+
         .level-beginner {
             background: #e8f5e8;
             color: #4CAF50;
         }
-        
+
         .level-intermediate {
             background: #fff3e0;
             color: #ff9800;
         }
-        
+
         .level-advanced {
             background: #ffebee;
             color: #f44336;
         }
-        
+
         .article-title {
             font-size: 22px;
             font-weight: bold;
@@ -210,21 +212,21 @@
             margin-bottom: 15px;
             line-height: 1.4;
         }
-        
+
         .article-description {
             color: #666;
             line-height: 1.7;
             font-size: 15px;
             margin-bottom: 20px;
         }
-        
+
         .article-tags {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        
+
         .tag {
             background: #fff0f0;
             color: #ff6b6b;
@@ -232,7 +234,7 @@
             border-radius: 12px;
             font-size: 12px;
         }
-        
+
         .read-more {
             color: #667eea;
             font-size: 16px;
@@ -243,12 +245,12 @@
             gap: 6px;
             transition: all 0.3s;
         }
-        
+
         .read-more:hover {
             color: #5569d0;
             transform: translateX(4px);
         }
-        
+
         .new-badge {
             background: #ff4444;
             color: white;
@@ -258,18 +260,26 @@
             margin-left: 8px;
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
-        
+
         .back-to-top-section {
             text-align: center;
             margin-top: 60px;
         }
-        
+
         .back-to-top-btn {
             display: inline-block;
             background: white;
@@ -282,45 +292,45 @@
             text-decoration: none;
             transition: all 0.3s;
         }
-        
+
         .back-to-top-btn:hover {
             background: #667eea;
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 30px 15px;
             }
-            
+
             .category-title {
                 font-size: 28px;
             }
-            
+
             .category-description {
                 font-size: 16px;
             }
-            
+
             .articles-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-            
+
             .article-card {
                 padding: 20px;
             }
-            
+
             .article-title {
                 font-size: 20px;
             }
-            
+
             .nav-links {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .header-content {
                 flex-direction: column;
                 gap: 15px;
@@ -328,6 +338,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="header-content">
@@ -342,8 +353,8 @@
     <div class="container">
         <!-- パンくずナビ -->
         <nav class="breadcrumb">
-            <a href="../index.html">トップ</a> > 
-            <a href="index.html">記事一覧</a> > 
+            <a href="../index.html">トップ</a> >
+            <a href="index.html">記事一覧</a> >
             <span>投資信託</span>
         </nav>
 
@@ -357,19 +368,31 @@
             </p>
         </div>
 
-                    <!-- 記事: mutual-fund1 -->
-            <article class="article-card" onclick="location.href='2026/mutual-fund1/mutual-fund1.html'">
-                <div class="article-meta">
-                    <span class="article-date">2026.01.07<span class="new-badge">NEW</span></span>
-                    <span class="article-level level-beginner">初心者向け</span>
-                </div>
-                <h2 class="article-title">2026年債券を買う</h2>
-                <p class="article-description">2026年債券を買う</p>
-                <div class="article-tags"><span class="tag">投資信託</span></div>
-                <div class="read-more">続きを読む →</div>
-            </article>
+        <!-- 記事: mutual-fund2 -->
+        <article class="article-card" onclick="location.href='2026/mutual-fund2/mutual-fund2.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.14<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">2026年から始める投資初心者が失敗しない方法〜勝とうとするから負ける</h2>
+            <p class="article-description">投資で勝ち負けを意識した瞬間、あなたは負ける。プロとの戦い方を避け、シンプルなインデックス投資で資産を増やす方法を、わかりやすく解説します。</p>
+            <div class="article-tags"><span class="tag">投資信託</span><span class="tag">マインドセット</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
 
-<!-- 記事一覧 -->
+        <!-- 記事: mutual-fund1 -->
+        <article class="article-card" onclick="location.href='2026/mutual-fund1/mutual-fund1.html'">
+            <div class="article-meta">
+                <span class="article-date">2026.01.07<span class="new-badge">NEW</span></span>
+                <span class="article-level level-beginner">初心者向け</span>
+            </div>
+            <h2 class="article-title">2026年債券を買う</h2>
+            <p class="article-description">2026年債券を買う</p>
+            <div class="article-tags"><span class="tag">投資信託</span></div>
+            <div class="read-more">続きを読む →</div>
+        </article>
+
+        <!-- 記事一覧 -->
         <div class="articles-grid">
             <!-- 記事7（投資信託の配当金） -->
             <a href="2025/mutual-fund7/mutual-fund7.html" class="article-card">
@@ -502,14 +525,15 @@
     <script>
         // 記事カードのホバーエフェクト
         document.querySelectorAll('.article-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-4px)';
             });
-            
-            card.addEventListener('mouseleave', function() {
+
+            card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
     </script>
 </body>
+
 </html>
