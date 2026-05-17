@@ -251,6 +251,29 @@ def beautify_text(text):
         print(f"Error in AI beautification: {e}")
         return text
 
+def generate_seo_description(raw_text, title):
+    if not GEMINI_API_KEY:
+        return title[:120]
+    prompt = f"""以下のブログ記事の本文とタイトルから、検索エンジン（SEO）に最適化されたメタディスクリプション（100文字〜120文字）を作成してください。
+ターゲットキーワード（例：50代、60代、新NISA、老後資金、資産運用など、記事内容に合ったもの）を自然に含め、クリックしたくなる魅力的な要約にしてください。
+「こんにちは」などの挨拶は不要です。説明文のみ出力してください。
+
+【タイトル】
+{title}
+
+【本文】
+{raw_text[:1500]}"""
+    try:
+        model = genai.GenerativeModel('models/gemini-2.0-flash')
+        response = model.generate_content(prompt)
+        desc = response.text.strip().replace("\n", "")
+        if len(desc) > 130:
+            desc = desc[:127] + "..."
+        return desc
+    except Exception as e:
+        print(f"Warning: Failed to generate SEO description: {e}")
+        return title
+
 def crop_to_16_9(image_path):
     try:
         with Image.open(image_path) as img:
@@ -326,13 +349,8 @@ def parse_text_content(text_path, slug, post_dir):
             
         body_lines.append(line)
 
-    for line in body_lines:
-        clean_line = re.sub(r'<[^>]+>', '', line).strip()
-        if clean_line and not clean_line.startswith(('#', 'OP', '第')):
-             description = clean_line[:150] + "..."
-             break
-    if not description:
-        description = title
+    print("🤖 Generating SEO Meta Description...")
+    description = generate_seo_description(raw_text, title)
 
     formatted_body = []
     has_greeting = any("りょうです" in line or "りょう" in line for line in body_lines[:20])
@@ -381,7 +399,7 @@ def parse_text_content(text_path, slug, post_dir):
                  if not img_path.exists():
                      generate_section_image(clean_heading, img_path)
                  if img_path.exists():
-                     formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+                     formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="{clean_heading}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
                  formatted_body.append(f"<h2>{clean_heading}</h2>")
                  continue
         
@@ -392,7 +410,7 @@ def parse_text_content(text_path, slug, post_dir):
              if not img_path.exists():
                  generate_section_image(clean_h3, img_path)
              if img_path.exists():
-                 formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+                 formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="{clean_h3}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
              formatted_body.append(f"<h3>{clean_h3}</h3>")
              continue
 
@@ -404,22 +422,21 @@ def parse_text_content(text_path, slug, post_dir):
         # もし見出しタグ（h2, h3）ならそのまま追加
         if line.startswith("<h2") or line.startswith("<h3"):
             if line.startswith("<h2"):
-                 h2_count += 1
-                 img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
-                 if not img_path.exists():
-                     # h2の中身（見出しテキスト）を取り出す
-                     clean_h2 = re.sub(r'<[^>]+>', '', line).strip()
-                     generate_section_image(clean_h2, img_path)
-                 if img_path.exists():
-                     formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+                h2_count += 1
+                img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
+                clean_h2 = re.sub(r'<[^>]+>', '', line).strip()
+                if not img_path.exists():
+                    generate_section_image(clean_h2, img_path)
+                if img_path.exists():
+                    formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="{clean_h2}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
             if line.startswith("<h3"):
-                 h3_count += 1
-                 img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
-                 if not img_path.exists():
-                     clean_h3 = re.sub(r'<[^>]+>', '', line).strip()
-                     generate_section_image(clean_h3, img_path)
-                 if img_path.exists():
-                     formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+                h3_count += 1
+                img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
+                clean_h3 = re.sub(r'<[^>]+>', '', line).strip()
+                if not img_path.exists():
+                    generate_section_image(clean_h3, img_path)
+                if img_path.exists():
+                    formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="{clean_h3}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
             formatted_body.append(line)
             continue
 
