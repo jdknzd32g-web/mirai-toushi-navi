@@ -7,6 +7,7 @@ import argparse
 import subprocess
 import random
 from pathlib import Path
+from PIL import Image
 import google.generativeai as genai
 
 # --- Configuration ---
@@ -250,26 +251,77 @@ def beautify_text(text):
         print(f"Error in AI beautification: {e}")
         return text
 
-def parse_text_content(text_path):
+def crop_to_16_9(image_path):
+    try:
+        with Image.open(image_path) as img:
+            width, height = img.size
+            # Calculate target dimensions for 16:9
+            target_width = width
+            target_height = int(width * 9 / 16)
+            if height > target_height:
+                top = (height - target_height) // 2
+                bottom = top + target_height
+                img_cropped = img.crop((0, top, width, bottom))
+                img_cropped.save(image_path)
+    except Exception as e:
+        print(f"Warning: Failed to crop image to 16:9: {e}")
+
+def generate_section_image(heading_text, output_path):
+    if not GEMINI_API_KEY:
+        return
+    if output_path.exists():
+        return
+    clean_heading = heading_text.replace("##", "").replace("###", "").strip()
+    prompt = f"""対象となる文章: 「{clean_heading}」
+
+・アスペクト比：16:9
+・高品質な実写の写真風の画像を出力（アニメやイラストは不可）
+・画像内に文字（テキスト、数字、記号）は絶対に含めないこと
+・文章を集約してキーワードをまとめる
+・まとめたキーワードのイメージ画像を作る"""
+    try:
+        print(f"🎨 Generating section image for: {clean_heading}...")
+        model = genai.GenerativeModel('models/gemini-2.5-flash-image')
+        img_input = [prompt]
+        response = model.generate_content(img_input)
+        for part in response.candidates[0].content.parts:
+            if part.inline_data:
+                with open(output_path, "wb") as f:
+                    f.write(part.inline_data.data)
+                crop_to_16_9(output_path)
+                print(f"✅ Section image saved and cropped to 16:9 at {output_path}")
+                break
+    except Exception as e:
+        print(f"❌ Failed to generate section image: {e}")
+
+def parse_text_content(text_path, slug, post_dir):
     raw_text = text_path.read_text(encoding='utf-8')
+    
+    # 事前にタイトルを抽出
+    title = ""
+    for line in raw_text.splitlines():
+        if "タイトル：" in line or "タイトル:" in line:
+            title = line.split("：")[-1].split(":")[-1].strip()
+            break
+        elif line.startswith("# ") and not title:
+            title = line.lstrip("# ").strip()
+            break
+            
     # EDやエンディングという見出しを「まとめ」に自動変換
     raw_text = re.sub(r'^##\s*(ED|エンディング|ＥＤ).*$', '## まとめ', raw_text, flags=re.MULTILINE | re.IGNORECASE)
     beautified = beautify_text(raw_text)
     lines = beautified.splitlines()
     
-    title = ""
     description = ""
     body_lines = []
     
     for i, line in enumerate(lines):
-        if line.startswith("タイトル：") or line.startswith("Title:"):
-            title = line.split("：")[-1].split(":")[-1].strip()
-            continue
-        if i == 0 and not title and line.strip() and not line.startswith("<"):
-            title = line.lstrip("#").strip()
+        if not body_lines and not line.strip():
             continue
             
-        if not body_lines and not line.strip():
+        # AIが誤ってタイトルを<h2>などで出力した場合スキップ
+        clean_text = re.sub(r'<[^>]+>', '', line).strip()
+        if title and clean_text == title:
             continue
             
         body_lines.append(line)
@@ -288,6 +340,8 @@ def parse_text_content(text_path):
     if not has_greeting and not ai_provided_full_html:
         formatted_body.append("<p>こんにちは、りょうです。</p>")
 
+    h2_count = 0
+    h3_count = 0
     for line in body_lines:
         line = line.strip()
         if not line:
@@ -322,11 +376,23 @@ def parse_text_content(text_path):
         </div>
                  """)
              if not line.startswith("<h2"):
+                 h2_count += 1
+                 img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
+                 if not img_path.exists():
+                     generate_section_image(clean_heading, img_path)
+                 if img_path.exists():
+                     formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
                  formatted_body.append(f"<h2>{clean_heading}</h2>")
                  continue
         
         if line.startswith("### ") and not line.startswith("<h3"):
              clean_h3 = line.replace("### ", "").strip()
+             h3_count += 1
+             img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
+             if not img_path.exists():
+                 generate_section_image(clean_h3, img_path)
+             if img_path.exists():
+                 formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
              formatted_body.append(f"<h3>{clean_h3}</h3>")
              continue
 
@@ -337,6 +403,23 @@ def parse_text_content(text_path):
 
         # もし見出しタグ（h2, h3）ならそのまま追加
         if line.startswith("<h2") or line.startswith("<h3"):
+            if line.startswith("<h2"):
+                 h2_count += 1
+                 img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
+                 if not img_path.exists():
+                     # h2の中身（見出しテキスト）を取り出す
+                     clean_h2 = re.sub(r'<[^>]+>', '', line).strip()
+                     generate_section_image(clean_h2, img_path)
+                 if img_path.exists():
+                     formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+            if line.startswith("<h3"):
+                 h3_count += 1
+                 img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
+                 if not img_path.exists():
+                     clean_h3 = re.sub(r'<[^>]+>', '', line).strip()
+                     generate_section_image(clean_h3, img_path)
+                 if img_path.exists():
+                     formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
             formatted_body.append(line)
             continue
 
@@ -465,23 +548,15 @@ def generate_thumbnail_image(slug, title, output_path):
         output_path.touch()
         return
 
-    ref_image_path = PROJECT_ROOT / "images" / "りょう（未来投資navi）.png"
     clean_title = title.replace("##", "").strip()
     
-    prompt = f"""
-あなたは最高品質のAI画像生成モデルです。
-添付された画像（りょう）を元に、ブログのヘッダー画像を生成してください。
+    prompt = f"""対象となる文章: 「{clean_title}」
 
-【デザイン要件】
-- スタイル: 高品質なアニメ調。YouTubeのサムネイルのように、クリックしたくなるようなインパクトのある構成。
-- キャラクター: 添付画像の男性（りょう：眼鏡をかけた誠実な日本人の若者）を、自信に満ちた表情で中央または左右に配置。
-- テキスト: **画像内に文字は一切入れないでください。**
-- 背景: 「{clean_title}」というテーマに沿った、明るくエネルギッシュな背景（上昇チャート、金貨、デジタル資産など）。
-- アスペクト比: **16:9** (1200x675px相当)。
-
-視覚的に非常に強力な、プロフェッショナルなサムネイル画像を生成してください。
-画像データのみを出力してください。
-"""
+・アスペクト比：16:9
+・高品質な実写の写真風の画像を出力（アニメやイラストは不可）
+・画像内に文字（テキスト、数字、記号）は絶対に含めないこと
+・文章を集約してキーワードをまとめる
+・まとめたキーワードのイメージ画像を作る"""
     if output_path.exists():
         print(f"ℹ️ Thumbnail already exists at {output_path}. Skipping generation to preserve it.")
         return
@@ -490,12 +565,7 @@ def generate_thumbnail_image(slug, title, output_path):
         print(f"🎨 Generating thumbnail for: {title}...")
         model = genai.GenerativeModel('models/gemini-2.5-flash-image')
         
-        img_input = []
-        if ref_image_path.exists():
-            img_data = ref_image_path.read_bytes()
-            img_input = [prompt, {"mime_type": "image/png", "data": img_data}]
-        else:
-            img_input = [prompt]
+        img_input = [prompt]
             
         response = model.generate_content(img_input)
         
@@ -504,7 +574,8 @@ def generate_thumbnail_image(slug, title, output_path):
             if part.inline_data:
                 with open(output_path, "wb") as f:
                     f.write(part.inline_data.data)
-                print(f"✅ Thumbnail saved to {output_path}")
+                crop_to_16_9(output_path)
+                print(f"✅ Thumbnail saved and cropped to 16:9 at {output_path}")
                 image_saved = True
                 break
                 
@@ -564,7 +635,7 @@ def main():
     target_dir.mkdir(parents=True, exist_ok=True)
     print(f"Created directory: {target_dir}")
 
-    title, description, body_html = parse_text_content(text_path)
+    title, description, body_html = parse_text_content(text_path, slug, target_dir)
     print(f"Title: {title}")
 
     image_name = f"{slug}-image.jpg"
