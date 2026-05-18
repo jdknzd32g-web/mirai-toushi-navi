@@ -208,49 +208,6 @@ def get_next_slug(category):
     
     return f"{category}{max_num + 1}"
 
-def beautify_text(text):
-    """Uses Gemini API to add punctuation and natural flow to the script."""
-    if not GEMINI_API_KEY:
-        print("Warning: GEMINI_API_KEY not set. Skipping AI beautification.")
-        return text
-
-    prompt = f"""
-あなたはプロのブログ編集者です。
-以下のYouTube台本（テキスト）を、ブログ記事形式にリライトしてください。
-
-【編集ルール】
-1. **対話タグの除去**: <pop>や<shake>などの動画用タグはすべて削除してください。
-2. **改行と読みやすさ（最重要）**: 文字がぎっしり詰まらないように、必ず「1〜2文（センテンス）ごと」に段落を分け（改行し）てください。長い文章の塊は絶対に作らず、スマホで読んだ時に余白が多くなるようにこまめに区切ってください。
-3. **文章の装飾（最重要）**: 記事が単調にならないよう、必ず各章につき最低でも3〜5箇所以上、以下の2種類の強調タグを「バランスよく両方」使って文章を装飾してください。
-   - 基本的な強調：「<strong>」タグを使用。
-   - 特に重要なポイント：「<strong class="highlight">」タグを使用して黄色マーカーにする。
-   ※必ず <strong> と <strong class="highlight"> の両方が各章に混ざるように出力してください。
-4. **見出しの完全保持**: 元のテキストにある見出し（「##」や「###」で始まる行）は、「##」は大見出し <h2> に、「###」は小見出し <h3> に変換してください。
-5. **バッククォート禁止**: HTMLタグの周りにバッククォート（`）を絶対につけないでください。
-6. **言葉の置き換え**: 「動画」という表現はすべて「記事」に変更してください。
-7. **結び**: 最後は必ず「ではまた。」で締めくくってください。
-8. **出力形式**: HTMLタグ（h2, h3, p, strong, strong class="highlight"）を含んだ形式で出力してください。箇条書き（ul, liタグ）は絶対に使用せず、箇条書きの部分は普通の段落（p）として出力してください。markdown記法（#など）は出力に含めないでください。
-
-【重要】「はい」などの返答は一切不要です。記事の本文のみをHTMLで出力してください。
-
-【台本内容】
-{text}
-"""
-    try:
-        model = genai.GenerativeModel('models/gemini-2.0-flash')
-        response = model.generate_content(prompt)
-        result = response.text.strip()
-        if result.startswith("```html"):
-            result = result[7:]
-        if result.startswith("```"):
-            result = result[3:]
-        if result.endswith("```"):
-            result = result[:-3]
-        return result.strip()
-    except Exception as e:
-        print(f"Error in AI beautification: {e}")
-        return text
-
 def generate_seo_description(raw_text, title):
     if not GEMINI_API_KEY:
         return title[:120]
@@ -276,9 +233,9 @@ def generate_seo_description(raw_text, title):
 
 def crop_to_16_9(image_path):
     try:
+        from PIL import Image
         with Image.open(image_path) as img:
             width, height = img.size
-            # Calculate target dimensions for 16:9
             target_width = width
             target_height = int(width * 9 / 16)
             if height > target_height:
@@ -320,7 +277,6 @@ def generate_section_image(heading_text, output_path):
 def parse_text_content(text_path, slug, post_dir):
     raw_text = text_path.read_text(encoding='utf-8')
     
-    # 事前にタイトルを抽出
     title = ""
     for line in raw_text.splitlines():
         if "タイトル：" in line or "タイトル:" in line:
@@ -331,48 +287,33 @@ def parse_text_content(text_path, slug, post_dir):
             break
             
     # EDやエンディングという見出しを「まとめ」に自動変換
+    # Using simple replace for simplicity instead of regex
     raw_text = re.sub(r'^##\s*(ED|エンディング|ＥＤ).*$', '## まとめ', raw_text, flags=re.MULTILINE | re.IGNORECASE)
-    beautified = beautify_text(raw_text)
-    lines = beautified.splitlines()
     
-    description = ""
-    body_lines = []
-    
-    for i, line in enumerate(lines):
-        if not body_lines and not line.strip():
-            continue
-            
-        # AIが誤ってタイトルを<h2>などで出力した場合スキップ
-        clean_text = re.sub(r'<[^>]+>', '', line).strip()
-        if title and clean_text == title:
-            continue
-            
-        body_lines.append(line)
-
     print("🤖 Generating SEO Meta Description...")
     description = generate_seo_description(raw_text, title)
 
     formatted_body = []
-    has_greeting = any("りょうです" in line or "りょう" in line for line in body_lines[:20])
-    ai_provided_full_html = any("<p>" in line for line in body_lines[:5])
-    if not has_greeting and not ai_provided_full_html:
-        formatted_body.append("<p>こんにちは、りょうです。</p>")
-
+    blocks = re.split(r'\n\s*\n', raw_text.strip())
+    
     h2_count = 0
     h3_count = 0
-    for line in body_lines:
-        line = line.strip()
-        if not line:
+    
+    for block in blocks:
+        block = block.strip()
+        if not block:
             continue
-        if "OP：" in line or "OP:" in line or "タイトル：" in line or "タイトル:" in line:
+            
+        if "OP：" in block or "OP:" in block or "タイトル：" in block or "タイトル:" in block:
             continue
-
-        clean_heading = line.lstrip("#").strip()
-        is_chapter_h2 = ("<h2" in line and "章" in line) or line.startswith("## ")
-        
-        if is_chapter_h2:
-             if "第1章" in line or "1章" in line:
-                 formatted_body.append("""
+            
+        if block.startswith("# ") and title in block:
+            continue
+            
+        if block.startswith("## "):
+            clean_heading = block.lstrip("#").strip()
+            if "第1章" in block or "1章" in block:
+                formatted_body.append("""
         <div class="video-container">
             <iframe 
                 src="https://www.youtube.com/embed/4hVf9QpjD2U?si=5EAeCsvmmtP-N1jH" 
@@ -391,55 +332,39 @@ def parse_text_content(text_path, slug, post_dir):
             <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
                 未来投資naviを見てみる
             </a>
-        </div>
-                 """)
-             if not line.startswith("<h2"):
-                 h2_count += 1
-                 img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
-                 if not img_path.exists():
-                     generate_section_image(clean_heading, img_path)
-                 if img_path.exists():
-                     formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="{clean_heading}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
-                 formatted_body.append(f"<h2>{clean_heading}</h2>")
-                 continue
+        </div>""")
+            
+            h2_count += 1
+            img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
+            if not img_path.exists():
+                generate_section_image(clean_heading, img_path)
+            if img_path.exists():
+                formatted_body.append(f'<div class="article-sub-image"><img src="{slug}-h2-{h2_count}.jpg" alt="{clean_heading}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+            formatted_body.append(f"<h2>{clean_heading}</h2>")
+            continue
+            
+        if block.startswith("### "):
+            clean_h3 = block.lstrip("#").strip()
+            h3_count += 1
+            img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
+            if not img_path.exists():
+                generate_section_image(clean_h3, img_path)
+            if img_path.exists():
+                formatted_body.append(f'<div class="article-sub-image"><img src="{slug}-h3-{h3_count}.jpg" alt="{clean_h3}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
+            formatted_body.append(f"<h3>{clean_h3}</h3>")
+            continue
+            
+        block = block.replace("<ul>", "").replace("</ul>", "").replace("<li>", "").replace("</li>", "")
+        html_block = block.replace('\n', '<br>\n')
         
-        if line.startswith("### ") and not line.startswith("<h3"):
-             clean_h3 = line.replace("### ", "").strip()
-             h3_count += 1
-             img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
-             if not img_path.exists():
-                 generate_section_image(clean_h3, img_path)
-             if img_path.exists():
-                 formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="{clean_h3}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
-             formatted_body.append(f"<h3>{clean_h3}</h3>")
-             continue
+        html_block = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html_block)
+        html_block = re.sub(r'==(.*?)==', r'<strong class="highlight">\1</strong>', html_block)
+        
+        formatted_body.append(f"<p>\n{html_block}\n</p>")
 
-        # HTMLタグ（ul, li）をパージ
-        line = line.replace("<ul>", "").replace("</ul>", "").replace("<li>", "").replace("</li>", "").strip()
-        if not line:
-            continue
-
-        # もし見出しタグ（h2, h3）ならそのまま追加
-        if line.startswith("<h2") or line.startswith("<h3"):
-            formatted_body.append(line)
-            continue
-
-        # 段落タグ処理（余計な改行追加処理を削除し、シンプルにpタグで囲む）
-        if line.startswith("<p>") and line.endswith("</p>"):
-            formatted_body.append(line)
-        else:
-            formatted_body.append(f"<p>{line}</p>")
-
-    # Add LINE CTA at the end
     formatted_body.append('<div class="line-cta"><h3>💬「老後資金、どうやって増やせば...？」</h3><p>そんなお悩みにお答えするヒントを、LINEで無料配信中！<br>個別相談も承っています。</p><a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">無料LINE登録はこちら</a></div>')
 
     final_body = "\n".join(formatted_body).replace("`", "")
-    
-
-    
-    # ユーザーが念のため手動で指定した場合のフォールバック (Markdown to HTML)
-    final_body = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', final_body)
-    final_body = re.sub(r'==(.*?)==', r'<strong class="highlight">\1</strong>', final_body)
     
     return title, description, final_body
 
@@ -542,7 +467,7 @@ def main():
     else:
         cat_slug_base, cat_label = determine_category(text_path)
     
-    if text_path.parent.parent == POSTS_DIR:
+    if text_path.resolve().parent.parent == POSTS_DIR.resolve():
         slug = text_path.parent.name
         print(f"File is already in {slug}, overwriting it instead of creating a new folder.")
     else:
