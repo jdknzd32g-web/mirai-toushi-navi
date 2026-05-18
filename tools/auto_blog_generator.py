@@ -482,57 +482,7 @@ def parse_text_content(text_path, slug, post_dir):
 
     final_body = "\n".join(formatted_body).replace("`", "")
     
-    # 完全にAIに依存しない、ランダム各章2箇所の自動強調システム
-    import random
-    
-    # まずAIが勝手につけたタグを綺麗に消す（リセット）
-    final_body = re.sub(r'<strong[^>]*>', '', final_body)
-    final_body = final_body.replace('</strong>', '')
-    
-    # 章ごとに分割して処理
-    chapters = re.split(r'(<h2.*?>)', final_body)
-    balanced_chapters = []
-    
-    # OP部分（最初のh2より前）も1つの章として扱う
-    for i in range(len(chapters)):
-        chunk = chapters[i]
-        
-        # h2タグ自体はそのまま追加してスキップ
-        if chunk.startswith("<h2"):
-            balanced_chapters.append(chunk)
-            continue
-            
-        # 章の中のすべての <p> タグを抽出
-        p_tags = re.findall(r'<p>(.*?)</p>', chunk, flags=re.DOTALL)
-        
-        # 強調候補となる段落を絞り込む（短すぎるものや、特殊なものは除外）
-        candidates = []
-        for p in p_tags:
-            text_only = re.sub(r'<[^>]+>', '', p) # HTMLタグを除外して純粋な文字数をカウント
-            if len(text_only) > 15 and "こんにちは" not in p and "それでは" not in p and "ご覧" not in p:
-                candidates.append(p)
-                
-        # もし候補が4つ以上あれば、ランダムに4つ（太字2、マーカー2）選ぶ
-        if len(candidates) >= 4:
-            selected = random.sample(candidates, 4)
-            chunk = chunk.replace(f'<p>{selected[0]}</p>', f'<p><strong>{selected[0]}</strong></p>', 1)
-            chunk = chunk.replace(f'<p>{selected[1]}</p>', f'<p><strong>{selected[1]}</strong></p>', 1)
-            chunk = chunk.replace(f'<p>{selected[2]}</p>', f'<p><strong class="highlight">{selected[2]}</strong></p>', 1)
-            chunk = chunk.replace(f'<p>{selected[3]}</p>', f'<p><strong class="highlight">{selected[3]}</strong></p>', 1)
-        elif len(candidates) >= 2:
-            # 候補が少ない場合は、可能な範囲で分ける
-            selected = random.sample(candidates, len(candidates))
-            for j in range(len(selected)):
-                if j % 2 == 0:
-                    chunk = chunk.replace(f'<p>{selected[j]}</p>', f'<p><strong>{selected[j]}</strong></p>', 1)
-                else:
-                    chunk = chunk.replace(f'<p>{selected[j]}</p>', f'<p><strong class="highlight">{selected[j]}</strong></p>', 1)
-        elif len(candidates) == 1:
-            chunk = chunk.replace(f'<p>{candidates[0]}</p>', f'<p><strong class="highlight">{candidates[0]}</strong></p>', 1)
-            
-        balanced_chapters.append(chunk)
-        
-    final_body = "".join(balanced_chapters)
+
     
     # ユーザーが念のため手動で指定した場合のフォールバック (Markdown to HTML)
     final_body = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', final_body)
