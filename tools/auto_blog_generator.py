@@ -319,7 +319,9 @@ def parse_text_content(text_path, slug, post_dir):
             
         if block.startswith("## "):
             clean_heading = block.lstrip("#").strip()
-            if "第1章" in block or "1章" in block:
+            
+            # 全記事共通：最初のH2見出しの直前（OPの下）にYouTubeリンクを挿入
+            if h2_count == 0:
                 formatted_body.append("""
         <div class="video-container">
             <iframe 
