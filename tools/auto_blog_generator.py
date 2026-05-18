@@ -345,12 +345,6 @@ def parse_text_content(text_path, slug, post_dir):
             
         if block.startswith("### "):
             clean_h3 = block.lstrip("#").strip()
-            h3_count += 1
-            img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
-            if not img_path.exists():
-                generate_section_image(clean_h3, img_path)
-            if img_path.exists():
-                formatted_body.append(f'<div class="article-sub-image"><img src="{slug}-h3-{h3_count}.jpg" alt="{clean_h3}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
             formatted_body.append(f"<h3>{clean_h3}</h3>")
             continue
             
