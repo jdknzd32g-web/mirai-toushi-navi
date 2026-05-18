@@ -195,7 +195,7 @@ def determine_category(text_path):
         return 'mutual-fund', '投資信託'
     if any(x in filename or x in content for x in ['life', 'plan', 'retire']):
         return 'life-plan', 'ライフプラン'
-    return 'region', '資産運用'
+    return 'asset', '資産運用'
 
 def get_next_slug(category):
     # すべて posts/ ディレクトリの中に保存する
