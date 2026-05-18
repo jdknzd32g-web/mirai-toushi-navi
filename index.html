@@ -1339,6 +1339,59 @@
         </div>
     </section>
 
+    <!-- 最新の投資コラム -->
+    <section class="blog-section" style="background: #fff; padding: 60px 0;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 30px;">最新の投資コラム</h2>
+            <style>
+                .blog-card {
+                    display: flex; 
+                    background: #f8f9fa; 
+                    border-radius: 12px; 
+                    overflow: hidden; 
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+                    transition: transform 0.3s;
+                    text-decoration: none;
+                    color: inherit;
+                }
+                .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+                .blog-card-img { width: 35%; object-fit: cover; }
+                .blog-card-content { padding: 20px; width: 65%; }
+                .blog-tag { background: #1e3c72; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+                .blog-title { font-size: 18px; margin-bottom: 10px; font-weight: bold; line-height: 1.4; }
+                .blog-desc { font-size: 14px; color: #555; line-height: 1.5; }
+                
+                @media (max-width: 768px) {
+                    .blog-card { flex-direction: column; }
+                    .blog-card-img { width: 100%; height: 200px; }
+                    .blog-card-content { width: 100%; }
+                    .blog-title { font-size: 16px; }
+                }
+            </style>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                
+                <a href="blog/posts/nisa2/nisa2.html" class="blog-card">
+                    <img src="blog/posts/nisa2/nisa2-image.jpg" alt="50代からの新NISA" class="blog-card-img">
+                    <div class="blog-card-content">
+                        <span class="blog-tag">新NISA</span>
+                        <h3 class="blog-title">【FPが警告】50代からの新NISA、投資信託の罠。99%の商品を買ってはいけない理由</h3>
+                        <p class="blog-desc">新NISAが始まり、焦って資産運用をスタートする50代・60代の方が急増しています。しかし、銀行の窓口で勧められる投資信託の多くは...</p>
+                    </div>
+                </a>
+
+                <a href="blog/posts/region1/region1.html" class="blog-card">
+                    <img src="blog/posts/region1/region1-image.jpg" alt="銀行の現金をどうする？" class="blog-card-img">
+                    <div class="blog-card-content">
+                        <span class="blog-tag">資産運用</span>
+                        <h3 class="blog-title">銀行の現金をどうする？50代・60代の「減らさずに増やす」最強の正解</h3>
+                        <p class="blog-desc">長年銀行に預けたままの現金。インフレで目減りしていく中、どうやって守りながら増やせばいいのか。50代・60代が取るべき現金の最適解とは...</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
     <!-- 実績・お客様の声 -->
     <section style="background: #f8f9fa;">
         <div class="container">
