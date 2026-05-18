@@ -10,6 +10,13 @@ from pathlib import Path
 from PIL import Image
 import google.generativeai as genai
 
+sys.path.append("/Users/satoshioka/youtube-project-share/transcription-system/_apps/production")
+try:
+    from format_script_guardrail import split_long_line_soft
+    HAS_GUARDRAIL = True
+except ImportError:
+    HAS_GUARDRAIL = False
+
 # --- Configuration ---
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 BLOG_ROOT = PROJECT_ROOT / "blog"
@@ -351,12 +358,22 @@ def parse_text_content(text_path, slug, post_dir):
         block = block.replace("<ul>", "").replace("</ul>", "").replace("<li>", "").replace("</li>", "")
         html_block = block.replace('\n', '<br>\n')
         
-        # 1. Markdownの強調を先に変換（改行で分断されるのを防ぐ）
+        # 1. 句読点の後に改行がなければ <br> を挿入
+        html_block = re.sub(r'([、。！？!?])(?!<br>|\n|」|』|）|\)|</)', r'\1<br>\n', html_block)
+        
+        # 2. 25文字以上の長文をテキストフォーマットロジックで自然に分割
+        if HAS_GUARDRAIL:
+            parts = html_block.split('<br>\n')
+            new_parts = []
+            for part in parts:
+                # 余計な空白を取り除きつつ分割
+                broken = split_long_line_soft(part)
+                new_parts.extend(broken)
+            html_block = '<br>\n'.join(new_parts)
+        
+        # 3. Markdown強調の変換（改行で分断されていても処理できるようDOTALL指定）
         html_block = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html_block, flags=re.DOTALL)
         html_block = re.sub(r'==(.*?)==', r'<strong class="highlight">\1</strong>', html_block, flags=re.DOTALL)
-        
-        # 2. テキストフォーマットのロジック応用：「、」「。」「！」「？」の後に改行がない場合は自動で <br> を挿入
-        html_block = re.sub(r'([、。！？!?])(?!<br>|\n|」|』|）|\)|</)', r'\1<br>\n', html_block)
         
         # 不要な末尾の <br>\n を削除（pタグ直前の余分な改行を防ぐ）
         html_block = re.sub(r'<br>\n\s*$', '', html_block)
