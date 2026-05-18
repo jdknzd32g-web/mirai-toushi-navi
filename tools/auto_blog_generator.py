@@ -421,61 +421,14 @@ def parse_text_content(text_path, slug, post_dir):
 
         # もし見出しタグ（h2, h3）ならそのまま追加
         if line.startswith("<h2") or line.startswith("<h3"):
-            if line.startswith("<h2"):
-                h2_count += 1
-                img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
-                clean_h2 = re.sub(r'<[^>]+>', '', line).strip()
-                if not img_path.exists():
-                    generate_section_image(clean_h2, img_path)
-                if img_path.exists():
-                    formatted_body.append(f'<div class="article-sub-image" style="margin: 40px 0 20px 0; border-radius: 12px; overflow: hidden;"><img src="{slug}-h2-{h2_count}.jpg" alt="{clean_h2}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
-            if line.startswith("<h3"):
-                h3_count += 1
-                img_path = post_dir / f"{slug}-h3-{h3_count}.jpg"
-                clean_h3 = re.sub(r'<[^>]+>', '', line).strip()
-                if not img_path.exists():
-                    generate_section_image(clean_h3, img_path)
-                if img_path.exists():
-                    formatted_body.append(f'<div class="article-sub-image" style="margin: 30px 0 20px 0; border-radius: 8px; overflow: hidden;"><img src="{slug}-h3-{h3_count}.jpg" alt="{clean_h3}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
             formatted_body.append(line)
             continue
 
-        # ユーザー要望：「、」「。」「」」「？」の直後で必ず改行＋1行空ける（<br><br>を挿入）
-        # ただし「」の中は改行しない
-        is_wrapped = False
+        # 段落タグ処理（余計な改行追加処理を削除し、シンプルにpタグで囲む）
         if line.startswith("<p>") and line.endswith("</p>"):
-            line = line[3:-4]
-            is_wrapped = True
-            
-        out_line = ""
-        kagi_depth = 0
-        punct_marks = ["、", "。", "？", "！", "!", "?"]
-        closing_quotes = ["」", "』"]
-        closing_brackets = ["）", ")"]
-        
-        for i, ch in enumerate(line):
-            out_line += ch
-            if ch in ["「", "『", "（", "("]:
-                kagi_depth += 1
-            elif ch in closing_quotes or ch in closing_brackets:
-                if kagi_depth > 0:
-                    kagi_depth -= 1
-                if kagi_depth == 0 and ch in closing_quotes:
-                    if i + 1 < len(line) and line[i+1] not in punct_marks + closing_quotes + closing_brackets:
-                        out_line += "<br><br>"
-            elif ch in punct_marks:
-                if kagi_depth == 0:
-                    if i + 1 < len(line) and (line[i+1] in closing_quotes or line[i+1] in closing_brackets):
-                        pass
-                    else:
-                        out_line += "<br><br>"
-        
-        # 連続する<br><br>を整理
-        out_line = out_line.replace("<br><br><br><br>", "<br><br>")
-        if out_line.endswith("<br><br>"):
-            out_line = out_line[:-8]
-            
-        formatted_body.append(f"<p>{out_line}</p>")
+            formatted_body.append(line)
+        else:
+            formatted_body.append(f"<p>{line}</p>")
 
     # Add LINE CTA at the end
     formatted_body.append('<div class="line-cta"><h3>💬「老後資金、どうやって増やせば...？」</h3><p>そんなお悩みにお答えするヒントを、LINEで無料配信中！<br>個別相談も承っています。</p><a href="https://lin.ee/FxIOpk1" target="_blank" class="line-btn">無料LINE登録はこちら</a></div>')
