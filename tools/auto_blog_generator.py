@@ -357,8 +357,14 @@ def parse_text_content(text_path, slug, post_dir):
         block = block.replace("<ul>", "").replace("</ul>", "").replace("<li>", "").replace("</li>", "")
         html_block = block.replace('\n', '<br>\n')
         
+        # テキストフォーマットのロジック応用：「、」「。」「！」「？」の後に改行がない場合は自動で <br> を挿入
+        html_block = re.sub(r'([、。！？!?])(?!<br>|\n|」|』|）|\))', r'\1<br>\n', html_block)
+        
         html_block = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', html_block)
         html_block = re.sub(r'==(.*?)==', r'<strong class="highlight">\1</strong>', html_block)
+        
+        # 不要な末尾の <br>\n を削除（pタグ直前の余分な改行を防ぐ）
+        html_block = re.sub(r'<br>\n\s*$', '', html_block)
         
         formatted_body.append(f"<p>\n{html_block}\n</p>")
 
