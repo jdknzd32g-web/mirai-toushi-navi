@@ -345,9 +345,10 @@ def parse_text_content(text_path, slug, post_dir):
             img_path = post_dir / f"{slug}-h2-{h2_count}.jpg"
             if not img_path.exists():
                 generate_section_image(clean_heading, img_path)
+            
+            formatted_body.append(f"<h2>{clean_heading}</h2>")
             if img_path.exists():
                 formatted_body.append(f'<div class="article-sub-image"><img src="{slug}-h2-{h2_count}.jpg" alt="{clean_heading}" style="width: 100%; height: auto; display: block;" width="1200" height="675"></div>')
-            formatted_body.append(f"<h2>{clean_heading}</h2>")
             continue
             
         if block.startswith("### "):
