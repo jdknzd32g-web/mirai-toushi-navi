@@ -1,4 +1,4 @@
-# ブログ記事投稿チェックリスト
+w# ブログ記事投稿チェックリスト
 
 このチェックリストは、mirai-toushi-naviプロジェクトで新しいブログ記事を投稿する際に確認すべき項目をまとめたものです。
 
@@ -12,11 +12,13 @@
 ## 2. HTMLファイルのチェック
 
 ### 基本情報
+
 - [ ] `<title>` タグが適切に設定されている
 - [ ] `<meta name="description">` が適切に設定されている
 - [ ] 日付が正しい（`<span class="date">`）
 
 ### コンテンツ・文体チェック
+
 - [ ] 「BLOG_WRITING_MANUAL.md」に沿ったペルソナ（FPりょう）の文体になっているか
 - [ ] 一人称は「僕」に統一されているか（「私」は使用不可）
 - [ ] 固い表現（非常に、大変など）が排除され、親しみやすい言葉（めちゃくちゃ、マジでなど）に置換されているか
@@ -25,6 +27,7 @@
 - [ ] 見出し構成やQ&Aがテンプレート通りになっているか
 
 ### OGP（Open Graph Protocol）設定
+
 - [ ] `og:url` のパスが正しい
   - 例: `https://eva-solution.netlify.app/blog/2025/mutual-fund6/mutual-fund6.html`
 - [ ] `og:title` が設定されている
@@ -34,18 +37,21 @@
 - [ ] `og:site_name` が "未来投資navi" になっている
 
 ### Twitter Card設定
+
 - [ ] `twitter:card` が "summary_large_image" になっている
 - [ ] `twitter:title` が設定されている
 - [ ] `twitter:description` が設定されている
 - [ ] `twitter:image` のパスが正しい（OGPと同じ画像）
 
 ### 内部リンク
+
 - [ ] 「トップページへ戻る」のリンクが `../../../index.html` になっている
 - [ ] YouTubeリンクが `https://www.youtube.com/channel/UCb-u1hcuQyo7qruBhuiOBZg` になっている
 - [ ] LINEリンクが `https://lin.ee/FxIOpk1` になっている
 - [ ] フッターの「メインページで詳細を見る」が `../../../index.html` になっている
 
 ### Google Analytics
+
 - [ ] Google tag (gtag.js) が設定されている
 - [ ] Tracking ID が `G-K4EG9Q6FL6` になっている
 
@@ -102,31 +108,37 @@
 ## よくある間違い
 
 ### ❌ 間違い: パスに古いスラッグが残っている
+
 ```html
 <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/investment-trust-guide/investment-trust-guide.html">
 ```
 
 ### ✅ 正解: 正しいスラッグを使用
+
 ```html
 <meta property="og:url" content="https://eva-solution.netlify.app/blog/2025/mutual-fund6/mutual-fund6.html">
 ```
 
 ### ❌ 間違い: 画像ファイル名が統一されていない
+
 ```
 investment-trust-guide-image.jpg
 ```
 
 ### ✅ 正解: カテゴリーとスラッグに合わせた命名
+
 ```
 mutual-fund-image6.jpg
 ```
 
 ### ❌ 間違い: 相対パスが間違っている
+
 ```html
 <a href="../../index.html" class="back-btn">トップページへ戻る</a>
 ```
 
 ### ✅ 正解: blog/2025/{スラッグ}/ からの正しい相対パス
+
 ```html
 <a href="../../../index.html" class="back-btn">トップページへ戻る</a>
 ```
