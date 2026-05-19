@@ -323,17 +323,6 @@ def parse_text_content(text_path, slug, post_dir):
             # 全記事共通：最初のH2見出しの直前（OPの下）にYouTubeリンクを挿入
             if h2_count == 0:
                 formatted_body.append("""
-        <div class="video-container">
-            <iframe 
-                src="https://www.youtube.com/embed/4hVf9QpjD2U?si=5EAeCsvmmtP-N1jH" 
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allowfullscreen>
-            </iframe>
-        </div>
-
         <div class="youtube-cta">
             <h3>🎥 YouTubeもやってます♪</h3>
             <p>文字だけじゃ伝えきれない話は、動画でゆっくり解説してます〜<br>
