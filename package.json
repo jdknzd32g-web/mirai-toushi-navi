@@ -11,7 +11,8 @@
     "post": "tsx src/x-post.ts",
     "post:morning": "tsx src/x-post.ts --slot morning",
     "post:noon": "tsx src/x-post.ts --slot noon",
-    "post:evening": "tsx src/x-post.ts --slot evening"
+    "post:evening": "tsx src/x-post.ts --slot evening",
+    "post:full": "tsx src/x-post-full-article.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
