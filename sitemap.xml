@@ -929,4 +929,14 @@
       <image:title>【FPが断言】50代からの資産運用は「手遅れ」じゃない！まだまだ攻めるべき理由</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/posts/nisa2/nisa2.html</loc>
+    <lastmod>2026-05-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/posts/nisa2/nisa2-image.jpg</image:loc>
+      <image:title>【50代の新NISA】銀行預金はオワコン？失敗しない資産運用ポートフォリオとアセット分散の正解</image:title>
+    </image:image>
+  </url>
 </urlset>
