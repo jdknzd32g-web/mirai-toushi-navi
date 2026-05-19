@@ -213,7 +213,7 @@ grep -o 'href="[^"]*"' [file-name].html
 ```
 
 ### 5-2. 外部リンク
-- [ ] YouTube チャンネル: `https://www.youtube.com/@investment_navi`
+- [ ] YouTube チャンネル: `https://www.youtube.com/channel/UCb-u1hcuQyo7qruBhuiOBZg`
 - [ ] LINE公式: `https://lin.ee/FxIOpk1`
 - [ ] X（Twitter）シェアボタン: 正しいURL encoding
 - [ ] すべて `target="_blank"` 設定

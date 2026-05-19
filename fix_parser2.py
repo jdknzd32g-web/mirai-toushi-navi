@@ -128,7 +128,7 @@ def parse_text_content(text_path, slug, post_dir):
             <h3>🎥 YouTubeもやってます♪</h3>
             <p>文字だけじゃ伝えきれない話は、動画でゆっくり解説してます〜<br>
             よかったら覗いてみてください👇</p>
-            <a href="https://www.youtube.com/@investment_navi" target="_blank" class="youtube-btn">
+            <a href="https://www.youtube.com/channel/UCb-u1hcuQyo7qruBhuiOBZg" target="_blank" class="youtube-btn">
                 未来投資naviを見てみる
             </a>
         </div>\"\"\")

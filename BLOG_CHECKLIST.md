@@ -41,7 +41,7 @@
 
 ### 内部リンク
 - [ ] 「トップページへ戻る」のリンクが `../../../index.html` になっている
-- [ ] YouTubeリンクが `https://www.youtube.com/@investment_navi` になっている
+- [ ] YouTubeリンクが `https://www.youtube.com/channel/UCb-u1hcuQyo7qruBhuiOBZg` になっている
 - [ ] LINEリンクが `https://lin.ee/FxIOpk1` になっている
 - [ ] フッターの「メインページで詳細を見る」が `../../../index.html` になっている
 
