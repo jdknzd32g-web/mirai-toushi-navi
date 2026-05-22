@@ -1,2 +1,5 @@
 https://eva-solution.netlify.app/* https://eva-solution.com/:splat 301!
+/blog/sbi-securities /blog/sbi-securities/index.html 200
+/blog/sbi-securities/ /blog/sbi-securities/index.html 200
+/blog/sbi-securities/* /blog/sbi-securities/:splat 200
 /blog/* / 301
