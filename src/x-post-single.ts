@@ -9,9 +9,10 @@
  *   - frontmatter (--- ... ---) はスキップ
  *   - ## 本文 セクション全体が1ツイート（`---` 区切りは使わない）
  *   - ## リプライ セクションは自己リプライとして投稿
- *   - 本文ツイートのみ画像を添付（--image で指定）
+ *   - 画像（--image）は既定で「リプライ」に添付（ゴールド記事ポストの形に統一・2026-05-26）
+ *     本文に付けたい場合のみ --image-on main を明示
  *
- * 標準: 1本長文（1,200〜1,800字）+ リプライ1本
+ * 標準: 1本長文（1,200〜1,800字）+ リプライ1本（ブログURL＋ヘッダー画像）
  * スレッド型（複数分割）は廃止（2026-05-22 ユーザーFB）
  */
 
@@ -27,7 +28,7 @@ type Args = {
 };
 
 function parseArgs(): Args {
-  const args: Args = { imageOn: 'main' };
+  const args: Args = { imageOn: 'reply' }; // 既定: 画像はリプライに添付（ゴールド記事ポスト踏襲・2026-05-26）
   for (let i = 2; i < process.argv.length; i++) {
     const a = process.argv[i];
     if (a === '--draft') args.draft = process.argv[++i];
