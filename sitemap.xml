@@ -1029,4 +1029,14 @@
       <image:title>SBI証券は使いにくい？それでも僕が50代・60代の新NISA初心者にすすめる理由</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://eva-solution.com/blog/sbi-securities/account-opening.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.com/blog/sbi-securities/assets/account-opening-hero-photo.png</image:loc>
+      <image:title>SBI証券の口座開設手順を初心者向けに解説｜つまずきやすい所だけ先に押さえる</image:title>
+    </image:image>
+  </url>
 </urlset>
