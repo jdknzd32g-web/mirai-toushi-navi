@@ -126,18 +126,7 @@ function env(key: string): string {
 }
 
 async function main() {
-  const parsed = parseArgs();
-  const { draft, image: imageArg, dry } = parsed;
-  // 【安全装置 / 恒久対策 2026-05-26】
-  // 標準仕様: 画像は本文ツイートのみ。リプライには絶対に添付しない。
-  // 過去に「リプにヘッダー画像が付く」との指摘が再発したため、ここで強制的に main 固定。
-  // （※実測ではAPIレベルでリプに画像は付いていない＝スレッド表示UIの挙動。ただし将来の
-  //   --image-reply 誤用による実添付を防ぐため、リプ画像の経路自体を無効化する。）
-  let imageOn: 'main' | 'reply' = parsed.imageOn ?? 'main';
-  if (imageOn === 'reply') {
-    console.warn('⚠ リプライへの画像添付は標準仕様で禁止されています。本文ツイートに添付します（--image-reply / --image-on reply は無視されました）。');
-    imageOn = 'main';
-  }
+  const { draft, image: imageArg, imageOn, dry } = parseArgs();
 
   if (!draft) {
     console.error('Usage: npx tsx src/x-post-single.ts --draft <path.md> [--image <path.jpg>] [--dry]');
@@ -173,8 +162,8 @@ async function main() {
   console.log('');
 
   if (replyText) {
-    // リプライは標準仕様で常に画像なし（恒久対策）
-    console.log(`[リプライ]  ${replyLen}字 ✓  （画像なし・標準仕様で固定）`);
+    const replyImgTag = imageArg && imageOn === 'reply' ? '  [画像添付]' : '';
+    console.log(`[リプライ]  ${replyLen}字 ✓${replyImgTag}`);
     console.log('-'.repeat(60));
     console.log(replyText);
     console.log('');
@@ -219,17 +208,17 @@ async function main() {
   console.log(`✓ 本文投稿完了: https://x.com/i/web/status/${mainId}`);
 
   // リプライ投稿（あれば）
-  // 【安全装置 / 恒久対策 2026-05-26】リプライには media を絶対に積まない。
-  // media は本文ツイート(mainParams)のみ。ここで media を付けるコードは置かないこと。
   if (replyText && mainId) {
     const replyParams: any = {
       text: replyText,
       reply: { in_reply_to_tweet_id: mainId },
     };
-    // ↑ replyParams に .media は付けない（リプ画像の経路を恒久的に廃止）
+    if (mediaId && imageOn === 'reply') {
+      replyParams.media = { media_ids: [mediaId] };
+    }
     const replyRes = await rw.v2.tweet(replyParams);
     const replyId = replyRes.data?.id;
-    console.log(`✓ リプライ投稿完了（画像なし）: https://x.com/i/web/status/${replyId}`);
+    console.log(`✓ リプライ投稿完了: https://x.com/i/web/status/${replyId}`);
   }
 
   console.log('');
