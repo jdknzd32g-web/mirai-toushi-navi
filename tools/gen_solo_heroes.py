@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-"""3記事のヘッダー写真をGemini画像生成で作成し、仮置きpngを差し替える。
+"""記事のヘッダー写真をGemini画像生成で作成する。
+出力は必ず軽量WebP（16:9・最大幅1280px・q82、1枚あたり概ね40〜90KB）。
+※HTMLのimg src / og:image / sitemapはすべて .webp で参照すること（.pngではない）。
 キーは複数の場所/変数名から自動検出（GOOGLE_GENERATIVE_AI_API_KEY / GEMINI_API_KEY / GOOGLE_API_KEY）。
+既存画像の一括最適化は tools/optimize_blog_images.py を使う。
 """
 import os, sys
 from pathlib import Path
@@ -39,13 +42,10 @@ def find_key():
             return v, src
     return (candidates[0] if candidates else (None, None))
 
+# (slug, ヘッダーファイル名, 生成テーマ)  ※拡張子は何でも内部で.webpに強制される
 ARTICLES = [
-    ("60s-hands-off-investing", "blog_60s_hands_off_header.png",
-     "日本の60代の人が穏やかな表情でコーヒーを片手にくつろぎ、長期のほったらかし投資で安心している様子。窓辺の明るく落ち着いた実写風の写真。お金や数字の文字は含めない。"),
-    ("sp500-vs-fang-plus", "blog_sp500_fang_header.png",
-     "AIデータセンターと送電インフラ、電力をイメージした近未来的だが落ち着いたトーンの実写風の写真。米国株式市場の二極化とAIインフラ・電力の重要性を象徴する。文字は含めない。"),
-    ("japan-stocks-2026", "blog_japan_stocks_2026_header.png",
-     "東京の都市と日本のビジネス街を背景に、2026年の日本株への注目を象徴する、落ち着いた品のある実写風の写真。為替と通貨分散のイメージ。文字や数字は含めない。"),
+    ("example-slug", "blog_example_header.webp",
+     "ここに生成したい写真のテーマを日本語で書く。落ち着いた実写風・文字なし。"),
 ]
 
 BASE_RULES = """
@@ -55,14 +55,27 @@ BASE_RULES = """
 ・落ち着いた信頼感のあるトーン
 """
 
-def crop_16_9(path):
+# 出力はコンパクトなWebP固定（写真PNGは重いため）。表示は720px幅コンテナなので最大1280pxで十分。
+MAXW = 1280
+WEBP_Q = 82
+
+def save_compact_webp(raw_bytes, out_path):
+    """Geminiの生成バイトを 16:9クロップ→最大幅1280→WebP(q82) で保存。out_pathの拡張子は.webpに強制。"""
+    import io
     from PIL import Image
-    with Image.open(path) as img:
-        w, h = img.size
-        th = int(w * 9 / 16)
-        if h > th:
-            top = (h - th) // 2
-            img.crop((0, top, w, top + th)).save(path)
+    out_path = out_path.with_suffix(".webp")
+    img = Image.open(io.BytesIO(raw_bytes))
+    if img.mode not in ("RGB", "RGBA"):
+        img = img.convert("RGB")
+    w, h = img.size
+    th = int(w * 9 / 16)
+    if h > th:                       # 16:9に中央クロップ
+        top = (h - th) // 2
+        img = img.crop((0, top, w, top + th))
+    if img.width > MAXW:             # 最大幅にダウンスケール（拡大はしない）
+        img = img.resize((MAXW, round(img.height * MAXW / img.width)), Image.LANCZOS)
+    img.save(out_path, "WEBP", quality=WEBP_Q, method=6)
+    return out_path
 
 def main():
     key, src = find_key()
@@ -86,9 +99,8 @@ def main():
             saved = False
             for part in resp.candidates[0].content.parts:
                 if getattr(part, "inline_data", None):
-                    out.write_bytes(part.inline_data.data)
-                    crop_16_9(out)
-                    print(f"✅ saved {out.name}")
+                    webp = save_compact_webp(part.inline_data.data, out)
+                    print(f"✅ saved {webp.name} ({webp.stat().st_size//1024}KB)  ※HTML/sitemapは.webpで参照")
                     saved = True
                     ok += 1
                     break
