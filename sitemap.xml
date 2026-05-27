@@ -1129,4 +1129,34 @@
       <image:title>【FPが本音で回答】60歳の投資初心者によくある相談10選｜“お金はあるのに正解がわからない”人へ</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2026/60s-hands-off-investing/60s-hands-off-investing.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2026/60s-hands-off-investing/blog_60s_hands_off_header.png</image:loc>
+      <image:title>【60代の投資戦略】“ほったらかし”が最強の武器になる3つの理由｜新NISA×4%ルールで作る不安のない老後</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2026/sp500-vs-fang-plus/sp500-vs-fang-plus.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2026/sp500-vs-fang-plus/blog_sp500_fang_header.png</image:loc>
+      <image:title>S&amp;P500が下がってもFANG+は上がる？“デカップリング”の正体とAIインフラ・電力という本命【50代60代の戦い方】</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.netlify.app/blog/2026/japan-stocks-2026/japan-stocks-2026.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.netlify.app/blog/2026/japan-stocks-2026/blog_japan_stocks_2026_header.png</image:loc>
+      <image:title>2026年は“日本株”を狙え｜円高リスクに備える為替ヘッジと、日経平均・TOPIXの選び方【50代60代向け】</image:title>
+    </image:image>
+  </url>
 </urlset>

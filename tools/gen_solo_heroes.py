@@ -40,12 +40,12 @@ def find_key():
     return (candidates[0] if candidates else (None, None))
 
 ARTICLES = [
-    ("inflation-investment-strategy", "blog_inflation_strategy_header.png",
-     "日本の50代60代のシニア夫婦が自宅のテーブルで家計と物価上昇について真剣に話し合っている、明るく落ち着いた写真。インフレと現金価値の目減りを象徴する、温かみのある実写風。"),
-    ("new-nisa-2026-3-actions", "blog_new_nisa_2026_header.png",
-     "2026年の資産運用の転換点を象徴する、株式と債券のバランスを検討する日本のシニア投資家のデスク。落ち着いた紺と金のトーンの実写風ビジネス写真。"),
-    ("60s-investment-qa", "blog_60s_investment_qa_header.png",
-     "信頼できるファイナンシャルプランナーが日本の60代の夫婦に投資の相談で穏やかにアドバイスしている、明るく安心感のある実写風の写真。"),
+    ("60s-hands-off-investing", "blog_60s_hands_off_header.png",
+     "日本の60代の人が穏やかな表情でコーヒーを片手にくつろぎ、長期のほったらかし投資で安心している様子。窓辺の明るく落ち着いた実写風の写真。お金や数字の文字は含めない。"),
+    ("sp500-vs-fang-plus", "blog_sp500_fang_header.png",
+     "AIデータセンターと送電インフラ、電力をイメージした近未来的だが落ち着いたトーンの実写風の写真。米国株式市場の二極化とAIインフラ・電力の重要性を象徴する。文字は含めない。"),
+    ("japan-stocks-2026", "blog_japan_stocks_2026_header.png",
+     "東京の都市と日本のビジネス街を背景に、2026年の日本株への注目を象徴する、落ち着いた品のある実写風の写真。為替と通貨分散のイメージ。文字や数字は含めない。"),
 ]
 
 BASE_RULES = """
