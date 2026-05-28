@@ -185,6 +185,8 @@ async function main() {
   const rw = client.readWrite;
 
   // 画像アップロード（--image-on で本文 or リプライを選択）
+  // 画像が失敗してもテキスト投稿は継続する（画像未添付で投稿）。
+  // 投稿そのものを取りこぼさないため、ここで throw しない（2026-05-29: webp移行で.png参照が消えて全投稿が落ちた再発防止）。
   let mediaId: string | undefined;
   if (imageArg) {
     try {
@@ -194,8 +196,9 @@ async function main() {
       });
       console.log(`✓ 画像アップロード完了 (mediaId: ${mediaId}, 添付先: ${imageOn === 'reply' ? 'リプライ' : '本文'})`);
     } catch (err) {
-      console.error('画像アップロード失敗:', err);
-      throw err;
+      console.error(`⚠ 画像アップロード失敗（画像なしで投稿を継続します）: ${imageArg}`);
+      console.error(err);
+      mediaId = undefined;
     }
   }
 
