@@ -27,17 +27,28 @@
         crossorigin="anonymous"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700;900&family=Outfit:wght@400;700;900&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #050814;
+            color: #cbd5e1;
+        }
+
         .hero {
-            background: linear-gradient(135deg, #0c0c1e 0%, #1a1a3e 30%, #1e3c72 70%, #2a5298 100%);
+            background: radial-gradient(circle at 50% 30%, #15224e 0%, #050814 100%);
             color: white;
-            padding: 20px 0 30px;
+            padding: 50px 0 80px;
             text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden;
         }
 
         .container {
@@ -46,110 +57,119 @@
             padding: 0 20px;
         }
 
+        /* プレミアム・グラスボード */
+        .hero-board {
+            background: rgba(13, 20, 47, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 24px;
+            padding: 45px 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
         .trust-badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            font-size: 19.5px;
-            /* 1.5倍 */
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #e5c158;
+            padding: 8px 18px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .hero h1 {
+            font-family: 'Noto Serif JP', 'Noto Sans JP', serif;
+            font-size: clamp(24px, 5vw, 38px);
             font-weight: 900;
-            line-height: 1.3;
-            margin-bottom: 15px;
+            line-height: 1.4;
+            margin-bottom: 20px;
             color: #ffffff;
-            text-shadow:
-                0 0 5px rgba(255, 255, 255, 0.3),
-                0 0 10px rgba(76, 175, 80, 0.3),
-                2px 2px 2px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.05em;
-            animation: glow 1.5s ease-in-out infinite alternate;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.05em; /* 明朝体の上品さを際立たせるため広めに調整 */
         }
 
         .hero h1 .highlight {
-            background: -webkit-linear-gradient(45deg, #ffd700, #ff8c00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow:
-                    0 0 5px rgba(255, 255, 255, 0.2),
-                    0 0 10px rgba(76, 175, 80, 0.2),
-                    2px 2px 2px rgba(0, 0, 0, 0.5);
-            }
-
-            to {
-                text-shadow:
-                    0 0 15px rgba(255, 255, 255, 0.4),
-                    0 0 25px rgba(76, 175, 80, 0.4),
-                    2px 2px 2px rgba(0, 0, 0, 0.5);
-            }
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            color: #ffffff;
+            font-weight: 900;
         }
 
         .sub-copy {
-            font-size: 17px;
-            margin-bottom: 25px;
-            line-height: 1.5;
+            font-size: clamp(14px, 2.5vw, 17px);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .sub-copy strong {
+            color: #ff4757;
         }
 
         .cta-button {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 16px 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            color: white !important;
+            padding: 16px 45px;
             border-radius: 50px;
             font-size: 19px;
             font-weight: bold;
             text-decoration: none;
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse 2.5s infinite;
         }
 
         @keyframes pulse {
-            0% {
+            0%, 100% {
                 transform: scale(1);
+                box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
             }
-
             50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
+                transform: scale(1.03);
+                box-shadow: 0 12px 30px rgba(16, 185, 129, 0.45);
             }
         }
 
         .cta-button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.03);
+            filter: brightness(1.05);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
         }
 
         .cta-note {
-            margin-top: 12px;
+            margin-top: 15px;
             font-size: 13px;
-            opacity: 0.9;
+            color: #94a3b8;
+            line-height: 1.5;
         }
 
         section {
-            padding: 40px 0;
-            background: white;
-            margin-bottom: 2px;
+            padding: 60px 0;
+            background: transparent;
+            position: relative;
         }
 
         h2 {
-            font-size: 22px;
+            font-size: clamp(20px, 4vw, 28px);
             text-align: center;
-            margin-bottom: 30px;
-            color: #2c3e50;
+            margin-bottom: 40px;
+            color: #ffffff;
             position: relative;
-            padding-bottom: 12px;
+            padding-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
         }
 
         h2:after {
@@ -158,9 +178,9 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
+            width: 60px;
             height: 3px;
-            background: #667eea;
+            background: linear-gradient(90deg, transparent, #e5c158, transparent);
         }
 
         /* 返金保証つき見出しは既定の下線を非表示 */
@@ -169,7 +189,7 @@
         }
 
         .worries {
-            background: #fff5f5;
+            background: transparent;
         }
 
         .worry-list {
@@ -179,20 +199,31 @@
         }
 
         .worry-list li {
-            background: white;
-            padding: 16px 18px;
-            margin-bottom: 12px;
-            border-radius: 10px;
-            border-left: 5px solid #ff6b6b;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 4px solid #e5c158;
+            color: #cbd5e1;
+            padding: 18px 22px;
+            margin-bottom: 15px;
+            border-radius: 12px;
             font-size: 16px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .worry-list li:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(212, 175, 55, 0.25);
         }
 
         .worry-list li:before {
             content: '☑';
-            color: #ff6b6b;
+            color: #e5c158;
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 12px;
         }
 
         .solution-grid {
@@ -202,120 +233,149 @@
         }
 
         .solution-card {
-            background: linear-gradient(145deg, #f0f0f0, #ffffff);
-            padding: 25px 20px;
-            border-radius: 15px;
+            background: rgba(13, 20, 47, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 35px 25px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 45px rgba(212, 175, 55, 0.08);
         }
 
         .solution-number {
-            display: inline-block;
-            width: 45px;
-            height: 45px;
-            background: #667eea;
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            color: #050814;
             border-radius: 50%;
-            line-height: 45px;
             font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 12px;
+            font-weight: 900;
+            margin-bottom: 18px;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
         .solution-card h3 {
             font-size: 18px;
             margin-bottom: 12px;
-            color: #2c3e50;
+            color: #ffffff;
+            font-weight: 700;
         }
 
         .solution-card p {
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
+            color: #cbd5e1;
         }
 
+        /* お客様の声 */
         .testimonial {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border-left: 4px solid #4CAF50;
+            background: rgba(13, 20, 47, 0.55);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 4px solid #e5c158;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-3px);
+            border-color: rgba(212, 175, 55, 0.25);
+            background: rgba(13, 20, 47, 0.6);
         }
 
         .testimonial-header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .testimonial-avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: #667eea;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
+            margin-right: 15px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
         }
 
         .testimonial-info h4 {
             font-size: 16px;
             margin-bottom: 3px;
+            color: #ffffff;
+            font-weight: 700;
         }
 
         .testimonial-meta {
-            color: #666;
+            color: #94a3b8;
             font-size: 13px;
         }
 
         .testimonial-content {
             font-size: 15px;
             line-height: 1.7;
-            color: #444;
+            color: #cbd5e1;
         }
 
         .result-badge {
             display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 5px 12px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.15) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            color: #34d399;
+            padding: 6px 16px;
             border-radius: 20px;
-            margin-top: 12px;
-            font-weight: bold;
+            margin-top: 15px;
+            font-weight: 700;
             font-size: 13px;
+            letter-spacing: 0.5px;
         }
 
         /* YouTube動画セクション */
         .youtube-video-section {
-            padding: 40px 20px;
-            background: #f8f9fa;
-        }
-
-        .youtube-video-section .container {
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 60px 20px;
+            background: transparent;
         }
 
         .video-title {
             text-align: center;
             font-size: 28px;
-            color: #333;
+            color: #ffffff;
             margin-bottom: 8px;
         }
 
         .video-title .accent {
-            color: #FF0000;
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-weight: bold;
         }
 
         .video-subtitle {
             text-align: center;
-            color: #666;
+            color: #94a3b8;
             font-size: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .video-wrapper {
@@ -325,8 +385,9 @@
             overflow: hidden;
             max-width: 100%;
             background: #000;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
         .video-wrapper iframe {
@@ -335,18 +396,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 12px;
+            border-radius: 16px;
         }
 
         .video-cta {
             text-align: center;
             margin-top: 25px;
             font-size: 15px;
-            color: #666;
+            color: #94a3b8;
         }
 
         .channel-link {
-            color: #1E90FF;
+            color: #e5c158;
             font-weight: bold;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -354,177 +415,171 @@
 
         .channel-link:hover {
             text-decoration: underline;
+            color: #ffd700;
         }
 
         /* 特典セクション */
         .benefits {
-            background: linear-gradient(135deg, #0a0e27 0%, #1a2a4d 50%, #151f3d 100%);
-            color: white;
-            padding: 40px 0;
-        }
-
-        .benefits h2 {
-            color: white;
-        }
-
-        .benefits h2:after {
-            background: white;
-        }
-
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .benefit-card h3 {
-            color: white;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .benefit-card p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .benefit-title {
-            color: #ffd700;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .benefit-icon {
-            font-size: 42px;
-            margin-bottom: 12px;
-        }
-
-        .benefits h2 {
-            color: white;
-        }
-
-        .benefits h2:after {
-            background: white;
+            background: linear-gradient(135deg, #0a0e27 0%, #151f3d 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .benefit-cards {
             display: grid;
             gap: 25px;
-            margin-top: 30px;
+            margin-top: 35px;
         }
 
         .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 20px;
-            border-radius: 15px;
+            background: rgba(13, 20, 47, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 35px 25px;
+            border-radius: 20px;
             text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 45px rgba(212, 175, 55, 0.1);
         }
 
         .benefit-icon {
-            font-size: 42px;
-            margin-bottom: 12px;
+            font-size: 45px;
+            margin-bottom: 15px;
         }
 
         .benefit-title {
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
         }
 
         .benefit-card h3 {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            color: #ffffff;
+            font-weight: 700;
         }
 
         .benefit-card p {
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
+            color: #cbd5e1;
         }
 
-        /* 解決策セクション ヒーロー画像（PC/スマホで同一の縦横比を維持） */
+        /* 解決策セクション ヒーロー画像 */
         .solution-hero-image {
             width: 100%;
+            max-width: 600px; /* 横長で商談シーンを広く見せるための幅拡張 */
+            aspect-ratio: 16 / 9; /* 16:9の黄金アスペクト比 */
             object-fit: cover;
-            object-position: center;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 12px;
+            margin: 0 auto 35px;
             display: block;
+            border-radius: 16px; /* 角を美しく丸めたプレミアム設計 */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* 上品な極細のホワイト境界枠 */
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5); /* 重厚感のあるブラックシャドウ */
         }
 
-        /* プロフィールメッセージ */
-        .profile-message {
-            margin-top: 18px;
-            line-height: 1.7;
-            color: #333;
-            font-size: 14px;
-            text-align: left !important;
-        }
-
-        /* プロフィールセクション */
+        /* プロフィール */
         .profile-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
         .profile-image {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            overflow: hidden;
+            width: 160px;
+            height: auto;
             margin-bottom: 25px;
-            border: 3px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 0; /* 丸切り抜きを完全撤廃 */
+            overflow: visible;
+            border: none;
+            box-shadow: none;
+            position: relative;
         }
 
         .profile-image img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
             display: block;
+            border-radius: 0;
+            /* 下部をフワッと消して背景と同化させる */
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
         }
 
         .profile-badges {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 15px 0;
+            margin: 18px 0;
         }
 
         .badge {
-            background: #f0f0f0;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #e5c158;
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 13px;
-            font-weight: bold;
-            color: #667eea;
+            font-weight: 700;
+        }
+
+        .profile-message {
+            margin-top: 20px;
+            line-height: 1.8;
+            color: #cbd5e1;
+            font-size: 15px;
+            text-align: left !important;
+        }
+
+        .profile-message strong {
+            color: #e5c158;
         }
 
         /* FAQセクション */
         .faq-item {
-            background: white;
-            margin-bottom: 15px;
-            border-radius: 10px;
+            background: rgba(13, 20, 47, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 18px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .faq-item.active {
+            border-color: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.05);
         }
 
         .faq-question {
-            padding: 18px;
-            background: #f8f9fa;
+            padding: 20px 24px;
+            background: transparent;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
+            color: #ffffff;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -532,45 +587,53 @@
         }
 
         .faq-question:hover {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .faq-question:after {
             content: '+';
             font-size: 22px;
-            color: #667eea;
+            color: #e5c158;
+            transition: transform 0.3s;
         }
 
         .faq-item.active .faq-question:after {
             content: '−';
+            color: #e5c158;
+            transform: rotate(180deg);
         }
 
         .faq-answer {
-            padding: 0 18px;
+            padding: 0 24px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s, padding 0.3s;
-            font-size: 14px;
-            line-height: 1.6;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #cbd5e1;
         }
 
         .faq-item.active .faq-answer {
-            padding: 18px;
+            padding: 20px 24px 24px;
             max-height: 500px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         /* クロージングセクション */
         .closing {
-            background: linear-gradient(135deg, #0f2862 0%, #1e3c72 50%, #2a5298 100%);
+            background: linear-gradient(135deg, #0a0e27 0%, #151f3d 100%);
             color: white;
             text-align: center;
-            padding: 45px 20px;
+            padding: 60px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .closing h2 {
             color: white;
-            font-size: 26px;
-            margin-bottom: 18px;
+            font-size: clamp(22px, 5vw, 32px);
+            margin-bottom: 20px;
+            font-weight: 900;
+            line-height: 1.4;
         }
 
         .closing h2:after {
@@ -578,13 +641,16 @@
         }
 
         .urgency {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #e5c158;
             display: inline-block;
-            padding: 8px 20px;
+            padding: 8px 24px;
             border-radius: 30px;
             margin-bottom: 25px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.05);
         }
 
         /* SNSシェアボタン */
@@ -594,11 +660,13 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 1000;
-            background: white;
+            background: rgba(13, 20, 47, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 40px;
             padding: 15px 12px;
             width: 70px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         #floating-share {
@@ -607,10 +675,13 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 999;
-            background: white;
+            background: rgba(13, 20, 47, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 12px 6px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            padding: 15px 6px;
         }
 
         .floating-btn {
@@ -619,7 +690,7 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            margin: 6px 0;
+            margin: 8px 0;
             border-radius: 50%;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -646,17 +717,19 @@
         }
 
         .floating-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) translateY(-2px);
         }
 
         /* ヘッダー */
         .header {
-            background: white;
-            padding: 12px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: rgba(5, 8, 20, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .header-content {
@@ -666,73 +739,71 @@
         }
 
         .header-logo {
-            font-size: 27px;
-            /* 1.5倍 */
-            font-weight: bold;
-            color: #2c3e50;
-            letter-spacing: 0.05em;
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
         }
 
         .header img {
-            height: 50px;
+            height: 40px;
             width: auto;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         }
 
         /* 企業様向け CTA バー（ヘッダー直下） */
         .corp-cta-bar {
-            background: #f8fafc;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            padding: 28px 0;
-            /* 上下の空間を拡大 */
+            background: #070b1a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 20px 0;
         }
 
         .corp-cta-bar .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            /* ボタンの下に文言を縦並び */
-            gap: 6px;
+            flex-direction: row;
+            gap: 15px;
         }
 
         .corp-cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea, #1e3c72);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ffffff;
-            padding: 18px 36px;
-            /* 1.5倍 */
-            border-radius: 999px;
-            font-size: 22.5px;
-            /* 1.5倍 */
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 14px;
             font-weight: bold;
             text-decoration: none;
-            box-shadow: 0 6px 18px rgba(30, 60, 114, 0.35);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-            margin: 12px 0;
-            /* ボタン上下の余白を追加 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
         }
 
         .corp-cta-button:hover {
             transform: translateY(-1px);
-            box-shadow: 0 10px 24px rgba(30, 60, 114, 0.45);
-            opacity: 0.95;
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
         }
 
         .corp-cta-subtext {
-            font-size: 21px;
-            /* 30%縮小（30px -> 21px） */
-            color: #1e3c72;
-            /* 紺系で強調 */
-            font-weight: 800;
-            letter-spacing: 0.02em;
-            line-height: 1.3;
-            text-align: center;
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
         }
 
         /* プロフィール帯 */
         .profile-band {
-            background: linear-gradient(135deg, #0a0e27 0%, #151f3d 50%, #1e2842 100%);
+            background: #0a0f24;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding: 25px 0;
+            position: relative;
+            overflow: hidden; /* 画像の不要なはみ出しを防止 */
         }
 
         .profile-band-content {
@@ -741,39 +812,134 @@
             padding: 0 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            position: relative;
         }
 
         .profile-band-text {
             flex: 1;
             text-align: left;
+            position: relative;
+            z-index: 5; /* テキストを画像より手前に配置 */
         }
 
         .profile-band-text .title {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 21.6px;
-            /* 20%縮小 */
-            font-weight: bold;
+            font-family: 'Noto Serif JP', 'Noto Sans JP', serif;
+            color: #ffffff;
+            font-size: 25px; /* 高級感を出すために少し大きく明朝体に設定 */
+            font-weight: 700;
             margin: 0;
+            letter-spacing: 0.05em;
         }
 
         .profile-band-text .name {
+            font-family: 'Noto Serif JP', 'Noto Sans JP', serif;
             color: white;
-            font-size: 48px;
-            font-weight: bold;
+            font-size: 52px;
+            font-weight: 900;
             margin: 8px 0;
+            letter-spacing: 0.05em;
         }
 
         .profile-band-image {
             flex-shrink: 0;
+            position: relative;
+            z-index: 1; /* 画像はテキストの下に回り込ませる */
+            margin-right: -10px;
         }
 
         .profile-band-image img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 4px solid white;
+            width: 200px;
+            height: auto;
             display: block;
+            border-radius: 0; /* 丸切り抜きを完全撤廃 */
+            border: none; /* 白い丸フチ枠を撤廃 */
+            /* 下部をフワッと消してディープネイビー背景と同化させる */
+            mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+        }
+
+        /* ブログセクションスタイル */
+        .blog-section {
+            background: transparent;
+        }
+
+        .blog-card {
+            display: flex;
+            background: rgba(13, 20, 47, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 25px;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.25);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.05);
+        }
+
+        .blog-card-img {
+            width: 35%;
+            max-width: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .blog-card:hover .blog-card-img {
+            transform: scale(1.03);
+        }
+
+        .blog-card-content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .blog-tag {
+            align-self: flex-start;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #e5c158;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .blog-title {
+            color: #ffffff;
+            font-size: clamp(16px, 2.5vw, 19px);
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .blog-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* スクロールアニメーション */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* レスポンシブ対応 */
@@ -805,13 +971,12 @@
             }
 
             section {
-                padding: 50px 0;
+                padding: 80px 0;
             }
 
-            /* PCもスマホと同じ比率で表示 */
             .solution-hero-image {
-                height: auto;
-                aspect-ratio: 16 / 7;
+                max-width: 450px;
+                aspect-ratio: auto;
             }
         }
 
@@ -834,12 +999,7 @@
             }
 
             section {
-                padding: 30px 0;
-            }
-
-            h2 {
-                font-size: 20px;
-                margin-bottom: 25px;
+                padding: 50px 0;
             }
 
             .worry-list li {
@@ -856,19 +1016,27 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                background: #4CAF50;
+                background: rgba(13, 20, 47, 0.95);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
                 padding: 12px;
                 text-align: center;
                 z-index: 1000;
-                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.4);
             }
 
             .fixed-cta a {
+                display: block;
+                background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
                 color: white;
                 text-decoration: none;
                 font-size: 16px;
                 font-weight: bold;
-                display: block;
+                padding: 10px 0;
+                border-radius: 30px;
+                box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+                animation: pulse 2s infinite;
             }
 
             body {
@@ -880,286 +1048,55 @@
             }
 
             .youtube-video-section {
-                padding: 30px 15px;
+                padding: 40px 15px;
+            }
+
+            .profile-band-content {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .profile-band-text {
+                text-align: center;
+            }
+
+            .profile-band-text .title {
+                font-size: 21px; /* スマホ向けに縮小 */
             }
 
             .profile-band-text .name {
-                font-size: 42px;
+                font-size: 38px; /* スマホ向けに縮小 */
             }
 
             .profile-band-image img {
                 width: 150px;
-                height: 150px;
-            }
-
-            /* スマホではPCと同じ縦横比(16:7)を維持してリサイズ */
-            .solution-hero-image {
                 height: auto;
-                aspect-ratio: 16 / 7;
-            }
-        }
-
-        /* 返金保証セクション */
-        .guarantee-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .guarantee-section::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -250px;
-            right: -250px;
-        }
-
-        .guarantee-wrapper {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .guarantee-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
-            padding: 10px 25px;
-            border-radius: 50px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
+                margin: 0 auto;
             }
 
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .guarantee-icon {
-            font-size: 24px;
-        }
-
-        .guarantee-text {
-            color: #333;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .guarantee-title {
-            font-size: 48px;
-            color: #ffffff;
-            /* 白文字 */
-            margin-bottom: 20px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            line-height: 1.6;
-            /* バンド高(1.6em)と揃えて中央揃え */
-            /* グラデは無効化し、白文字を明確に */
-            background: none;
-            -webkit-background-clip: initial;
-            -webkit-text-fill-color: #ffffff;
-            /* コンパクトな赤い発光（そのまま） */
-            text-shadow:
-                0 0 4px rgba(255, 107, 107, 0.75),
-                0 0 8px rgba(255, 30, 30, 0.75),
-                2px 2px 2px rgba(0, 0, 0, 0.6);
-            animation: gs-fadeInUp 0.8s ease-out, guaranteeGlow 1.5s ease-in-out infinite alternate;
-            position: relative;
-            /* 帯の基準にする */
-            z-index: 1;
-            /* テキストを帯より前面に */
-        }
-
-        /* 見出し背面に半透明の黒帯（セクション全幅） */
-        .guarantee-section .guarantee-title::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-            width: 100vw;
-            /* 端から端まで（セクションは全幅） */
-            height: 100%;
-            /* 見出し行高(1.6em)と同じに */
-            background: rgba(0, 0, 0, 0.7);
-            /* 半透明黒（0.7） */
-            border-radius: 0;
-            /* 角丸なし */
-            z-index: -1;
-            /* テキストの背面 */
-            pointer-events: none;
-        }
-
-        @keyframes gs-fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            .solution-hero-image {
+                max-width: 320px;
+                aspect-ratio: auto;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 返金保証見出し用の発光アニメ（赤・小さめ半径、速度1.5s） */
-        @keyframes guaranteeGlow {
-            from {
-                text-shadow:
-                    0 0 4px rgba(255, 107, 107, 0.75),
-                    0 0 8px rgba(255, 30, 30, 0.75),
-                    2px 2px 2px rgba(0, 0, 0, 0.6);
+            .blog-card {
+                flex-direction: column;
             }
 
-            to {
-                text-shadow:
-                    0 0 6px rgba(255, 107, 107, 0.75),
-                    0 0 12px rgba(255, 30, 30, 0.75),
-                    2px 2px 2px rgba(0, 0, 0, 0.6);
-            }
-        }
-
-        .highlight-red {
-            color: #ff4757;
-            background: linear-gradient(transparent 60%, rgba(255, 71, 87, 0.3) 60%);
-            padding: 0 5px;
-        }
-
-        .guarantee-subtitle {
-            font-size: 24px;
-            color: #e53935;
-            /* 赤文字 */
-            margin-bottom: 50px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            /* 白フチは削除し、黒の影のみ残す */
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            animation: gs-fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        /* 料金プランボタン */
-        .price-plan-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 60px;
-            border: none;
-            border-radius: 60px;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            letter-spacing: 1px;
-            /* お問い合わせボタンと同じ脈動アニメ */
-            animation: pulse 2s infinite;
-        }
-
-        .price-plan-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .price-plan-btn:hover::before {
-            left: 100%;
-        }
-
-        .price-plan-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-arrow {
-            display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 26px;
-        }
-
-        .price-plan-btn:hover .btn-arrow {
-            transform: translateX(8px);
-            animation: gs-arrowBounce 0.6s ease-in-out;
-        }
-
-        @keyframes gs-arrowBounce {
-
-            0%,
-            100% {
-                transform: translateX(8px);
+            .blog-card-img {
+                width: 100%;
+                max-width: 100%;
+                height: 180px;
             }
 
-            50% {
-                transform: translateX(15px);
-            }
-        }
-
-
-
-        /* パルスエフェクト */
-        .price-plan-btn::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border-radius: 60px;
-            background: inherit;
-            z-index: -1;
-            animation: pricePulse 2s infinite;
-        }
-
-        @keyframes pricePulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1.1);
-                opacity: 0;
-            }
-        }
-
-        /* レスポンシブ */
-        @media (max-width: 768px) {
-            .guarantee-title {
-                font-size: 32px;
-            }
-
-            .guarantee-subtitle {
-                font-size: 20px;
-                margin-bottom: 40px;
+            .blog-card-content {
+                padding: 20px;
             }
 
             .price-plan-btn {
                 font-size: 18px;
-                padding: 18px 45px;
+                padding: 16px 40px;
                 width: 90%;
                 max-width: 300px;
             }
@@ -1217,47 +1154,53 @@
     </div>
 
     <!-- ファーストビュー -->
+    <!-- ファーストビュー -->
     <header class="hero">
         <div class="container">
-            <div class="trust-badge">
-                📊 YouTube登録者1万人達成、<br class="sp-only">セミナー実績多数
-            </div>
-        </div>
-
-        <!-- プロフィール帯 -->
-        <div class="profile-band">
-            <div class="profile-band-content">
-                <div class="profile-band-text">
-                    <p class="title">ファイナンシャル<br class="sp-only">プランナー</p>
-                    <p class="name">りょう</p>
+            <!-- プレミアム・グラスボード -->
+            <div class="hero-board">
+                <!-- 実績バッジ -->
+                <div class="trust-badge">
+                    📊 YouTube登録者1万人達成、セミナー実績多数
                 </div>
-                <div class="profile-band-image">
-                    <img src="images/ryo-profile.png" alt="りょう" loading="lazy" decoding="async">
+
+                <!-- プロフィール・グラスインナー -->
+                <div class="profile-band">
+                    <div class="profile-band-content">
+                        <div class="profile-band-text">
+                            <p class="title">ファイナンシャルプランナー</p>
+                            <p class="name">りょう</p>
+                        </div>
+                        <div class="profile-band-image">
+                            <img src="images/ryo-profile.png" alt="りょう" loading="lazy" decoding="async">
+                        </div>
+                    </div>
                 </div>
+
+                <!-- メインヘッドライン -->
+                <h1>
+                    <span class="highlight">50代60代</span>のための<br>
+                    <span class="highlight">新NISA</span>運用法
+                </h1>
+
+                <!-- サブコピー -->
+                <p class="sub-copy">
+                    新NISAで必要な商品だけを！<br>
+                    <strong>99％の</strong>投資信託はいりません。
+                </p>
+
+                <!-- 復元されたプレミアムCTAボタン -->
+                <a href="#line-cta" class="cta-button">
+                    今すぐLINE登録（無料）
+                </a>
+
+                <!-- 注記 -->
+                <p class="cta-note">
+                    ※登録後すぐに特典をお届け<br>
+                    ※30分の無料相談付き（希望者のみ）<br>
+                    ※保険などの金融商品は一切販売しません
+                </p>
             </div>
-        </div>
-
-        <div class="container">
-            <br>
-            <h1>
-                <span class="highlight">50代60代</span>のための<br>
-                <span class="highlight">新NISA</span>運用法
-            </h1>
-
-            <p class="sub-copy">
-                新NISAで必要な商品だけを！<br>
-                <strong>99％の</strong>投資信託はいりません。
-            </p>
-
-            <a href="#line-cta" class="cta-button">
-                今すぐLINE登録
-            </a>
-
-            <p class="cta-note">
-                ※登録後すぐに特典をお届け<br>
-                ※30分の無料相談付き（希望者のみ）<br>
-                ※保険などの金融商品は一切販売しません
-            </p>
         </div>
     </header>
 
@@ -1295,10 +1238,10 @@
     </div>
 
     <!-- 共感パート -->
-    <section class="worries">
+    <section class="worries reveal-on-scroll">
         <div class="container">
             <h2>なぜ50代・60代に<br class="sp-only">新NISAが最適なのか？</h2>
-            <h3 style="text-align: center; margin-bottom: 20px;">こんなお悩みありませんか？</h3>
+            <h3 style="text-align: center; margin-bottom: 20px; color: #cbd5e1; font-weight: 500;">こんなお悩みありませんか？</h3>
             <ul class="worry-list">
                 <li>老後は2000万円必要なの？3000万円必要なの？</li>
                 <li>新NISAを始めたいけど何から手をつければ...</li>
@@ -1310,12 +1253,12 @@
     </section>
 
     <!-- 解決策提示 -->
-    <section>
+    <section class="reveal-on-scroll">
         <div class="container">
             <img src="images/ryo-profile3.png" alt="その不安、全部解決できますのイメージ" class="solution-hero-image" loading="lazy"
                 decoding="async">
             <h2>その不安、全部解決できます</h2>
-            <p style="text-align: center; font-size: 16px; margin-bottom: 25px;">
+            <p style="text-align: center; font-size: 16px; margin-bottom: 25px; color: #cbd5e1; line-height: 1.7;">
                 50代・60代の方でも安心して始められる<br>
                 3つのポイントをご紹介します
             </p>
@@ -1340,34 +1283,9 @@
     </section>
 
     <!-- 最新の投資コラム -->
-    <section class="blog-section" style="background: #fff; padding: 60px 0;">
+    <section class="blog-section reveal-on-scroll">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 30px;">最新の投資コラム</h2>
-            <style>
-                .blog-card {
-                    display: flex; 
-                    background: #f8f9fa; 
-                    border-radius: 12px; 
-                    overflow: hidden; 
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-                    transition: transform 0.3s;
-                    text-decoration: none;
-                    color: inherit;
-                }
-                .blog-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-                .blog-card-img { width: 35%; object-fit: cover; }
-                .blog-card-content { padding: 20px; width: 65%; }
-                .blog-tag { background: #1e3c72; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
-                .blog-title { font-size: 18px; margin-bottom: 10px; font-weight: bold; line-height: 1.4; }
-                .blog-desc { font-size: 14px; color: #555; line-height: 1.5; }
-                
-                @media (max-width: 768px) {
-                    .blog-card { flex-direction: column; }
-                    .blog-card-img { width: 100%; height: 200px; }
-                    .blog-card-content { width: 100%; }
-                    .blog-title { font-size: 16px; }
-                }
-            </style>
+            <h2>最新の投資コラム</h2>
             <div style="display: flex; flex-direction: column; gap: 20px;">
                 
                 <a href="blog/posts/nisa5/nisa5.html" class="blog-card">
@@ -1402,7 +1320,7 @@
     </section>
 
     <!-- 実績・お客様の声 -->
-    <section style="background: #f8f9fa;">
+    <section class="reveal-on-scroll">
         <div class="container">
             <h2>実際に始められた方の声</h2>
 
@@ -1451,7 +1369,7 @@
     </section>
 
     <!-- 特典 -->
-    <section class="benefits" id="line-cta"
+    <section class="benefits reveal-on-scroll" id="line-cta"
         style="background: linear-gradient(135deg, #0a0e27 0%, #1a2a4d 50%, #151f3d 100%);">
         <div class="container">
             <h2 style="color: white;">LINE登録で受け取れる3大特典</h2>
@@ -1482,8 +1400,7 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 35px;">
-                <a href="https://lin.ee/FxIOpk1" class="cta-button"
-                    style="background: white; color: #1e3c72; font-size: 20px; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block;">
+                <a href="https://lin.ee/FxIOpk1" class="cta-button">
                     特典を無料で受け取る
                 </a>
             </div>
@@ -1492,9 +1409,9 @@
     </section>
 
     <!-- 返金保証セクション -->
-    <section class="guarantee-section">
+    <section class="guarantee-section reveal-on-scroll">
         <div class="container">
-            <div class="guarantee-wrapper">
+            <div class="guarantee-wrapper glass-card" style="padding: 45px 30px; max-width: 600px; margin: 0 auto; border: 1px solid rgba(212, 175, 55, 0.2);">
                 <div class="guarantee-badge">
                     <span class="guarantee-icon">🛡️</span>
                     <span class="guarantee-text">安心の保証</span>
@@ -1509,6 +1426,7 @@
                 <div class="price-plan-button-wrapper">
                     <button class="price-plan-btn" onclick="window.location.href='pricing.html'">
                         <span class="btn-text">料金プラン</span>
+                        <span class="btn-arrow">→</span>
                     </button>
                 </div>
             </div>
@@ -1516,17 +1434,17 @@
     </section>
 
     <!-- プロフィール -->
-    <section>
+    <section class="reveal-on-scroll">
         <div class="container">
             <h2>講師プロフィール</h2>
 
-            <div class="profile-container">
+            <div class="profile-container glass-card" style="padding: 45px 30px; border: 1px solid rgba(212, 175, 55, 0.15); background: #0a0f24;">
                 <div class="profile-image">
                     <img src="images/ryo-profile2.png" alt="りょう" loading="lazy" decoding="async">
                 </div>
 
                 <div>
-                    <h3>りょう</h3>
+                    <h3 style="color: #ffffff; font-size: 24px; font-weight: 700; margin-bottom: 5px;">りょう</h3>
                     <p class="subtitle">
                         ファイナンシャル・プランニング技能士<br>
                         <span class="hometown">佐賀県（鳥栖市）在住</span>
@@ -1587,64 +1505,28 @@
     </div>
 
     <!-- シミュレーションセクション -->
-    <div
-        style="text-align: center; margin-top: 35px; padding: 25px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 15px;">
-        <h4 style="color: #667eea; margin-bottom: 15px; font-size: 18px;">
+    <div class="glass-card reveal-on-scroll"
+        style="text-align: center; margin: 40px auto 0; padding: 40px 30px; max-width: 700px; border: 1px solid rgba(212, 175, 55, 0.15);">
+        <h4 style="color: #e5c158; margin-bottom: 15px; font-size: clamp(16px, 3vw, 20px); font-weight: 700;">
             📊 複利の力を数字で実感してください
         </h4>
-        <p style="color: #666; margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
+        <p style="color: #cbd5e1; margin-bottom: 25px; font-size: 14px; line-height: 1.7;">
             「毎月5万円で本当に2,000万円作れるの？」<br>
             その答えをシミュレーション表で確認できます
         </p>
-        <a href='simulation.html'
-            style='display: inline-block; background: #667eea; color: white; padding: 14px 32px; border-radius: 30px; font-size: 16px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s;'>
+        <a href='simulation.html' class="cta-button"
+            style="font-size: 16px; padding: 12px 35px; border-radius: 30px;">
             複利計算シミュレーション表を見る
         </a>
-        <p style="margin-top: 12px; color: #999; font-size: 12px;">
+        <p style="margin-top: 12px; color: #94a3b8; font-size: 12px;">
             ※ 年利3%・5%・7%の3パターンで詳しく比較
         </p>
     </div>
 
     <!-- ブログセクションは削除しました（コンバージョン最大化のため） -->
 
-    <style>
-
-
-        /* シミュレーションボタン */
-        .simulation-cta-button {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 14px 32px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: bold;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s;
-        }
-
-        /* PCでは改行を消す */
-        .sp-only {
-            display: none;
-        }
-
-        /* スマホでは改行を表示 */
-        @media (max-width: 767px) {
-            .sp-only {
-                display: block;
-            }
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-    </style>
-
     <!-- FAQ -->
-    <section style="background: #f8f9fa;">
+    <section class="faq-section reveal-on-scroll">
         <div class="container">
             <h2>よくあるご質問</h2>
 
@@ -1696,10 +1578,10 @@
     </section>
 
     <!-- お問い合わせフォーム -->
-    <section style="background: white; padding: 45px 0;">
+    <section class="reveal-on-scroll" style="padding: 60px 0;">
         <div class="container">
             <h2>お問い合わせ</h2>
-            <p style="text-align: center; margin-bottom: 35px; font-size: 16px; line-height: 1.7;">
+            <p style="text-align: center; margin-bottom: 35px; font-size: 16px; line-height: 1.7; color: #cbd5e1;">
                 ご質問・ご相談はお気軽にどうぞ！<br>
                 投資が初めての方も安心して<br class="sp-only">お問い合わせください。
             </p>
@@ -1707,29 +1589,29 @@
             <!-- お問い合わせ方法の選択 -->
             <div style="max-width: 600px; margin: 0 auto;">
                 <!-- LINE優先 -->
-                <div
-                    style="background: linear-gradient(135deg, #06C755 0%, #00B900 100%); padding: 30px; border-radius: 15px; margin-bottom: 25px; text-align: center; box-shadow: 0 5px 20px rgba(6, 199, 85, 0.3);">
-                    <h3 style="color: white; font-size: 20px; margin-bottom: 12px;">💬 LINEで気軽に相談</h3>
-                    <p style="color: rgba(255,255,255,0.95); font-size: 14px; margin-bottom: 20px;">
+                <div class="glass-card"
+                    style="padding: 35px 25px; margin-bottom: 25px; text-align: center; border: 1px solid rgba(6, 199, 85, 0.35); box-shadow: 0 10px 30px rgba(6, 199, 85, 0.08);">
+                    <h3 style="color: #06C755; font-size: 20px; margin-bottom: 12px; font-weight: 700;">💬 LINEで気軽に相談</h3>
+                    <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 20px; line-height: 1.6;">
                         最も早くお返事できます！<br>
                         まずはLINE登録から始めましょう
                     </p>
                     <a href="https://lin.ee/FxIOpk1" target="_blank" rel="noopener noreferrer"
-                        style="display: inline-block; background: white; color: #06C755; padding: 14px 32px; border-radius: 30px; font-size: 16px; font-weight: bold; text-decoration: none; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                        style="display: inline-block; background: #06C755; color: white !important; padding: 14px 32px; border-radius: 30px; font-size: 16px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.35);">
                         LINEで相談する →
                     </a>
                 </div>
 
                 <!-- フォーム -->
-                <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; text-align: center;">
-                    <h3 style="color: #333; font-size: 20px; margin-bottom: 12px;">📝 フォームでお問い合わせ</h3>
-                    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+                <div class="glass-card" style="padding: 35px 25px; text-align: center;">
+                    <h3 style="color: #ffffff; font-size: 20px; margin-bottom: 12px; font-weight: 700;">📝 フォームでお問い合わせ</h3>
+                    <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 20px; line-height: 1.6;">
                         詳しい内容をお送りいただけます<br>
                         （Googleフォームが開きます）
                     </p>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6PSczfQJhC9FALuXcqxCI1rqn4odIcdNxxFVaLOXrABRHzg/viewform"
                         target="_blank" rel="noopener noreferrer" class="cta-button"
-                        style="background: #667eea; font-size: 16px; padding: 14px 32px;">
+                        style="font-size: 16px; padding: 14px 32px;">
                         お問い合わせフォームを開く
                     </a>
                 </div>
@@ -1746,10 +1628,10 @@
     </section>
 
     <!-- シェアセクション -->
-    <section style="background: #f8f9fa; padding: 35px 0;">
+    <section class="reveal-on-scroll" style="padding: 40px 0;">
         <div class="container" style="text-align: center;">
-            <h3 style="font-size: 18px; margin-bottom: 15px;">この記事が役に立ったら<br class="sp-only">シェアしてください</h3>
-            <p style="color: #666; margin-bottom: 18px; font-size: 14px;">同じ悩みを持つ方の助けになります</p>
+            <h3 style="font-size: 18px; margin-bottom: 15px; color: #ffffff;">この記事が役に立ったら<br class="sp-only">シェアしてください</h3>
+            <p style="color: #cbd5e1; margin-bottom: 18px; font-size: 14px;">同じ悩みを持つ方の助けになります</p>
 
             <div>
                 <a href="https://line.me/R/msg/text/?50代からでも間に合う！新NISAで老後資金を作る方法%0Ahttps://eva-solution.com"
@@ -1794,6 +1676,50 @@
             </p>
         </div>
     </section>
+
+    <!-- フッター -->
+    <footer style="background: #0f172a; padding: 60px 20px 40px; color: #94a3b8; font-size: 14px; line-height: 1.8; border-top: 1px solid #1e293b;">
+        <div class="container" style="max-width: 900px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 40px; text-align: left;">
+                <!-- 左コラム: ブランド概要 -->
+                <div>
+                    <h3 style="color: white; font-size: 18px; font-weight: bold; margin-bottom: 15px;">eva solution</h3>
+                    <p style="margin-bottom: 15px; font-size: 13px;">
+                        未来投資naviは、50代・60代の初心者の方に特化した資産運用および資産防衛ロードマップをサポートする情報サイトです。
+                    </p>
+                    <p style="font-size: 12px; color: #64748b;">
+                        佐賀県鳥栖市在住 / 全国オンライン対応
+                    </p>
+                </div>
+                <!-- 右コラム: 免責事項 -->
+                <div>
+                    <h3 style="color: white; font-size: 16px; font-weight: bold; margin-bottom: 15px;">⚖️ 免責事項・ご注意事項</h3>
+                    <ul style="list-style: none; padding: 0; font-size: 12px; color: #64748b;">
+                        <li style="margin-bottom: 10px; position: relative; padding-left: 15px; text-align: left;">
+                            <span style="position: absolute; left: 0; color: #ffb700;">•</span>
+                            当サービスは金融商品取引法に基づく<strong>投資助言・代理業ではありません</strong>。特定の有価証券の推奨、売買タイミングの具体的な指示、または投資一任等の行為は行いません。
+                        </li>
+                        <li style="margin-bottom: 10px; position: relative; padding-left: 15px; text-align: left;">
+                            <span style="position: absolute; left: 0; color: #ffb700;">•</span>
+                            特定の保険商品、投資信託、金融機関（証券会社等）の代理販売や販売仲介は一切行いません。中立な立場から情報提供および計画の作成支援を行います。
+                        </li>
+                        <li style="position: relative; padding-left: 15px; text-align: left;">
+                            <span style="position: absolute; left: 0; color: #ffb700;">•</span>
+                            投資には価格変動リスクがあります。最終的な投資判断および口座管理は、ご自身の判断と自己責任において行っていただきますようお願い申し上げます。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid #1e293b; padding-top: 30px; text-align: center; font-size: 12px; color: #475569;">
+                <p style="margin-bottom: 15px;">
+                    <a href="pricing.html" style="color: #94a3b8; text-decoration: none; margin: 0 15px; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#94a3b8'">料金プラン</a>
+                    <a href="corporate-seminar.html" style="color: #94a3b8; text-decoration: none; margin: 0 15px; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#94a3b8'">企業セミナー案内</a>
+                </p>
+                <p>&copy; 2026 eva solution. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- 固定フッターCTA（スマホ用） -->
     <div class="fixed-cta" style="display: none;">
@@ -1883,24 +1809,25 @@
             // }
         }
 
-        // ページ読み込み時のアニメーション
+        // ページ読み込み時のスクロールリビール & アニメーション
         document.addEventListener('DOMContentLoaded', function () {
-            const guaranteeSection = document.querySelector('.guarantee-section');
-
+            const reveals = document.querySelectorAll('.reveal-on-scroll');
             const observer = new IntersectionObserver(
                 (entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target);
                         }
                     });
                 },
-                { threshold: 0.1 }
+                { 
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -40px 0px'
+                }
             );
 
-            if (guaranteeSection) {
-                observer.observe(guaranteeSection);
-            }
+            reveals.forEach(el => observer.observe(el));
         });
     </script>
 </body>

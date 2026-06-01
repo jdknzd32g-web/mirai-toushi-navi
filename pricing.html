@@ -26,6 +26,8 @@
 
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;700;900&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -33,10 +35,10 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
-            background: #f5f7fa;
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #050814;
             line-height: 1.8;
-            color: #333;
+            color: #cbd5e1;
         }
         
         /* ヘッダー */
@@ -44,8 +46,10 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: #ffffff;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            background: rgba(5, 8, 20, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding: 15px 0;
         }
         
@@ -60,13 +64,16 @@
         
         .logo {
             font-size: 24px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 900;
+            color: #ffffff;
             text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 1px;
         }
         
         .back-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             padding: 10px 30px;
             border-radius: 25px;
@@ -77,23 +84,24 @@
         }
         
         .back-btn:hover {
-            background: #5569d0;
+            border-color: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         /* ステップカード */
         .steps-section {
-            background: white;
+            background: transparent;
             padding: 60px 20px 80px;
         }
         
         .section-title {
             text-align: center;
-            font-size: 32px;
-            color: #2c3e50;
+            font-size: clamp(24px, 5vw, 36px);
+            color: #ffffff;
             margin-bottom: 50px;
-            font-weight: bold;
+            font-weight: 900;
+            letter-spacing: 0.05em;
         }
         
         .steps-grid {
@@ -105,24 +113,26 @@
         }
         
         .step-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            padding: 30px;
+            background: rgba(13, 20, 47, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            padding: 40px 30px;
             position: relative;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-decoration: none;
+            color: #cbd5e1;
+            display: block;
             overflow: hidden;
             cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
         }
         
         .step-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-            border-color: #667eea;
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.08);
         }
         
         /* オススメバッジ */
@@ -135,29 +145,31 @@
             position: absolute;
             top: 15px;
             right: -30px;
-            background: #ff4757;
-            color: white;
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            color: #050814;
             padding: 5px 40px;
             transform: rotate(45deg);
             font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 3px 10px rgba(255, 71, 87, 0.3);
+            font-weight: 900;
+            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+            z-index: 2;
         }
         
         /* ステップ番号 */
         .step-number {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            color: #050814;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 8px 25px rgba(102,126,234,0.3);
+            font-weight: 900;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             margin: 0 auto 20px;
+            font-family: 'Outfit', sans-serif;
         }
         
         /* バッジ */
@@ -171,43 +183,46 @@
         }
         
         .badge-free {
-            background: linear-gradient(135deg, #00C851 0%, #00A846 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
         }
         
         .badge-trial {
-            background: linear-gradient(135deg, #FFB700 0%, #FFA000 100%);
-            color: white;
+            background: linear-gradient(135deg, #e5c158 0%, #b38f24 100%);
+            color: #050814;
         }
         
         .badge-annual {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
         }
         
         .step-title {
             font-size: 26px;
-            color: #2c3e50;
+            color: #ffffff;
             margin-bottom: 15px;
-            font-weight: bold;
+            font-weight: 700;
         }
         
         .step-price {
-            font-size: 36px;
-            color: #667eea;
-            font-weight: bold;
+            font-size: 38px;
+            color: #e5c158;
+            font-weight: 900;
             margin-bottom: 20px;
+            font-family: 'Outfit', sans-serif;
         }
         
         .step-price .unit {
             font-size: 16px;
-            color: #999;
+            color: #94a3b8;
+            font-weight: 500;
         }
         
         .step-description {
-            color: #666;
+            color: #cbd5e1;
             margin-bottom: 25px;
             font-size: 15px;
+            line-height: 1.6;
         }
         
         .step-features {
@@ -217,43 +232,46 @@
         
         .step-features li {
             padding: 12px 0;
-            color: #444;
+            color: #cbd5e1;
             position: relative;
             padding-left: 35px;
             font-size: 15px;
+            text-align: left;
         }
         
         .step-features li:before {
             content: '✓';
             position: absolute;
             left: 0;
-            color: #4CAF50;
+            color: #34d399;
             font-weight: bold;
             font-size: 20px;
         }
         
         /* 年間プラン詳細 */
         .plan-details {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
             padding: 20px;
             margin-top: 25px;
         }
         
         .plan-details-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
             margin-bottom: 20px;
             text-align: center;
         }
         
         .plan-option {
-            background: white;
+            background: rgba(13, 20, 47, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         .plan-option-header {
@@ -264,15 +282,16 @@
         }
         
         .plan-option-name {
-            font-weight: bold;
-            font-size: 18px;
-            color: #2c3e50;
+            font-weight: 700;
+            font-size: 16px;
+            color: #ffffff;
         }
         
         .plan-option-price {
             font-size: 22px;
-            color: #667eea;
-            font-weight: bold;
+            color: #e5c158;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
@@ -288,43 +307,49 @@
             font-size: 11px;
             font-weight: bold;
             white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(255, 71, 87, 0.3);
         }
         
         .plan-option-detail {
-            color: #666;
-            font-size: 14px;
+            color: #94a3b8;
+            font-size: 13px;
             padding-top: 10px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+            line-height: 1.5;
         }
         
         /* 保証バッジ */
         .guarantee-badge {
-            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
-            color: #333;
-            padding: 12px 20px;
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            color: #050814;
+            padding: 10px 24px;
             border-radius: 25px;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             margin-top: 25px;
-            font-weight: bold;
+            font-weight: 900;
             font-size: 14px;
-            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
         
         /* 支払い方法の説明 */
         .payment-info {
             margin-top: 20px;
             padding: 15px;
-            background: #f0f4ff;
-            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            text-align: left;
         }
         
         .payment-info p {
             margin: 0;
-            color: #667eea;
-            font-size: 14px;
-            font-weight: bold;
+            color: #34d399;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.5;
         }
         
         /* カード内のCTAボタン */
@@ -342,28 +367,32 @@
         }
         
         .cta-free {
-            background: linear-gradient(135deg, #00C851 0%, #00A846 100%);
-            color: white;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
         }
         
         .cta-trial {
-            background: linear-gradient(135deg, #FFB700 0%, #FFA000 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            color: #050814 !important;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
         }
         
         .cta-annual {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
         }
         
         .card-cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            filter: brightness(1.05);
         }
         
         /* よくある質問 */
         .faq-section {
-            background: #f8f9fa;
+            background: transparent;
             padding: 60px 20px;
         }
         
@@ -374,24 +403,39 @@
         
         .faq-title {
             font-size: 28px;
-            color: #2c3e50;
+            color: #ffffff;
             text-align: center;
             margin-bottom: 40px;
+            font-weight: 700;
         }
         
         .faq-item {
-            background: white;
-            margin-bottom: 15px;
-            border-radius: 10px;
+            background: rgba(13, 20, 47, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 18px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .faq-item.active {
+            border-color: rgba(212, 175, 55, 0.25);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.05);
         }
         
         .faq-question {
             padding: 20px;
-            background: white;
+            background: transparent;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            color: #ffffff;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -399,104 +443,134 @@
         }
         
         .faq-question:hover {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.02);
         }
         
         .faq-question::after {
             content: '+';
-            font-size: 24px;
-            color: #667eea;
+            font-size: 22px;
+            color: #e5c158;
+            transition: transform 0.3s;
         }
         
         .faq-item.active .faq-question::after {
             content: '−';
+            color: #e5c158;
+            transform: rotate(180deg);
         }
         
         .faq-answer {
             padding: 0 20px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s, padding 0.3s;
-            color: #666;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 1.7;
         }
         
         .faq-item.active .faq-answer {
             padding: 20px;
             max-height: 500px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
         
         /* 注意事項 */
         .notice-section {
-            background: white;
+            background: transparent;
             padding: 60px 20px;
         }
         
         .notice-container {
             max-width: 800px;
             margin: 0 auto;
-            background: #fff5f5;
-            border-left: 4px solid #ff6b6b;
-            padding: 30px;
-            border-radius: 8px;
+            background: rgba(13, 20, 47, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-left: 4px solid #e5c158;
+            padding: 35px 30px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
         .notice-title {
-            font-size: 24px;
-            color: #2c3e50;
+            font-size: 22px;
+            color: #ffffff;
             margin-bottom: 20px;
+            font-weight: 700;
         }
         
         .notice-content {
-            color: #444;
+            color: #cbd5e1;
             line-height: 1.8;
+            text-align: left;
+            font-size: 14px;
         }
         
         .notice-content strong {
-            color: #ff4757;
+            color: #e5c158;
         }
         
         /* CTA */
         .cta-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: radial-gradient(circle at 50% 50%, #15224e 0%, #050814 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             padding: 80px 20px;
             text-align: center;
             color: white;
         }
         
         .cta-title {
-            font-size: 36px;
+            font-size: clamp(24px, 5vw, 36px);
             margin-bottom: 20px;
-            font-weight: bold;
+            font-weight: 900;
+            color: #ffffff;
         }
         
         .cta-subtitle {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 40px;
-            opacity: 0.95;
+            color: #cbd5e1;
         }
         
         .cta-button {
-            display: inline-block;
-            background: white;
-            color: #667eea;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            color: white !important;
             text-decoration: none;
             padding: 18px 50px;
             border-radius: 50px;
             font-weight: bold;
             font-size: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse 2.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            }
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 12px 30px rgba(16, 185, 129, 0.45);
+            }
         }
         
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+            filter: brightness(1.05);
         }
         
         .cta-note {
             margin-top: 25px;
-            font-size: 14px;
-            opacity: 0.9;
+            font-size: 13px;
+            color: #94a3b8;
         }
         
         /* レスポンシブ */
@@ -506,7 +580,7 @@
                 gap: 40px;
             }
             .step-card { 
-                padding: 30px 20px;
+                padding: 40px 20px;
             }
             .cta-title { font-size: 28px; }
             .header-content { 
@@ -541,7 +615,7 @@
             
             /* ステップ価格の調整 */
             .step-price {
-                font-size: 28px;
+                font-size: 32px;
             }
             
             .step-price .unit {
@@ -579,13 +653,13 @@
                     0<span class="unit">円（30分）</span>
                 </div>
                 <p class="step-description">
-                    まずは30分の無料相談でお悩みをお聞かせください。あなたの状況に合わせた最適なプランをご提案します。
+                    まずは30分の無料相談でお悩みをお聞かせください。オンライン面談であなたの状況に合わせた最適なプランの方向性をご提案します。
                 </p>
                 <ul class="step-features">
                     <li>30分のオンライン面談</li>
                     <li>現状分析とヒアリング</li>
                     <li>最適なプランのご提案</li>
-                    <li>押し売りは一切なし</li>
+                    <li>強引な勧誘や押し売りは一切なし</li>
                 </ul>
                 <a href="https://docs.google.com/forms/d/1Yqpmo284n8yO6ZBk7S1zN-7jIFKyAe2jTdTWKdWpnAI/viewform?usp=sf_link" class="card-cta-button cta-free" target="_blank" rel="noopener noreferrer">
                     無料相談を申し込む
@@ -601,12 +675,13 @@
                     5,500<span class="unit">円（税込）</span>
                 </div>
                 <p class="step-description">
-                    1ヶ月間、本格的なサポートを体験。実際のサービスを体感していただけます。
+                    証券口座の開設から、ご自身に最適なインデックス投資の初期設定完了まで、1ヶ月間マンツーマンで伴走サポートするお試し体験プランです。
                 </p>
                 <ul class="step-features">
-                    <li>オーダーメイドのライフプラン作成</li>
+                    <li>証券口座の開設サポート</li>
+                    <li>初心者向けライフプラン・資産防衛ロードマップ作成</li>
                     <li>オンライン面談（60分）</li>
-                    <li>LINE無制限サポート</li>
+                    <li>疑問をいつでも解消できるLINE無制限サポート（1ヶ月）</li>
                 </ul>
                 <div class="payment-info">
                     <p>💳 支払方法：銀行振込<br>
@@ -653,10 +728,10 @@
                 
                 <ul class="step-features" style="margin-top: 25px;">
                     <li>2ヶ月に1回のオンライン面談（60分）</li>
-                    <li>面談時20分の小セミナー</li>
-                    <li>LINE無制限サポート</li>
-                    <li>面談時最新情報の提供</li>
-                    <li>ライフプランの定期見直し</li>
+                    <li>市場急変時や資産配分の定期見直しサポート</li>
+                    <li>不安をいつでも解消できるLINE無制限サポート</li>
+                    <li>面談時の資産運用・世界情勢のミニ勉強会（20分）</li>
+                    <li>途中解約・残期間分の安心日割り返金保証付き</li>
                 </ul>
                 
                 <div class="guarantee-badge">
@@ -724,9 +799,11 @@
                 返信がない場合は、体験期間満了で自動終了となります。<br><br>
                 
                 <strong>【サービス内容について】</strong><br>
-                • 投資助言業ではありません<br>
-                • 特定の金融商品の販売・勧誘は行いません<br>
-                • あくまで情報提供とサポートが中心です<br><br>
+                • <strong>投資助言・代理業ではありません</strong>：推奨銘柄の取引タイミングの指示や、投資一任契約に基づく運用等は行いません。<br>
+                • <strong>金融商品の販売・仲介は一切ありません</strong>：特定の保険商品、投資信託、証券口座の斡旋や仲介手数料（マージン）の受け取りは行わず、中立な立場での情報提供と自立サポートに徹します。<br>
+                • 50代・60代の方の資産防衛と健全な長期・分散・積立投資に向けた教育および伴走支援を目的としています。<br><br>
+                
+
                 
                 ※無理な勧誘は一切いたしません<br>
                 ※個人情報は厳重に管理いたします
