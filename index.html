@@ -148,6 +148,44 @@
             box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
         }
 
+        .price-plan-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #ffe880 0%, #d4af37 50%, #aa851e 100%);
+            color: #070a13 !important;
+            padding: 16px 45px;
+            border-radius: 50px;
+            font-size: 19px;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 320px;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .price-plan-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            filter: brightness(1.08);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.45);
+        }
+
+        .price-plan-button-wrapper {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .header-pricing-btn:hover {
+            background: rgba(212, 175, 55, 0.12) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+
         .cta-note {
             margin-top: 15px;
             font-size: 13px;
@@ -981,6 +1019,11 @@
         }
 
         @media (max-width: 767px) {
+            .header-pricing-btn {
+                font-size: 11px !important;
+                padding: 4px 10px !important;
+                border-width: 1px !important;
+            }
             .hero {
                 padding: 15px 0 25px;
             }
@@ -1145,10 +1188,13 @@
     <!-- ヘッダー -->
     <div class="header">
         <div class="container">
-            <div class="header-content">
-                <a href="#" class="header-logo" style="text-decoration: none; color: inherit; cursor: pointer;">eva
-                    solution</a>
-                <img src="images/logo.png" alt="未来投資navi" decoding="async" fetchpriority="high">
+            <div class="header-content" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="#" class="header-logo" style="text-decoration: none; color: inherit; cursor: pointer;">eva
+                        solution</a>
+                    <img src="images/logo.png" alt="未来投資navi" decoding="async" fetchpriority="high" style="height: 30px; width: auto;">
+                </div>
+                <a href="pricing.html" class="header-pricing-btn" style="text-decoration: none; color: #e5c158; font-weight: 700; font-size: 13.5px; border: 1.5px solid #d4af37; padding: 7px 18px; border-radius: 20px; transition: all 0.3s; background: transparent; letter-spacing: 0.5px;">料金プラン</a>
             </div>
         </div>
     </div>
@@ -1406,6 +1452,26 @@
             </div>
         </div>
 
+    </section>
+
+    <!-- 料金案内セクション（トップには金額を表示せず、詳細ページへ誘導） -->
+    <section class="pricing-intro-section reveal-on-scroll" style="padding: 60px 0; background: transparent;">
+        <div class="container">
+            <div class="pricing-intro-card glass-card" style="padding: 45px 30px; max-width: 650px; margin: 0 auto; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; background: rgba(10, 15, 38, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);">
+                <span style="color: #d4af37; font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 12px;">PRICING PLAN</span>
+                <h2 style="color: white; font-size: clamp(22px, 3.5vw, 26px); font-weight: 800; margin-top: 0; margin-bottom: 15px;">安心の料金プラン</h2>
+                <p style="color: #94a3b8; font-size: 14.5px; line-height: 1.8; max-width: 520px; margin: 0 auto 28px;">
+                    未来投資naviでは、初めての方でも気軽に相談できるスポット枠から、じっくり伴走する中長期サポートまで、50代・60代の方のニーズに合わせた明瞭な料金体系をご用意しています。<br>
+                    <span style="color: #ffe880; font-weight: bold;">※強引な金融商品の勧誘や販売は一切ありません。</span>
+                </p>
+                <div class="price-plan-button-wrapper" style="margin-top: 0;">
+                    <button class="price-plan-btn" onclick="window.location.href='pricing.html'">
+                        <span class="btn-text">料金プランを見る</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- 返金保証セクション -->
