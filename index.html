@@ -15,16 +15,97 @@
     <meta property="og:description"
         content="【全国オンライン対応】拠点：佐賀県鳥栖市。50代・60代からでも遅くない！FPりょうが新NISAで老後資金を確実に増やす方法を解説。99%の投資信託は不要。失敗しない運用法を無料公開中。">
     <meta property="og:url" content="https://eva-solution.com/">
-    <meta property="og:image" content="https://eva-solution.com/images/ryo-profile3.png">
+    <meta property="og:image" content="https://eva-solution.com/images/ryo-profile3.png?v=2">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FP りょう｜50代・60代のための資産形成ガイド">
     <meta name="twitter:description"
         content="【全国オンライン対応】拠点：佐賀県鳥栖市。50代・60代からでも遅くない！FPりょうが新NISAで老後資金を確実に増やす方法を解説。99%の投資信託は不要。失敗しない運用法を無料公開中。">
-    <meta name="twitter:image" content="https://eva-solution.com/images/ryo-profile3.png">
+    <meta name="twitter:image" content="https://eva-solution.com/images/ryo-profile3.png?v=2">
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9806798165325885"
         crossorigin="anonymous"></script>
+
+    <!-- 構造化データ (JSON-LD) によるSEO・E-E-A-T強化 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "FinancialService",
+          "@id": "https://eva-solution.com/#organization",
+          "name": "未来投資navi",
+          "url": "https://eva-solution.com/",
+          "logo": "https://eva-solution.com/images/logo.png",
+          "image": "https://eva-solution.com/images/ryo-profile3.png?v=2",
+          "description": "50代・60代のための確実な資産形成を完全中立な立場でサポートする独立系FP相談サービス。",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "鳥栖市",
+            "addressRegion": "佐賀県",
+            "addressCountry": "JP"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Japan"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "りょう",
+            "jobTitle": "ファイナンシャルプランナー",
+            "description": "50代・60代の資産防衛に特化した独立系中立FPアドバイザー。",
+            "image": "https://eva-solution.com/images/ryo-profile.png"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://eva-solution.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "本当に50代・60代からでも間に合いますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい、十分間に合います。新NISAは非課税期間が無期限になり、年齢制限もありません。50代なら15年、60代でも10年の運用期間があれば、着実に資産を増やすことが可能です。実際に多くの同世代の方が始められています。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "投資で損をすることはありませんか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "短期的には値動きがありますが、長期・分散・積立投資により、リスクを大幅に軽減できます。過去のデータでは、15年以上の長期投資では資産がプラスになるというデータがあります。また、少額から始められるので、リスクを抑えながら経験を積むことができます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "LINE登録後、勧誘はありませんか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "一切ありません。LINEでは有益な情報提供のみを行い、個別相談は希望される方のみです。いつでも簡単にブロック・配信停止ができますので、安心してご登録ください。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "パソコンが苦手でも大丈夫ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "もちろん大丈夫です。スマートフォンだけで全て完結します。操作方法も一つひとつ丁寧にご説明しますので、機械が苦手な方でも安心して始められます。わからないことはLINEでいつでも質問できます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "いくらから投資を始められますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "新NISAは月100円から始められます。まずは無理のない金額から始めて、慣れてきたら少しずつ増やしていくことをおすすめしています。個別相談では、あなたの収入や支出に合わせた最適な金額をご提案します。"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700;900&family=Outfit:wght@400;700;900&display=swap');
@@ -146,6 +227,44 @@
             transform: translateY(-3px) scale(1.03);
             filter: brightness(1.05);
             box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+        }
+
+        .price-plan-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #ffe880 0%, #d4af37 50%, #aa851e 100%);
+            color: #070a13 !important;
+            padding: 16px 45px;
+            border-radius: 50px;
+            font-size: 19px;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 320px;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .price-plan-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            filter: brightness(1.08);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.45);
+        }
+
+        .price-plan-button-wrapper {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .header-pricing-btn:hover {
+            background: rgba(212, 175, 55, 0.12) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
         }
 
         .cta-note {
@@ -981,6 +1100,11 @@
         }
 
         @media (max-width: 767px) {
+            .header-pricing-btn {
+                font-size: 11px !important;
+                padding: 4px 10px !important;
+                border-width: 1px !important;
+            }
             .hero {
                 padding: 15px 0 25px;
             }
@@ -1145,10 +1269,13 @@
     <!-- ヘッダー -->
     <div class="header">
         <div class="container">
-            <div class="header-content">
-                <a href="#" class="header-logo" style="text-decoration: none; color: inherit; cursor: pointer;">eva
-                    solution</a>
-                <img src="images/logo.png" alt="未来投資navi" decoding="async" fetchpriority="high">
+            <div class="header-content" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="#" class="header-logo" style="text-decoration: none; color: inherit; cursor: pointer;">eva
+                        solution</a>
+                    <img src="images/logo.png" alt="未来投資navi" decoding="async" fetchpriority="high" style="height: 30px; width: auto;">
+                </div>
+                <a href="pricing.html" class="header-pricing-btn" style="text-decoration: none; color: #e5c158; font-weight: 700; font-size: 13.5px; border: 1.5px solid #d4af37; padding: 7px 18px; border-radius: 20px; transition: all 0.3s; background: transparent; letter-spacing: 0.5px;">料金プラン</a>
             </div>
         </div>
     </div>
@@ -1255,7 +1382,7 @@
     <!-- 解決策提示 -->
     <section class="reveal-on-scroll">
         <div class="container">
-            <img src="images/ryo-profile3.png" alt="その不安、全部解決できますのイメージ" class="solution-hero-image" loading="lazy"
+            <img src="images/ryo-profile3.png?v=2" alt="その不安、全部解決できますのイメージ" class="solution-hero-image" loading="lazy"
                 decoding="async">
             <h2>その不安、全部解決できます</h2>
             <p style="text-align: center; font-size: 16px; margin-bottom: 25px; color: #cbd5e1; line-height: 1.7;">
@@ -1415,6 +1542,27 @@
             </div>
         </div>
 
+    </section>
+
+    <!-- 料金案内セクション（トップには金額を表示せず、詳細ページへ誘導） -->
+    <section class="pricing-intro-section reveal-on-scroll" style="padding: 60px 0; background: transparent;">
+        <div class="container">
+            <div class="pricing-intro-card glass-card" style="padding: 45px 30px; max-width: 650px; margin: 0 auto; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; background: rgba(10, 15, 38, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);">
+                <span style="color: #d4af37; font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 12px;">PRICING PLAN</span>
+                <h2 style="color: white; font-size: clamp(22px, 3.5vw, 26px); font-weight: 800; margin-top: 0; margin-bottom: 15px;">安心の料金プラン</h2>
+                <p style="color: #94a3b8; font-size: 14.5px; line-height: 1.8; max-width: 540px; margin: 0 auto 28px;">
+                    未来投資naviでは、初めての方でも気軽に相談できるスポット枠から、じっくり伴走する中長期サポートまで、50代・60代の方のニーズに合わせた明瞭な料金体系をご用意しています。<br>
+                    <span style="color: #ffe880; font-weight: bold;">★今ならスポット相談からの移行で、実質さらにお得になる「ステップアップキャッシュバック特典」も適用可能です！</span><br>
+                    <span style="color: rgba(255,255,255,0.6); font-size: 13px;">※強引な金融商品の勧誘や販売は一切ありません。</span>
+                </p>
+                <div class="price-plan-button-wrapper" style="margin-top: 0;">
+                    <button class="price-plan-btn" onclick="window.location.href='pricing.html'">
+                        <span class="btn-text">料金プランを見る</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- 返金保証セクション -->
