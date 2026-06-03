@@ -40,6 +40,16 @@
 
   <!-- Blog Posts -->
   <url>
+    <loc>https://eva-solution.com/blog/2026/50s-stay-aggressive/50s-stay-aggressive.html</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.com/blog/2026/50s-stay-aggressive/blog_50s-stay-aggressive_header.webp</image:loc>
+      <image:title>50代の投資はまだまだ攻めろ｜72の法則とオルカンで資産を2倍にする新NISA戦略</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://eva-solution.netlify.app/blog/2025/mutual-fund1/mutual-fund1.html</loc>
     <lastmod>2025-10-02</lastmod>
     <changefreq>weekly</changefreq>
