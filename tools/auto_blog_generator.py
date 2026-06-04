@@ -452,6 +452,15 @@ def push_to_github(commit_message):
         print(f"❌ Git operation failed: {e}")
 
 def main():
+    # 🔒 封印（2026-06-04 りょう指示）：このツールが生成する旧デザイン
+    #   （紫テーマ #667eea・jpgの見出し画像挿入・.highlight下線・max-width 800px）は使用禁止。
+    #   新デザインは tools/build_solo_articles2.py を使うこと。
+    #   - テンプレ／参考記事：blog/2026/sp500-vs-fang-plus/sp500-vs-fang-plus.html（紺 #1a3a5c）
+    #   - 見出しはインラインSVG（section-visual）、ヘッダーは webp 16:9（gen_solo_heroes.py 系）
+    #   どうしても旧ツールが必要な場合のみ、この封印ガードを一時的に外すこと。
+    print("⛔ auto_blog_generator.py は封印されています（旧デザインのため使用禁止）。")
+    print("   → 新デザインは tools/build_solo_articles2.py / 参考記事 blog/2026/sp500-vs-fang-plus/ を使用してください。")
+    sys.exit(1)
     parser = argparse.ArgumentParser(description="Auto Blog Generator")
     parser.add_argument("text_file", help="Path to input text file")
     parser.add_argument("--image", help="Path to header image (optional)")
