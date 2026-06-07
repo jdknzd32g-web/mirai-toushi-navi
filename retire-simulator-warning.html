@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老後手取り最大化シミュレーター (警告初期値版) | 公式LINE特典1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --glass-glow: rgba(59, 130, 246, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2rem 1rem;
+            background-image: radial-gradient(circle at 50% 0%, var(--glass-glow), transparent 50%);
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-left: 4px solid var(--accent-red);
+            padding-left: 0.75rem;
+            font-weight: 700;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-header label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .input-val-container {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .input-val-container input[type="number"] {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            width: 100px;
+            text-align: right;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .input-val-container span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .highlight-row {
+            background: rgba(239, 68, 68, 0.1);
+            margin: 0.5rem -1.5rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(239, 68, 68, 0.2);
+            border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .highlight-row .result-label {
+            color: #fca5a5;
+            font-weight: 700;
+        }
+
+        .highlight-row .result-value {
+            font-size: 1.5rem;
+            color: #ef4444;
+        }
+
+        .warning-text {
+            color: var(--accent-red) !important;
+        }
+
+        .green-text {
+            color: var(--accent-green) !important;
+        }
+
+        .diag-card {
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .diag-warning {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .diag-success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+        }
+
+        .diag-title {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 1.25rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="badge">LINE友だち登録特典1 (警告初期値版)</span>
+        <h1>老後手取り最大化シミュレーター</h1>
+        <p>※初期状態で「年金カットが発生している状態（警告）」から始まります。</p>
+    </header>
+
+    <div class="grid">
+        <!-- 入力エリア -->
+        <div class="card">
+            <h2>1. 入力パラメータ</h2>
+
+            <!-- 年齢 -->
+            <div class="input-group">
+                <div class="input-header">
+                    <label for="age">シミュレーション開始年齢</label>
+                    <div class="input-val-container">
+                        <input type="number" id="age_num" min="60" max="85" value="60">
+                        <span>歳</span>
+                    </div>
+                </div>
+                <input type="range" id="age" min="60" max="85" value="60">
+            </div>
+
+            <!-- 基本給 -->
+            <div class="input-group">
+                <div class="input-header">
+                    <label for="salary">毎月の基本給（額面）</label>
+                    <div class="input-val-container">
+                        <input type="number" id="salary_num" min="0" max="1000000" step="10000" value="550000">
+                        <span>円</span>
+                    </div>
+                </div>
+                <input type="range" id="salary" min="0" max="1000000" step="10000" value="550000">
+            </div>
+
+            <!-- ボーナス -->
+            <div class="input-group">
+                <div class="input-header">
+                    <label for="bonus">年間のボーナス総額</label>
+                    <div class="input-val-container">
+                        <input type="number" id="bonus_num" min="0" max="3000000" step="50000" value="600000">
+                        <span>円</span>
+                    </div>
+                </div>
+                <input type="range" id="bonus" min="0" max="3000000" step="50000" value="600000">
+            </div>
+
+            <!-- 厚生年金 -->
+            <div class="input-group">
+                <div class="input-header">
+                    <label for="kousei">老齢厚生年金（基本月額）</label>
+                    <div class="input-val-container">
+                        <input type="number" id="kousei_num" min="0" max="400000" step="5000" value="200000">
+                        <span>円</span>
+                    </div>
+                </div>
+                <input type="range" id="kousei" min="0" max="400000" step="5000" value="200000">
+            </div>
+
+            <!-- 国民年金 -->
+            <div class="input-group">
+                <div class="input-header">
+                    <label for="kiso">老齢基礎年金（国民年金）</label>
+                    <div class="input-val-container">
+                        <input type="number" id="kiso_num" min="0" max="100000" step="1000" value="65000">
+                        <span>円</span>
+                    </div>
+                </div>
+                <input type="range" id="kiso" min="0" max="100000" step="1000" value="65000">
+            </div>
+
+            <!-- NISA取崩し -->
+            <div class="input-group">
+                <div class="input-header">
+                    <label for="nisa">新NISA取り崩し（月額）</label>
+                    <div class="input-val-container">
+                        <input type="number" id="nisa_num" min="0" max="500000" step="10000" value="100000">
+                        <span>円</span>
+                    </div>
+                </div>
+                <input type="range" id="nisa" min="0" max="500000" step="10000" value="100000">
+            </div>
+        </div>
+
+        <!-- 計算・診断エリア -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h2>2. 自動計算結果</h2>
+                
+                <div class="result-row">
+                    <span class="result-label">総報酬月額相当額 (月給+賞与/12)</span>
+                    <span class="result-value" id="res_soushu">0 円</span>
+                </div>
+
+                <div class="result-row">
+                    <span class="result-label">在職老齢年金による年金カット額</span>
+                    <span class="result-value warning-text" id="res_cut">0 円</span>
+                </div>
+
+                <div class="result-row">
+                    <span class="result-label">実際に受け取れる厚生年金</span>
+                    <span class="result-value" id="res_kousei_recv">0 円</span>
+                </div>
+
+                <div class="result-row">
+                    <span class="result-label">税金・社会保険料の概算 (給与の15%)</span>
+                    <span class="result-value" id="res_tax_estimate">0 円</span>
+                </div>
+
+                <div class="result-row">
+                    <span class="result-label">手取り給与額</span>
+                    <span class="result-value" id="res_salary_hand">0 円</span>
+                </div>
+
+                <div class="result-row">
+                    <span class="result-label">新NISA取り崩し額 (非課税)</span>
+                    <span class="result-value green-text" id="res_nisa">0 円</span>
+                </div>
+
+                <div class="result-row highlight-row" id="highlight_card">
+                    <span class="result-label" id="highlight_label">【手取り月額】キャッシュフロー合計</span>
+                    <span class="result-value" id="res_total">0 円</span>
+                </div>
+            </div>
+
+            <div>
+                <div id="diagnostic" class="diag-card">
+                    <!-- JSで動的に診断結果を挿入 -->
+                </div>
+                
+                <!-- LINEコンバージョンへの導線ボタン -->
+                <a href="#" class="cta-btn" onclick="alert('公式LINE個別相談のシミュレーションです（毎月3名限定）'); return false;">
+                    りょうの公式LINEで個別相談する（無料）
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM要素の取得
+    const inputs = ['age', 'salary', 'bonus', 'kousei', 'kiso', 'nisa'];
+    const elements = {};
+
+    inputs.forEach(id => {
+        elements[id] = document.getElementById(id);
+        elements[id + '_num'] = document.getElementById(id + '_num');
+    });
+
+    // スライダーと数値入力の双方向バインド
+    inputs.forEach(id => {
+        elements[id].addEventListener('input', (e) => {
+            elements[id + '_num'].value = e.target.value;
+            calculate();
+        });
+        elements[id + '_num'].addEventListener('input', (e) => {
+            elements[id].value = e.target.value;
+            calculate();
+        });
+    });
+
+    // 通貨フォーマット関数
+    function formatYen(num) {
+        return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(num).replace('￥', '') + ' 円';
+    }
+
+    // シミュレーション計算
+    function calculate() {
+        const age = parseInt(elements['age'].value);
+        const salary = parseInt(elements['salary'].value);
+        const bonus = parseInt(elements['bonus'].value);
+        const kousei = parseInt(elements['kousei'].value);
+        const kiso = parseInt(elements['kiso'].value);
+        const nisa = parseInt(elements['nisa'].value);
+
+        // B11: 総報酬月額相当額
+        const soushu = salary + (bonus / 12);
+        document.getElementById('res_soushu').innerText = formatYen(Math.round(soushu));
+
+        // B12: 年金カット額 (2026年改正基準: 65万円の壁)
+        let cut = 0;
+        const totalStandard = soushu + kousei;
+        if (totalStandard > 650000) {
+            cut = Math.min(kousei, (totalStandard - 650000) / 2);
+        }
+        document.getElementById('res_cut').innerText = formatYen(Math.round(cut));
+        
+        // 警告文字色の切り替え
+        if (cut > 0) {
+            document.getElementById('res_cut').classList.add('warning-text');
+        } else {
+            document.getElementById('res_cut').classList.remove('warning-text');
+        }
+
+        // B13: 受け取れる厚生年金
+        const kouseiRecv = kousei - cut;
+        document.getElementById('res_kousei_recv').innerText = formatYen(Math.round(kouseiRecv));
+
+        // B14: 税金・社会保険料概算
+        const tax = Math.round(salary * 0.15);
+        document.getElementById('res_tax_estimate').innerText = formatYen(tax);
+
+        // B15: 手取り給与
+        const salaryHand = salary - tax;
+        document.getElementById('res_salary_hand').innerText = formatYen(salaryHand);
+
+        // B16: NISA手取り
+        document.getElementById('res_nisa').innerText = formatYen(nisa);
+
+        // B17: 手取り月額キャッシュフロー合計
+        const total = salaryHand + kouseiRecv + kiso + nisa;
+        document.getElementById('res_total').innerText = formatYen(Math.round(total));
+
+        // 診断表示エリアの制御
+        const diagElement = document.getElementById('diagnostic');
+        const highlightCard = document.getElementById('highlight_card');
+        const highlightLabel = document.getElementById('highlight_label');
+        const resTotal = document.getElementById('res_total');
+
+        if (cut > 0) {
+            // 警告状態
+            diagElement.className = 'diag-card diag-warning';
+            diagElement.innerHTML = `
+                <div class="diag-title">⚠️ 在職老齢年金の警告</div>
+                あなたの年金は毎月 <strong>${formatYen(Math.round(cut))}</strong>（年間 <strong>${formatYen(Math.round(cut * 12))}</strong>）カットされています！<br>
+                給料を少し抑えて「新NISAの取り崩し」を増やすことで、手元に残るお金（手取り）を増やせる可能性が非常に高いです。一度、公式LINEの個別相談（毎月3名限定）であなたに最適な黄金比を答え合わせしましょう。
+            `;
+            highlightCard.style.background = 'rgba(239, 68, 68, 0.1)';
+            highlightCard.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+            highlightLabel.style.color = '#fca5a5';
+            resTotal.style.color = '#ef4444';
+        } else {
+            // 良好状態
+            diagElement.className = 'diag-card diag-success';
+            diagElement.innerHTML = `
+                <div class="diag-title">🟢 手取り状態良好</div>
+                年金はカットされずに満額受け取れています！<br>
+                現在の【手取り月額合計: ${formatYen(Math.round(total))}】を維持しながら、最も手元にお金が残る資産寿命シミュレーションや、余計な保険の見直しを個別相談で確認してみませんか？
+            `;
+            highlightCard.style.background = 'rgba(16, 185, 129, 0.1)';
+            highlightCard.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+            highlightLabel.style.color = '#a7f3d0';
+            resTotal.style.color = '#10b981';
+        }
+    }
+
+    // 初回計算の実行
+    calculate();
+</script>
+
+</body>
+</html>
