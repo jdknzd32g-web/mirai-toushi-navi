@@ -15,7 +15,7 @@ tpl = TPL.read_text(encoding="utf-8")
 STYLE = re.search(r"<style>.*?</style>", tpl, re.DOTALL).group(0)
 YT_BANNER = re.search(r"(<a class=\"youtube-channel-banner\".*?</a>)", tpl, re.DOTALL).group(1)
 PROFILE_SRC = TPL.parent / "blog_profile_ryo.jpg"
-HERO_SRC = TPL.parent / "blog_index_vs_individual_stock_header.png"
+HERO_SRC = TPL.parent / "blog_index_vs_individual_stock_header.webp"
 
 GA = """    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4EG9Q6FL6"></script>
@@ -151,7 +151,7 @@ def write(slug, hero, title, cat, cc, lead, toc, body, seonote, desc, kw, sectio
     print(f"wrote {slug}.html ({len(html)} chars)")
 
 # ===================== ARTICLE 4: ほったらかし
-s4="60s-hands-off-investing"; h4="blog_60s_hands_off_header.png"
+s4="60s-hands-off-investing"; h4="blog_60s_hands_off_header.webp"
 t4="【60代の投資戦略】“ほったらかし”が最強の武器になる3つの理由｜新NISA×4%ルールで作る不安のない老後"
 d4=("投資のテクニックは一切不要。60代こそ“ほったらかし投資”が最適解です。複利・稲妻が輝く瞬間・売買の罠という3つのデータに基づく理由と、新NISA×4%ルールの具体的な設計を、現役FPがわかりやすく解説します。")
 k4="60代 ほったらかし投資, 複利 長期投資, 新NISA 4%ルール, 全世界株式, 稲妻が輝く瞬間, 60代 投資 失敗"
@@ -209,7 +209,7 @@ body4=f"""
 """
 
 # ===================== ARTICLE 5: FANG+ vs S&P500
-s5="sp500-vs-fang-plus"; h5="blog_sp500_fang_header.png"
+s5="sp500-vs-fang-plus"; h5="blog_sp500_fang_header.webp"
 t5="S&P500が下がってもFANG+は上がる？“デカップリング”の正体とAIインフラ・電力という本命【50代60代の戦い方】"
 d5=("S&P500が下落する中、なぜFANG+だけ上がるのか。機関投資家が逃げ込む先と、AI革命の本当のボトルネック“電力インフラ”をやさしく解説。50代60代が老後資金を守るための立ち回り方を現役FPが整理します。")
 k5="FANG+ S&P500 比較, デカップリング, AIインフラ 電力, 機関投資家 資金逃避, サテライト投資, 50代60代 暴落 対処"
@@ -249,7 +249,7 @@ body5=f"""
 """
 
 # ===================== ARTICLE 6: 日本株
-s6="japan-stocks-2026"; h6="blog_japan_stocks_2026_header.png"
+s6="japan-stocks-2026"; h6="blog_japan_stocks_2026_header.webp"
 t6="2026年は“日本株”を狙え｜円高リスクに備える為替ヘッジと、日経平均・TOPIXの選び方【50代60代向け】"
 d6=("オルカンもS&P500も、実は外貨建て。円高が来れば株価が動かなくても資産は目減りします。2026年に日本株を“トッピング”して為替リスクを分散する理由と、日経平均・TOPIXの選び方を、現役FPが解説します。")
 k6="日本株 2026, 為替ヘッジ 円高, 日経平均 TOPIX 違い, 円キャリートレード 巻き戻し, 自社株買い PBR, 全世界株式 日本株"
