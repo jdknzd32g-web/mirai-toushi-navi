@@ -40,6 +40,16 @@
 
   <!-- Blog Posts -->
   <url>
+    <loc>https://eva-solution.com/blog/2026/nisa-first-step-60s/nisa-first-step-60s.html</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.com/blog/2026/nisa-first-step-60s/blog_nisa_first_step_60s_header.webp</image:loc>
+      <image:title>60代で新NISAをまだ始めていない方へ｜焦らず確認したい3つの条件と最初の一歩</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://eva-solution.com/blog/2026/nisa-withdrawal-miscalculation/nisa-withdrawal-miscalculation.html</loc>
     <lastmod>2026-06-08</lastmod>
     <changefreq>weekly</changefreq>
