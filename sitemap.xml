@@ -40,6 +40,16 @@
 
   <!-- Blog Posts -->
   <url>
+    <loc>https://eva-solution.com/blog/2026/retirement-money-investment/retirement-money-investment.html</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.com/blog/2026/retirement-money-investment/blog_retirement_money_header.webp</image:loc>
+      <image:title>退職金は銀行に預けるな｜50代60代が退職金デビューで失敗しない運用の順番</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://eva-solution.com/blog/2026/nisa-first-step-60s/nisa-first-step-60s.html</loc>
     <lastmod>2026-06-10</lastmod>
     <changefreq>weekly</changefreq>
