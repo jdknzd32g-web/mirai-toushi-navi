@@ -978,77 +978,6 @@
             -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
         }
 
-        /* ブログセクションスタイル */
-        .blog-section {
-            background: transparent;
-        }
-
-        .blog-card {
-            display: flex;
-            background: rgba(13, 20, 47, 0.5);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            overflow: hidden;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 25px;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 175, 55, 0.25);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.05);
-        }
-
-        .blog-card-img {
-            width: 35%;
-            max-width: 250px;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .blog-card:hover .blog-card-img {
-            transform: scale(1.03);
-        }
-
-        .blog-card-content {
-            padding: 25px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: left;
-        }
-
-        .blog-tag {
-            align-self: flex-start;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            color: #e5c158;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .blog-title {
-            color: #ffffff;
-            font-size: clamp(16px, 2.5vw, 19px);
-            font-weight: 700;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .blog-desc {
-            color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
         /* スクロールアニメーション */
         .reveal-on-scroll {
             opacity: 0;
@@ -1202,20 +1131,6 @@
             .solution-hero-image {
                 max-width: 320px;
                 aspect-ratio: auto;
-            }
-
-            .blog-card {
-                flex-direction: column;
-            }
-
-            .blog-card-img {
-                width: 100%;
-                max-width: 100%;
-                height: 180px;
-            }
-
-            .blog-card-content {
-                padding: 20px;
             }
 
             .price-plan-btn {
