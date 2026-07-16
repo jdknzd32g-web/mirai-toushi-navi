@@ -15,7 +15,7 @@
   {"@context":"https://schema.org","@type":"CollectionPage","name":"新着記事 | 未来投資navi","url":"https://eva-solution.com/blog/index.html"}
   </script>
   <style>
-    :root{--navy:#102b3f;--blue:#176b87;--teal:#2c8b82;--ink:#1f2a30;--muted:#68777d;--cream:#f4f1e9;--paper:#fffdf8;--line:#dce3e1;--orange:#d96c3c}
+    :root{--navy:#102b3f;--blue:#176b87;--teal:#2c8b82;--ink:#1f2a30;--muted:#68777d;--cream:#f4f1e9;--paper:#fffdf8;--line:#dce3e1;--orange:#d96c3c;--gold:#f0c86b}
     *,*::before,*::after{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{margin:0;font-family:"Hiragino Mincho ProN","Yu Mincho",YuMincho,serif;color:var(--ink);background:var(--cream);line-height:1.8}
@@ -32,31 +32,35 @@
     h1{margin:0;font-size:clamp(36px,6vw,64px);font-weight:600;line-height:1.35;letter-spacing:.04em}
     .lead{max-width:610px;margin:20px 0 0;color:#d1dde0;font-size:16px}
     .main{padding:64px 24px 96px}
-    .section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:28px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:30px}
     .section-head h2{margin:0;color:var(--navy);font-size:27px;font-weight:600;letter-spacing:.05em}
     .section-head p{margin:0;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:12px;color:var(--muted)}
-    .featured{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);min-height:330px;margin-bottom:26px;background:var(--paper);border:1px solid var(--line);text-decoration:none;box-shadow:0 16px 38px rgba(16,43,63,.08)}
-    .featured-copy{padding:48px}
-    .featured-art{display:grid;place-items:center;position:relative;overflow:hidden;background:linear-gradient(145deg,var(--teal),var(--navy));color:#fff}
-    .featured-art::before,.featured-art::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.22);border-radius:50%}
-    .featured-art::before{width:270px;height:270px;right:-70px;top:-80px}
-    .featured-art::after{width:180px;height:180px;left:-80px;bottom:-60px}
-    .featured-art span{position:relative;z-index:1;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:13px;font-weight:700;letter-spacing:.24em;border:1px solid rgba(255,255,255,.55);padding:10px 16px}
+    .featured{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);min-height:420px;margin-bottom:30px;background:linear-gradient(180deg,rgba(255,253,248,.98),rgba(250,247,240,.98));border:1px solid rgba(44,139,130,.28);border-radius:28px;text-decoration:none;box-shadow:0 22px 52px rgba(16,43,63,.09);overflow:hidden}
+    .featured-copy{position:relative;padding:56px 54px 50px}
+    .featured-copy::after{content:"";position:absolute;right:28px;bottom:28px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(240,200,107,.18) 0%,rgba(240,200,107,0) 72%)}
+    .featured-art{position:relative;overflow:hidden;color:#fff;background:#0f3243}
+    .featured-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,27,39,.08),rgba(11,27,39,.42))}
+    .featured-art img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
+    .featured-badge{position:absolute;left:28px;top:28px;z-index:1;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(16,43,63,.76);backdrop-filter:blur(8px);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+    .featured-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(240,200,107,.18)}
     .tag{display:inline-block;margin-bottom:18px;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--teal)}
-    .featured h3{margin:0 0 18px;font-size:clamp(23px,3vw,32px);line-height:1.55;font-weight:600}
-    .meta{display:flex;align-items:center;gap:14px;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:12px;color:var(--muted)}
+    .featured h3{position:relative;z-index:1;margin:0 0 18px;font-size:clamp(25px,3vw,36px);line-height:1.58;font-weight:600}
+    .featured-lead{position:relative;z-index:1;max-width:36em;margin:0 0 28px;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:14px;line-height:1.9;color:#51646a}
+    .meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:12px;color:var(--muted)}
     .read{color:var(--orange);font-weight:700}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-    .card{display:flex;flex-direction:column;min-height:220px;padding:30px;background:var(--paper);border:1px solid var(--line);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .card{display:flex;flex-direction:column;min-height:220px;padding:32px;background:linear-gradient(180deg,rgba(255,253,248,.94),rgba(255,251,244,.98));border:1px solid rgba(16,43,63,.09);border-radius:22px;text-decoration:none;box-shadow:0 10px 24px rgba(16,43,63,.05);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
     .card:hover,.featured:hover{border-color:#9dbbb8}
-    .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(16,43,63,.08)}
-    .card h3{margin:0 0 24px;font-size:19px;line-height:1.65;font-weight:600}
+    .card:hover,.featured:hover{transform:translateY(-3px)}
+    .featured:hover{box-shadow:0 28px 56px rgba(16,43,63,.12)}
+    .card:hover{box-shadow:0 18px 34px rgba(16,43,63,.08)}
+    .card h3{margin:0 0 24px;font-size:19px;line-height:1.7;font-weight:600}
     .card .meta{margin-top:auto}
     .cta{display:flex;justify-content:space-between;align-items:center;gap:28px;margin-top:58px;padding:34px 38px;background:#dfeae6;border-left:5px solid var(--teal)}
     .cta h2{margin:0 0 4px;font-size:20px;color:var(--navy)}
     .cta p{margin:0;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:13px;color:#4c6267}
     .cta a{flex-shrink:0;padding:12px 24px;background:var(--navy);color:#fff;text-decoration:none;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;font-size:13px;font-weight:700}
-    @media(max-width:720px){.hero{padding-bottom:52px}.hero-inner{padding-top:54px}.lead{font-size:15px}.main{padding:44px 18px 72px}.section-head{align-items:start;flex-direction:column;gap:4px}.featured{grid-template-columns:1fr}.featured-copy{padding:30px 26px}.featured-art{min-height:150px;grid-row:1}.grid{grid-template-columns:1fr}.card{min-height:0;padding:25px}.cta{align-items:stretch;flex-direction:column;padding:28px}.cta a{text-align:center}}
+    @media(max-width:720px){.hero{padding-bottom:52px}.hero-inner{padding-top:54px}.lead{font-size:15px}.main{padding:44px 18px 72px}.section-head{align-items:start;flex-direction:column;gap:4px}.featured{grid-template-columns:1fr;min-height:0}.featured-copy{padding:32px 24px 30px}.featured h3{font-size:30px}.featured-lead{font-size:13px;margin-bottom:22px}.featured-art{min-height:220px;grid-row:1}.featured-badge{left:18px;top:18px}.grid{grid-template-columns:1fr}.card{min-height:0;padding:25px}.cta{align-items:stretch;flex-direction:column;padding:28px}.cta a{text-align:center}}
   </style>
 </head>
 <body>
@@ -82,12 +86,17 @@
       <div class="featured-copy">
         <span class="tag">新NISA・教育資金</span>
         <h3>こどもNISAは2027年からどう変わる？祖父母・親が知っておきたい年間60万円と贈与の注意点</h3>
+        <p class="featured-lead">2027年開始予定のこどもNISAを、年間60万円枠、総額600万円、祖父母からの贈与の注意点までやさしく整理した最新記事です。</p>
         <div class="meta"><time datetime="2026-07-16">2026.07.16</time><span class="read">記事を読む →</span></div>
       </div>
-      <div class="featured-art" aria-hidden="true"><span>NEW ARTICLE</span></div>
+      <div class="featured-art">
+        <span class="featured-badge">NEW ARTICLE</span>
+        <img src="2026/kodomo-nisa-2027/blog_kodomo_nisa_2027_header.webp" alt="親子三世代で子どもの将来資金について穏やかに話し合う様子" width="1280" height="720">
+      </div>
     </a>
 
     <div class="grid">
+      <a class="card" href="2026/copper-price-2026/copper-price-2026.html"><span class="tag">インフレ・資産防衛</span><h3>銅価格の高騰は何のサイン？AI時代に50代・60代が知っておきたいインフレと資産防衛</h3><div class="meta"><time datetime="2026-07-15">2026.07.15</time><span class="read">読む →</span></div></a>
       <a class="card" href="2026/investment-boom-ending/investment-boom-ending.html"><span class="tag">米国株・市場動向</span><h3>投資ブームは終わるのか？S&amp;P500とAI相場で50代・60代が確認すべき3つのこと</h3><div class="meta"><time datetime="2026-07-09">2026.07.09</time><span class="read">読む →</span></div></a>
       <a class="card" href="2026/inherited-money-nisa/inherited-money-nisa.html"><span class="tag">新NISA・相続</span><h3>親の遺産2,000万円を相続したらどう運用する？50代・60代の新NISA移し替え手順</h3><div class="meta"><time datetime="2026-06-17">2026.06.17</time><span class="read">読む →</span></div></a>
       <a class="card" href="2026/olcan-bonds-dividend/olcan-bonds-dividend.html"><span class="tag">資産配分</span><h3>オルカンだけで大丈夫？50代・60代が考えたい「日本国債」と高配当株の使い方</h3><div class="meta"><time datetime="2026-06-16">2026.06.16</time><span class="read">読む →</span></div></a>

@@ -389,4 +389,19 @@
       <image:title>こどもNISAは2027年からどう変わる？祖父母・親が知っておきたい年間60万円と贈与の注意点</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://eva-solution.com/blog/2026/copper-price-2026/copper-price-2026.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://eva-solution.com/blog/2026/copper-price-2026/blog_copper_price_2026_header.webp</image:loc>
+      <image:title>銅価格の高騰は何のサイン？AI時代に50代・60代が知っておきたいインフレと資産防衛</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://eva-solution.com/blog/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
