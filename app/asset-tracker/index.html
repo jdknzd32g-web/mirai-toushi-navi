@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="資産管理">
+<meta name="robots" content="noindex,nofollow">
+<title>トレード資産管理</title>
+<style>
+:root{
+  --bg:#f4f6fa; --panel:#ffffff; --panel2:#f8fafc; --border:#e2e8f0;
+  --text:#1a2233; --muted:#6b7688; --accent:#2563eb; --accent-weak:#dbeafe;
+  --profit:#16a34a; --profit-bg:#e7f6ec; --loss:#dc2626; --loss-bg:#fdeaea;
+  --shadow:0 1px 3px rgba(20,30,50,.08),0 1px 2px rgba(20,30,50,.04);
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e1420; --panel:#161d2b; --panel2:#1c2536; --border:#28324a;
+    --text:#e7ecf5; --muted:#8a97ad; --accent:#4b8bff; --accent-weak:#1c2f52;
+    --profit:#34d17f; --profit-bg:#123024; --loss:#f7706f; --loss-bg:#331a1c;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.5;-webkit-text-size-adjust:100%;
+  padding:16px;max-width:1120px;margin:0 auto;font-size:15px}
+h1{font-size:20px;font-weight:700;letter-spacing:.01em}
+h2{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.sub{color:var(--muted);font-size:12px;margin-top:2px}
+header{display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.pos{color:var(--profit)} .neg{color:var(--loss)}
+
+/* summary cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;box-shadow:var(--shadow)}
+.card .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+.card .val{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.card .val.small{font-size:18px}
+.card .delta{font-size:12px;margin-top:4px;font-weight:600}
+
+/* form */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+label.f{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:5px;font-weight:600}
+input,select,textarea{font:inherit;color:var(--text);background:var(--panel2);
+  border:1px solid var(--border);border-radius:9px;padding:9px 11px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+input[type=number]{text-align:right;font-variant-numeric:tabular-nums}
+textarea{min-height:38px;resize:vertical}
+
+/* 建玉一覧 */
+.pos-head{display:flex;justify-content:space-between;align-items:center;margin:20px 0 8px;flex-wrap:wrap;gap:8px}
+.pos-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:12px;padding:8px}
+.pos-inner{min-width:340px}
+.pos-cols{display:grid;grid-template-columns:26px 1.6fr 1.2fr 34px;gap:7px;align-items:center}
+.pos-labels{font-size:11px;color:var(--muted);font-weight:600;padding:2px 2px 8px}
+.pos-labels>div:nth-child(n+3){text-align:right}
+.pos-labels>div:nth-child(2){text-align:left}
+.pos-row{margin-bottom:7px}
+.pos-row input,.pos-row select{padding:8px 9px}
+.pos-row .idx{font-size:12px;color:var(--muted);text-align:center}
+.pnl-cell{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;padding-right:2px}
+.pos-subtotal{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end;
+  margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:13px}
+.pos-subtotal b{font-variant-numeric:tabular-nums}
+.helpnote{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6}
+
+button{font:inherit;font-weight:600;cursor:pointer;border:none;border-radius:9px;
+  padding:9px 16px;background:var(--accent);color:#fff;transition:opacity .15s}
+button:hover{opacity:.88}
+button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
+button.sm{padding:6px 11px;font-size:13px}
+button.danger{background:transparent;color:var(--loss);border:1px solid var(--border)}
+button.icon{background:transparent;color:var(--muted);padding:6px 7px;font-size:15px;line-height:1}
+.formbar{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;align-items:center}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+
+/* table */
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:640px}
+th,td{padding:9px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-weight:600;font-size:11px;text-align:right;position:sticky;top:0;background:var(--panel)}
+th:first-child,td:first-child{text-align:left}
+tbody tr:hover{background:var(--panel2)}
+td.act{text-align:center}
+.pill{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:600}
+.pill.p{background:var(--profit-bg);color:var(--profit)}
+.pill.n{background:var(--loss-bg);color:var(--loss)}
+.empty{text-align:center;color:var(--muted);padding:28px;font-size:13px}
+
+/* chart */
+.chart{width:100%;height:220px;display:block}
+.chart-legend{font-size:11px;color:var(--muted);margin-top:6px}
+
+.footer{color:var(--muted);font-size:11px;text-align:center;margin:22px 0 6px}
+.posline{display:inline-flex;gap:6px;align-items:center;margin:2px 10px 2px 0;font-size:12px}
+details.assets td{padding:0}
+details summary{cursor:pointer;color:var(--accent);font-size:12px;list-style:none}
+details summary::-webkit-details-marker{display:none}
+.assetbox{padding:6px 10px 12px;font-size:12px}
+@media(max-width:560px){
+  body{padding:11px} h1{font-size:18px} .card .val{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📊 トレード資産管理</h1>
+    <div class="sub">総資産と建玉を記録して、損益を見える化（1日に何度でも記録OK）</div>
+  </div>
+  <div class="toolbar">
+    <button class="ghost sm" onclick="exportJSON()">バックアップ書出</button>
+    <button class="ghost sm" onclick="document.getElementById('imp').click()">読込</button>
+    <button class="ghost sm" onclick="exportCSV()">CSV書出</button>
+    <input type="file" id="imp" accept=".json" style="display:none" onchange="importJSON(this)">
+  </div>
+</header>
+
+<!-- summary -->
+<section class="cards" id="cards"></section>
+
+<!-- chart -->
+<div class="panel">
+  <h2>総資産の推移</h2>
+  <svg class="chart" id="chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
+  <div class="chart-legend" id="chartLegend"></div>
+</div>
+
+<!-- input form -->
+<div class="panel">
+  <h2 id="formTitle">記録を入力</h2>
+  <div class="grid">
+    <label class="f">日付
+      <input type="date" id="date">
+    </label>
+    <label class="f">時刻
+      <input type="time" id="time">
+    </label>
+    <label class="f">総資産（円）
+      <input type="number" id="totalAsset" inputmode="numeric" placeholder="例 5000000">
+    </label>
+    <label class="f">元手（これまで入れた資金の累計・円）
+      <input type="number" id="principal" inputmode="numeric" placeholder="例 5000000">
+    </label>
+    <label class="f">実現損益（任意メモ・合計には未反映）
+      <input type="number" id="realized" inputmode="numeric" placeholder="決済で確定した分だけ・空欄可">
+    </label>
+    <label class="f">メモ（任意）
+      <input type="text" id="memo" placeholder="相場観・売買メモなど">
+    </label>
+  </div>
+
+  <div class="sub" style="margin:-4px 0 4px">元手は「これまで入れた資金の合計」。前回の値が自動で入るので、<b>追加入金・出金した時だけ</b>直せばOK。その増減がそのまま入出金の記録になります。</div>
+
+  <div class="pos-head">
+    <h2 style="margin:0">建玉の評価損益 <span id="posCount" class="sub" style="display:inline">0 / 60 件</span></h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="sm" onclick="toggleAi()">📷 スクショから自動集計</button>
+      <button class="ghost sm" onclick="togglePaste()">📋 まとめて貼り付け</button>
+      <button class="ghost sm" onclick="addPositionRow()">＋ 1行</button>
+      <button class="ghost sm" onclick="for(let i=0;i<5;i++)addPositionRow()">＋5行</button>
+    </div>
+  </div>
+
+  <div id="pastePanel" style="display:none;margin:8px 0 4px">
+    <textarea id="pasteBox" placeholder="評価損益を1行に1件で貼り付け。銘柄はあってもなくてもOK。&#10;例：&#10;日本225 -46840&#10;金スポット -1623&#10;-15133" style="min-height:96px"></textarea>
+    <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+      <button class="sm" onclick="applyPaste()">この内容で建玉を作成</button>
+      <button class="ghost sm" onclick="togglePaste(false)">閉じる</button>
+      <span class="sub" style="margin-left:auto">貼り付けた行数で置き換えます</span>
+    </div>
+  </div>
+  <div id="aiPanel" style="display:none;margin:8px 0 4px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px">
+      <label class="f" style="flex:2 1 220px">Anthropic APIキー（この端末内にのみ保存）
+        <input type="password" id="aiKey" placeholder="sk-ant-..." autocomplete="off">
+      </label>
+      <label class="f" style="flex:1 1 150px">モデル名
+        <input type="text" id="aiModel" placeholder="claude-sonnet-5">
+      </label>
+      <button class="ghost sm" onclick="saveAiSettings()">設定を保存</button>
+    </div>
+    <div id="aiDrop" style="border:1.5px dashed var(--border);border-radius:10px;padding:16px;text-align:center;color:var(--muted);font-size:13px">
+      「建玉照会」のスクショをここに貼り付け（⌘V）／ドラッグ＆ドロップ（複数枚まとめてOK）<br>
+      <button class="sm" style="margin-top:8px" onclick="document.getElementById('aiFile').click()">画像を選ぶ…</button>
+      <input type="file" id="aiFile" accept="image/*" multiple style="display:none" onchange="handleAiFiles(this.files);this.value=''">
+    </div>
+    <div id="aiStatus" class="sub" style="margin-top:8px"></div>
+    <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+      <button class="ghost sm" onclick="toggleAi(false)">閉じる</button>
+      <span class="sub" style="margin-left:auto">読み取り結果は下の一覧＋合計に入ります。確認・修正して「この記録を保存」で反映</span>
+    </div>
+  </div>
+  <datalist id="symList"></datalist>
+
+  <div class="pos-scroll">
+    <div class="pos-inner">
+      <div class="pos-cols pos-labels">
+        <div>#</div><div>銘柄</div><div>評価損益（円）</div><div></div>
+      </div>
+      <div id="posRows"></div>
+    </div>
+  </div>
+
+  <div class="pos-subtotal">
+    <span>含み益 小計 <b id="stProfit" class="pos">¥0</b></span>
+    <span>含み損 小計 <b id="stLoss" class="neg">¥0</b></span>
+    <span>評価損益 合計 <b id="stNet" class="num">¥0</b></span>
+  </div>
+  <div class="helpnote">
+    <b>📷 スクショから自動集計</b>：証券会社「建玉照会」のスクショを貼るとAIが各資産の<b>評価損益(円)</b>（右端の列＝金利・価格調整・ファンディング込みの最終値）を読み取り、下の一覧＋合計に反映します（複数枚まとめてOK）。内容を確認・修正して<b>「この記録を保存」</b>で記録に反映。<br>
+    手入力や <b>📋 まとめて貼り付け</b> も従来どおり使えます。マイナスは含み損、プラスは含み益として自動集計されます。
+  </div>
+
+  <div class="formbar">
+    <button onclick="saveEntry()" id="saveBtn">この日を保存</button>
+    <button class="ghost" onclick="resetForm()">クリア</button>
+    <span id="calcHint" class="sub" style="margin-left:auto"></span>
+  </div>
+</div>
+
+<!-- history -->
+<div class="panel">
+  <h2>記録の履歴</h2>
+  <div class="tablewrap">
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th>日付</th><th>時刻</th><th>総資産</th><th>元手</th><th>増減損益</th><th>前回比</th>
+          <th>含み益</th><th>含み損</th><th>評価損益</th>
+          <th>実現損益</th><th>累計損益</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div id="emptyMsg" class="empty">まだ記録がありません。上のフォームから今日の総資産と建玉を入力してください。</div>
+  <div style="margin-top:14px;text-align:right">
+    <button class="danger sm" onclick="clearAll()">全データ削除</button>
+  </div>
+</div>
+
+<div class="footer">
+  データはこのブラウザ内（localStorage）にのみ保存されます。機種変更・バックアップ時は「バックアップ書出」でファイル保存してください。<br>
+  増減損益＝(今回総資産−前回総資産)−(その間の入出金)　／　評価損益＝含み益合計−含み損合計　／　同じ日でも時刻が違えば別の記録として残ります<br>
+  元手はその時点までの累計入金額を入力（前回値を自動表示、追加入金・出金した時だけ増減）。トータル損益＝総資産−元手。元手の推移（グラフの点線）で入出金の履歴が分かります。
+</div>
+
+<script>
+const KEY  = "tradingTracker.entries.v1";
+const MKEY = "tradingTracker.mult.v1";   // 銘柄別 乗数の記憶
+const SYMBOLS = ["日本225","米国S500","中国A50","ダウ","ラッセル2000","金スポット","銀スポット","銅"];
+const MAX_POS = 60;
+const AIKEY = "tradingTracker.apiKey.v1";
+const AIMODEL = "tradingTracker.model.v1";
+const DEFAULT_MODEL = "claude-sonnet-5";
+const OCR_PROMPT = `添付は証券会社「建玉照会」のスクリーンショットです。各ポジション行について、右側にある「評価損益(円)」列（金利調整・価格調整・ファンディングレートを含んだ最終的な評価損益。左寄りの「建玉評価損益」ではなく、右端寄りの「評価損益(円)」列）の金額と、その行の銘柄名を読み取ってください。出力は厳密なJSON配列のみとし、説明文やマークダウンのコードフェンスは付けないでください。各要素は {"symbol":"銘柄名","pnl":数値} の形式。pnlは円で、マイナスは負の数、カンマや通貨記号は付けない。合計行や読み取れない行は含めないでください。`;
+
+let entries = load();
+let multMemo = loadMult();
+let editingKey = null;
+
+function load(){
+  try{ const a = JSON.parse(localStorage.getItem(KEY)||"[]");
+       return Array.isArray(a)?a.sort(byDateTime):[]; }
+  catch(e){ return []; }
+}
+function loadMult(){ try{ return JSON.parse(localStorage.getItem(MKEY)||"{}")||{}; }catch(e){ return {}; } }
+function persist(){ localStorage.setItem(KEY, JSON.stringify(entries)); }
+function persistMult(){ localStorage.setItem(MKEY, JSON.stringify(multMemo)); }
+const yen = n => (n<0?"-":"")+"¥"+Math.abs(Math.round(n)).toLocaleString("ja-JP");
+const num = id => { const v=parseFloat(document.getElementById(id).value); return isNaN(v)?0:v; };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function todayStr(){ const d=new Date(); const o=d.getTimezoneOffset()*60000;
+  return new Date(d-o).toISOString().slice(0,10); }
+function nowTimeStr(){ const d=new Date(); const o=d.getTimezoneOffset()*60000;
+  return new Date(d-o).toISOString().slice(11,16); }
+// 1件の識別キー＝日付＋時刻。時刻が違えば同じ日でも別レコード
+function keyOf(date,time){ return (date||"")+" "+(time||""); }
+function dtOf(e){ return (e.date||"")+"T"+(e.time||"00:00"); }
+function byDateTime(a,b){ const x=dtOf(a), y=dtOf(b); return x<y?-1:x>y?1:0; }
+
+/* ---------- 損益計算 ---------- */
+function calcPnl(p){
+  const dir = p.side==="sell" ? -1 : 1;
+  const v = (Number(p.current)-Number(p.entry))*Number(p.lot)*Number(p.mult)*dir;
+  return isFinite(v)?v:0;
+}
+
+/* ---------- 建玉 行 ---------- */
+function posRowCount(){ return document.querySelectorAll("#posRows .pos-row").length; }
+function addPositionRow(p){
+  if(posRowCount()>=MAX_POS){ alert("建玉は最大 "+MAX_POS+" 件までです。"); return; }
+  p = p||{};
+  const wrap=document.getElementById("posRows");
+  const row=document.createElement("div");
+  row.className="pos-row pos-cols";
+  const pnlVal=(p.pnl!=null)?p.pnl:"";
+  row.innerHTML=`
+    <div class="idx"></div>
+    <input data-k="symbol" list="symList" placeholder="銘柄（任意）" value="${p.symbol?esc(p.symbol):""}">
+    <input data-k="pnl" type="number" inputmode="decimal" step="any" placeholder="評価損益 例 -46840" value="${pnlVal}">
+    <button class="icon" title="削除" onclick="this.parentNode.remove();renumber();recalcForm()">✕</button>`;
+  row.querySelectorAll("input").forEach(el=>el.addEventListener("input",recalcForm));
+  wrap.appendChild(row);
+  renumber(); recalcForm();
+}
+function renumber(){
+  document.querySelectorAll("#posRows .pos-row").forEach((r,i)=>{
+    r.querySelector(".idx").textContent=i+1;
+  });
+  document.getElementById("posCount").textContent=posRowCount()+" / "+MAX_POS+" 件";
+}
+function readPositions(){
+  const out=[];
+  document.querySelectorAll("#posRows .pos-row").forEach(r=>{
+    const g=k=>r.querySelector('[data-k="'+k+'"]');
+    const symbol=(g("symbol").value||"").trim();
+    const pnl=parseFloat(g("pnl").value);
+    if(isNaN(pnl)) return;             // 金額未入力の行は無視
+    out.push({symbol:symbol||"(無名)", pnl});
+  });
+  return out;
+}
+// 入力中：含み益・含み損・評価損益の小計を更新
+function recalcForm(){
+  let profit=0, loss=0;
+  document.querySelectorAll("#posRows .pos-row").forEach(r=>{
+    const pnl=parseFloat(r.querySelector('[data-k="pnl"]').value);
+    if(isNaN(pnl)) return;
+    if(pnl>0) profit+=pnl; else loss+=-pnl;
+  });
+  document.getElementById("stProfit").textContent=yen(profit);
+  document.getElementById("stLoss").textContent=(loss?"-":"")+yen(loss);
+  const net=profit-loss;
+  const nEl=document.getElementById("stNet");
+  nEl.textContent=(net>=0?"+":"")+yen(net);
+  nEl.className="num "+(net>0?"pos":net<0?"neg":"");
+  updateHint();
+}
+/* まとめて貼り付け：1行1件、末尾の数値を評価損益として取り込む */
+function togglePaste(show){
+  const el=document.getElementById("pastePanel");
+  const willShow=(show===undefined)?(el.style.display==="none"):show;
+  el.style.display=willShow?"block":"none";
+  if(willShow) document.getElementById("pasteBox").focus();
+}
+function applyPaste(){
+  const txt=document.getElementById("pasteBox").value;
+  const lines=txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const parsed=[];
+  lines.forEach(line=>{
+    const cleaned=line.replace(/[,，¥￥]/g,"").replace(/[△▲]/g,"-");
+    const m=cleaned.match(/-?\(?\d+(?:\.\d+)?\)?\s*$/);   // 行末の数値
+    if(!m) return;
+    let numStr=m[0].trim(), neg=false;
+    if(/^\(.*\)$/.test(numStr)){ neg=true; numStr=numStr.replace(/[()]/g,""); } // (1,200)＝負
+    let val=parseFloat(numStr);
+    if(neg) val=-Math.abs(val);
+    if(isNaN(val)) return;
+    parsed.push({symbol:cleaned.slice(0,m.index).trim(), pnl:val});
+  });
+  if(!parsed.length){ alert("数値を読み取れませんでした。1行に1件、金額を含めて貼り付けてください。"); return; }
+  if(posRowCount()>0 && !confirm("現在の建玉 "+posRowCount()+" 行を、貼り付けた "+parsed.length+" 行で置き換えます。よろしいですか？")) return;
+  document.getElementById("posRows").innerHTML="";
+  parsed.forEach(p=>addPositionRow(p));
+  togglePaste(false);
+  document.getElementById("pasteBox").value="";
+  recalcForm();
+}
+
+/* ---------- スクショAI読み取り（補助・失敗してもアプリは無傷） ---------- */
+function setAiStatus(msg){ const el=document.getElementById("aiStatus"); if(el) el.textContent=msg||""; }
+function toggleAi(show){
+  const el=document.getElementById("aiPanel");
+  const willShow=(show===undefined)?(el.style.display==="none"):show;
+  el.style.display=willShow?"block":"none";
+  if(willShow){
+    document.getElementById("aiKey").value=localStorage.getItem(AIKEY)||"";
+    document.getElementById("aiModel").value=localStorage.getItem(AIMODEL)||DEFAULT_MODEL;
+    setAiStatus("");
+  }
+}
+function saveAiSettings(){
+  try{
+    localStorage.setItem(AIKEY,(document.getElementById("aiKey").value||"").trim());
+    localStorage.setItem(AIMODEL,(document.getElementById("aiModel").value||"").trim()||DEFAULT_MODEL);
+    setAiStatus("設定を保存しました。");
+  }catch(e){ setAiStatus("設定の保存に失敗しました。"); }
+}
+// 画像を長辺1568pxに縮小して base64(JPEG) 化
+async function fileToImagePart(file){
+  const bmp=await createImageBitmap(file);
+  const maxSide=1568, scale=Math.min(1,maxSide/Math.max(bmp.width,bmp.height));
+  const w=Math.max(1,Math.round(bmp.width*scale)), h=Math.max(1,Math.round(bmp.height*scale));
+  const cv=document.createElement("canvas"); cv.width=w; cv.height=h;
+  const ctx=cv.getContext("2d");
+  ctx.fillStyle="#000"; ctx.fillRect(0,0,w,h);
+  ctx.drawImage(bmp,0,0,w,h);
+  if(bmp.close) bmp.close();
+  const durl=cv.toDataURL("image/jpeg",0.92);
+  return {type:"image", source:{type:"base64", media_type:"image/jpeg", data:durl.split(",")[1]}};
+}
+function handleAiFiles(fileList){
+  const files=Array.from(fileList||[]).filter(f=>f && f.type && f.type.indexOf("image")===0);
+  if(!files.length){ setAiStatus("画像が見つかりませんでした。"); return; }
+  runAiOcr(files);
+}
+// モデルの返答テキストから [{symbol,pnl}] を安全に取り出す
+function extractPositions(text){
+  let t=(text||"").trim();
+  const fence=t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if(fence) t=fence[1].trim();
+  const a=t.indexOf("["), b=t.lastIndexOf("]");
+  if(a>=0 && b>a) t=t.slice(a,b+1);
+  const arr=JSON.parse(t);
+  if(!Array.isArray(arr)) return [];
+  return arr.map(o=>({symbol:(o&&o.symbol!=null?String(o.symbol):"").trim()||"(無名)", pnl:Number(o&&o.pnl)}))
+            .filter(o=>isFinite(o.pnl));
+}
+async function runAiOcr(files){
+  const key=(localStorage.getItem(AIKEY)||"").trim();
+  const model=(localStorage.getItem(AIMODEL)||DEFAULT_MODEL).trim();
+  if(!key){ setAiStatus("先にAPIキーを入力して「設定を保存」を押してください。"); toggleAi(true); return; }
+  setAiStatus("画像を準備中…（"+files.length+"枚）");
+  let parts;
+  try{ parts=await Promise.all(files.map(fileToImagePart)); }
+  catch(e){ setAiStatus("画像を読み込めませんでした。別の画像か手入力をお試しください。"); return; }
+  setAiStatus("AIが読み取り中…（10〜20秒ほどかかります）");
+  let data;
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{
+        "content-type":"application/json",
+        "x-api-key":key,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
+      body:JSON.stringify({
+        model, max_tokens:4096,
+        messages:[{role:"user", content:[...parts, {type:"text", text:OCR_PROMPT}]}]
+      })
+    });
+    if(!res.ok){
+      let msg=res.status+"";
+      try{ const j=await res.json(); if(j&&j.error&&j.error.message) msg+="  "+j.error.message; }catch(_){}
+      throw new Error(msg);
+    }
+    data=await res.json();
+  }catch(e){
+    setAiStatus("通信に失敗しました（"+(e&&e.message?e.message:e)+"）。キー・モデル名・ネット接続をご確認ください。手入力や『まとめて貼り付け』はそのまま使えます。");
+    return;
+  }
+  let rows;
+  try{
+    const text=(data.content||[]).filter(c=>c&&c.type==="text").map(c=>c.text).join("").trim();
+    rows=extractPositions(text);
+  }catch(e){ rows=[]; }
+  if(!rows.length){ setAiStatus("数字を読み取れませんでした。もう一度試すか、手入力・貼り付けをご利用ください。"); return; }
+  if(posRowCount()>0 && !confirm("読み取った "+rows.length+" 件で、現在の建玉一覧を置き換えます。よろしいですか？")){ setAiStatus("キャンセルしました。"); return; }
+  document.getElementById("posRows").innerHTML="";
+  rows.forEach(p=>addPositionRow(p));
+  recalcForm();
+  const net=rows.reduce((s,r)=>s+(isFinite(r.pnl)?r.pnl:0),0);
+  setAiStatus("自動集計 完了："+rows.length+"件／評価損益合計 "+(net>=0?"+":"")+yen(net)+"。数字を確認し、間違いは直接修正して、下の「この記録を保存」で今の記録に反映してください。");
+  toggleAi(false);
+}
+
+/* ---------- 保存・編集・削除 ---------- */
+function saveEntry(){
+  const date=document.getElementById("date").value || todayStr();
+  const time=(document.getElementById("time").value||"").trim();
+  const total=num("totalAsset");
+  if(!total){ alert("総資産を入力してください。"); return; }
+  const positions=readPositions();
+  const entry={
+    date, time,
+    totalAsset:total,
+    principal:num("principal"),
+    realized:num("realized"),
+    memo:document.getElementById("memo").value.trim(),
+    positions
+  };
+  const newKey=keyOf(date,time);
+  // 編集で日付・時刻を変えた時は、元の記録を消してから入れ直す
+  if(editingKey && editingKey!==newKey){
+    entries=entries.filter(e=>keyOf(e.date,e.time)!==editingKey);
+  }
+  const idx=entries.findIndex(e=>keyOf(e.date,e.time)===newKey);
+  if(idx>=0){
+    if(editingKey!==newKey && !confirm(date+" "+(time||"")+" は既に記録があります。上書きしますか？")) return;
+    entries[idx]=entry;
+  }else{
+    entries.push(entry);
+  }
+  entries.sort(byDateTime);
+  persist(); editingKey=null; resetForm(); render();
+}
+function editEntry(date,time){
+  time=time||"";
+  const key=keyOf(date,time);
+  const e=entries.find(x=>keyOf(x.date,x.time)===key); if(!e) return;
+  editingKey=key;
+  document.getElementById("date").value=e.date;
+  document.getElementById("time").value=e.time||"";
+  document.getElementById("totalAsset").value=e.totalAsset;
+  const cp=computed().find(x=>keyOf(x.date,x.time)===key);
+  document.getElementById("principal").value=(cp?cp.principal:(e.principal!=null?e.principal:""))||"";
+  document.getElementById("realized").value=e.realized||"";
+  document.getElementById("memo").value=e.memo||"";
+  document.getElementById("posRows").innerHTML="";
+  const list=e.positions||[];
+  if(list.length) list.forEach(p=>addPositionRow(p)); else addPositionRow();
+  document.getElementById("formTitle").textContent="編集中： "+e.date+(e.time?" "+e.time:"");
+  document.getElementById("saveBtn").textContent="更新を保存";
+  recalcForm();
+  window.scrollTo({top:document.querySelector('#formTitle').offsetTop-20,behavior:'smooth'});
+}
+function deleteEntry(date,time){
+  time=time||"";
+  const key=keyOf(date,time);
+  if(!confirm(date+(time?" "+time:"")+" の記録を削除しますか？")) return;
+  entries=entries.filter(e=>keyOf(e.date,e.time)!==key); persist(); render();
+}
+function resetForm(){
+  editingKey=null;
+  document.getElementById("date").value=todayStr();
+  document.getElementById("time").value=nowTimeStr();
+  ["totalAsset","principal","realized","memo"].forEach(id=>document.getElementById(id).value="");
+  // 元手は前回の値を自動で引き継ぐ（追加入金・出金があった時だけ直す）
+  const cc=computed();
+  if(cc.length) document.getElementById("principal").value=cc[cc.length-1].principal||"";
+  document.getElementById("posRows").innerHTML="";
+  addPositionRow();
+  document.getElementById("formTitle").textContent="記録を入力";
+  document.getElementById("saveBtn").textContent="この記録を保存";
+  recalcForm();
+}
+
+/* ---------- 集計（派生値） ---------- */
+function entryProfitLoss(e){
+  let profit=0, loss=0;
+  (e.positions||[]).forEach(p=>{
+    const v=(p.pnl!=null)?p.pnl:calcPnl(p);
+    if(v>0) profit+=v; else loss+=-v;
+  });
+  return {profit,loss};
+}
+function computed(){
+  const s=[...entries].sort(byDateTime);
+  let cum=0, running=0;
+  return s.map((e,i)=>{
+    const {profit,loss}=entryProfitLoss(e);
+    // 元手（純入金の累計）。新方式は元手を直接入力、旧データは入金−出金から復元
+    const prevPrincipal=running;
+    const principal=(e.principal!=null)
+      ? e.principal
+      : running+((e.deposit||0)-(e.withdraw||0));
+    running=principal;
+    const flow=(i===0)?principal:principal-prevPrincipal; // その日の入出金＝元手の増減
+    const prev=i>0?s[i-1]:null;
+    let daily=null, pct=null;
+    if(prev){
+      daily=(e.totalAsset-prev.totalAsset)-flow;
+      pct=prev.totalAsset?((e.totalAsset-prev.totalAsset)/prev.totalAsset*100):null;
+      cum+=daily;
+    }
+    return {...e,profit,loss,valuation:profit-loss,daily,pct,cum,principal,flow,netIn:principal,totalPL:e.totalAsset-principal};
+  });
+}
+
+/* ---------- 描画 ---------- */
+function render(){
+  const c=computed();
+  renderCards(c); renderChart(c); renderTable(c);
+  document.getElementById("emptyMsg").style.display=c.length?"none":"block";
+}
+function renderCards(c){
+  const el=document.getElementById("cards");
+  if(!c.length){ el.innerHTML=""; return; }
+  const last=c[c.length-1];
+  const deltaTxt = last.daily==null ? '<span class="sub">起点</span>'
+    : `<span class="delta ${last.daily>=0?'pos':'neg'}">${last.daily>=0?'▲':'▼'} ${yen(last.daily)}${last.pct!=null?` (${last.pct>=0?'+':''}${last.pct.toFixed(2)}%)`:''}</span>`;
+  const cls=v=>v>0?'pos':v<0?'neg':'';
+  el.innerHTML=`
+    <div class="card"><div class="label">総資産＝清算価値（${last.date}${last.time?' '+last.time:''}）</div>
+      <div class="val num">${yen(last.totalAsset)}</div>${deltaTxt}
+      <div class="delta sub">全部精算してもほぼこの額</div></div>
+    <div class="card"><div class="label">元手（累計入金）</div>
+      <div class="val small num">${yen(last.principal)}</div>
+      <div class="delta sub">これまで入れた資金</div></div>
+    <div class="card"><div class="label">トータル損益（総資産−元手）</div>
+      <div class="val small num ${cls(last.totalPL)}">${(last.totalPL>0?'+':'')+yen(last.totalPL)}</div>
+      <div class="delta sub">実現＋含みの全損益</div></div>
+    <div class="card"><div class="label">確定損益（トータル−含み損益）</div>
+      <div class="val small num ${cls(last.totalPL-last.valuation)}">${((last.totalPL-last.valuation)>0?'+':'')+yen(last.totalPL-last.valuation)}</div>
+      <div class="delta sub">すでに確定した実現分</div></div>
+    <div class="card"><div class="label">評価損益（含み益−含み損）</div>
+      <div class="val small num ${cls(last.valuation)}">${yen(last.valuation)}</div>
+      <div class="delta sub">まだ確定していない分</div></div>
+    <div class="card"><div class="label">含み益 合計</div>
+      <div class="val small num pos">${yen(last.profit)}</div></div>
+    <div class="card"><div class="label">含み損 合計</div>
+      <div class="val small num neg">${last.loss?'-':''}${yen(last.loss)}</div></div>`;
+}
+function renderTable(c){
+  const tb=document.getElementById("tbody");
+  tb.innerHTML=[...c].reverse().map(e=>{
+    const dcls=e.daily==null?'':e.daily>=0?'pos':'neg';
+    const pcls=e.pct==null?'':e.pct>=0?'pos':'neg';
+    const posTip=(e.positions||[]).map(p=>{
+      const v=(p.pnl!=null)?p.pnl:calcPnl(p);
+      const pill=`<span class="pill ${v>=0?'p':'n'}">${v>=0?'+':'-'}${yen(Math.abs(v))}</span>`;
+      const dtl=(p.entry!=null&&p.current!=null)?` <span class="sub">${p.side==="sell"?"売":"買"} ${p.lot}枚 ${p.entry}→${p.current}</span>`:"";
+      return `<span class="posline"><b>${esc(p.symbol||"(無名)")}</b>${dtl} ${pill}</span>`;
+    }).join("");
+    const memoLine=e.memo?`<div style="color:var(--muted);margin-top:6px">📝 ${esc(e.memo)}</div>`:"";
+    const detail=(posTip||memoLine)?
+      `<tr class="assets"><td colspan="12"><details><summary>建玉の内訳・メモを表示（${(e.positions||[]).length}件）</summary>
+        <div class="assetbox">${posTip||'<span class="sub">建玉の記録なし</span>'}${memoLine}</div></details></td></tr>`:"";
+    return `<tr>
+      <td>${e.date}</td>
+      <td>${e.time||'—'}</td>
+      <td class="num">${yen(e.totalAsset)}</td>
+      <td class="num">${yen(e.principal)}</td>
+      <td class="num ${dcls}">${e.daily==null?'—':(e.daily>=0?'+':'')+yen(e.daily)}</td>
+      <td class="num ${pcls}">${e.pct==null?'—':(e.pct>=0?'+':'')+e.pct.toFixed(2)+'%'}</td>
+      <td class="num pos">${e.profit?yen(e.profit):'—'}</td>
+      <td class="num neg">${e.loss?'-'+yen(e.loss):'—'}</td>
+      <td class="num ${e.valuation>0?'pos':e.valuation<0?'neg':''}">${yen(e.valuation)}</td>
+      <td class="num ${e.realized>0?'pos':e.realized<0?'neg':''}">${e.realized?(e.realized>0?'+':'')+yen(e.realized):'—'}</td>
+      <td class="num ${e.cum>0?'pos':e.cum<0?'neg':''}">${yen(e.cum)}</td>
+      <td class="act">
+        <button class="icon" title="編集" onclick="editEntry('${e.date}','${e.time||''}')">✎</button>
+        <button class="icon" title="削除" onclick="deleteEntry('${e.date}','${e.time||''}')">🗑</button>
+      </td></tr>${detail}`;
+  }).join("");
+}
+function renderChart(c){
+  const svg=document.getElementById("chart");
+  const leg=document.getElementById("chartLegend");
+  const W=800,H=220,pad=8;
+  if(c.length<2){ svg.innerHTML=`<text x="${W/2}" y="${H/2}" fill="var(--muted)" font-size="13" text-anchor="middle">2日以上の記録でグラフを表示します</text>`; leg.textContent=""; return; }
+  const assets=c.map(e=>e.totalAsset);
+  const invs=c.map(e=>e.netIn);
+  const all=assets.concat(invs);
+  const min=Math.min(...all), max=Math.max(...all);
+  const range=(max-min)||1;
+  const x=i=>pad+(W-2*pad)*(i/(c.length-1));
+  const y=v=>pad+(H-2*pad)*(1-(v-min)/range);
+  const ptsA=c.map((e,i)=>[x(i),y(e.totalAsset)]);
+  const lineA=ptsA.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const area=`${lineA} L ${x(c.length-1).toFixed(1)} ${H-pad} L ${pad} ${H-pad} Z`;
+  const ptsI=c.map((e,i)=>[x(i),y(e.netIn)]);
+  const lineI=ptsI.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const up = assets[assets.length-1]>=invs[invs.length-1];
+  const col = up?'var(--profit)':'var(--loss)';
+  svg.innerHTML=`
+    <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="${col}" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#g)"/>
+    <path d="${lineI}" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>
+    <path d="${lineA}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    ${ptsA.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="${col}"/>`).join("")}`;
+  leg.textContent=`実線＝総資産（清算価値）／点線＝元手　実線と点線の差が損益　期間 ${c[0].date}〜${c[c.length-1].date}`;
+}
+
+function updateHint(){
+  const date=document.getElementById("date").value;
+  const time=(document.getElementById("time").value||"").trim();
+  const total=num("totalAsset");
+  const hint=document.getElementById("calcHint");
+  if(!date){ hint.textContent=""; return; }
+  const c=computed();
+  const curDt=date+"T"+(time||"00:00");
+  const prev=[...c].reverse().find(e=>dtOf(e)<curDt);
+  if(prev && total){
+    const flow=num("principal")-prev.principal; // 元手の増減＝入出金
+    const daily=(total-prev.totalAsset)-flow;
+    const flowTxt=flow?`／入出金 ${flow>0?'+':''}${yen(flow)}`:'';
+    hint.textContent=`増減損益の目安 ${daily>=0?'+':''}${yen(daily)}（前回 ${prev.date}${prev.time?' '+prev.time:''} 比${flowTxt}）`;
+  }else{ hint.textContent=""; }
+}
+
+/* ---------- 入出力 ---------- */
+function exportJSON(){
+  const blob=new Blob([JSON.stringify({entries,mult:multMemo},null,2)],{type:"application/json"});
+  dl(blob,`trading-backup-${todayStr()}.json`);
+}
+function importJSON(inp){
+  const f=inp.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const data=JSON.parse(r.result);
+    const arr=Array.isArray(data)?data:data.entries;
+    if(!Array.isArray(arr)) throw 0;
+    if(entries.length && !confirm("現在のデータを読み込んだ内容で置き換えます。よろしいですか？")){inp.value="";return;}
+    entries=arr.sort(byDateTime);
+    if(data.mult && typeof data.mult==="object"){ multMemo=data.mult; persistMult(); }
+    persist(); render();
+    alert("読み込みました（"+entries.length+"件）");
+  }catch(e){ alert("読み込めませんでした。バックアップ書出で作成したJSONを選んでください。"); }
+  inp.value=""; };
+  r.readAsText(f);
+}
+function exportCSV(){
+  const c=computed();
+  const head=["日付","時刻","総資産","元手","入出金","トータル損益","含み益合計","含み損合計","評価損益","実現損益","増減損益","前回比%","累計損益","建玉件数","メモ"];
+  const rows=c.map(e=>[e.date,e.time||"",e.totalAsset,e.principal,e.flow,e.totalPL,e.profit,e.loss,e.valuation,
+    e.realized||0,e.daily==null?"":e.daily,e.pct==null?"":e.pct.toFixed(2),e.cum,(e.positions||[]).length,
+    '"'+(e.memo||"").replace(/"/g,'""')+'"'].join(","));
+  const csv="﻿"+[head.join(","),...rows].join("\r\n");
+  dl(new Blob([csv],{type:"text/csv"}),`trading-summary-${todayStr()}.csv`);
+}
+function dl(blob,name){
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function clearAll(){
+  if(!confirm("すべての記録を削除します。取り消せません。よろしいですか？")) return;
+  if(!confirm("本当に削除してよろしいですか？（バックアップ推奨）")) return;
+  entries=[]; persist(); render();
+}
+
+/* ---------- 初期化 ---------- */
+document.getElementById("symList").innerHTML=SYMBOLS.map(s=>`<option value="${s}">`).join("");
+["date","time","totalAsset","principal"].forEach(id=>
+  document.getElementById(id).addEventListener("input",updateHint));
+// スクショAI：ドラッグ＆ドロップと貼り付け（AIパネルが開いている時のみ）
+(function(){
+  const drop=document.getElementById("aiDrop");
+  if(drop){
+    ["dragover","dragenter"].forEach(ev=>drop.addEventListener(ev,e=>e.preventDefault()));
+    drop.addEventListener("drop",e=>{ e.preventDefault(); const fs=e.dataTransfer&&e.dataTransfer.files; if(fs&&fs.length) handleAiFiles(fs); });
+  }
+  document.addEventListener("paste",e=>{
+    const el=document.getElementById("aiPanel");
+    if(!el || el.style.display==="none") return;
+    const items=(e.clipboardData&&e.clipboardData.items)||[];
+    const imgs=[];
+    Array.from(items).forEach(it=>{ if(it.kind==="file"){ const f=it.getAsFile(); if(f && f.type.indexOf("image")===0) imgs.push(f); } });
+    if(imgs.length){ e.preventDefault(); handleAiFiles(imgs); }
+  });
+})();
+resetForm();
+render();
+</script>
+</body>
+</html>
