@@ -12,6 +12,7 @@
   --bg:#f4f6fa; --panel:#ffffff; --panel2:#f8fafc; --border:#e2e8f0;
   --text:#1a2233; --muted:#6b7688; --accent:#2563eb; --accent-weak:#dbeafe;
   --profit:#16a34a; --profit-bg:#e7f6ec; --loss:#dc2626; --loss-bg:#fdeaea;
+  --valline:#7c3aed;
   --shadow:0 1px 3px rgba(20,30,50,.08),0 1px 2px rgba(20,30,50,.04);
   --radius:14px;
 }
@@ -20,6 +21,7 @@
     --bg:#0e1420; --panel:#161d2b; --panel2:#1c2536; --border:#28324a;
     --text:#e7ecf5; --muted:#8a97ad; --accent:#4b8bff; --accent-weak:#1c2f52;
     --profit:#34d17f; --profit-bg:#123024; --loss:#f7706f; --loss-bg:#331a1c;
+    --valline:#a78bfa;
     --shadow:0 1px 3px rgba(0,0,0,.4);
   }
 }
@@ -130,7 +132,7 @@ details summary::-webkit-details-marker{display:none}
 
 <!-- chart -->
 <div class="panel">
-  <h2>総資産の推移</h2>
+  <h2>総資産と評価損益の推移</h2>
   <svg class="chart" id="chart" viewBox="0 0 800 220" preserveAspectRatio="none"></svg>
   <div class="chart-legend" id="chartLegend"></div>
 </div>
@@ -665,15 +667,34 @@ function renderChart(c){
   const lineI=ptsI.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   const up = assets[assets.length-1]>=invs[invs.length-1];
   const col = up?'var(--profit)':'var(--loss)';
+
+  // 評価損益（含み損益）は総資産と桁が違うので、0を必ず含めた別スケールで重ねる
+  const vals=c.map(e=>e.valuation);
+  const vLo=Math.min(...vals), vHi=Math.max(...vals);
+  let vmin=Math.min(0,vLo), vmax=Math.max(0,vHi);
+  const vpad=((vmax-vmin)||1)*0.08;          // 上下に少し余白（線が端に張り付かないように）
+  vmin-=vpad; vmax+=vpad;
+  const vrange=(vmax-vmin)||1;
+  const y2=v=>pad+(H-2*pad)*(1-(v-vmin)/vrange);
+  const ptsV=c.map((e,i)=>[x(i),y2(e.valuation)]);
+  const lineV=ptsV.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const zeroY=y2(0).toFixed(1);              // 評価損益スケール上の 0（損益の境目）
+
   svg.innerHTML=`
     <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="${col}" stop-opacity="0.28"/>
       <stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
     <path d="${area}" fill="url(#g)"/>
+    <path d="M ${pad} ${zeroY} L ${(W-pad).toFixed(1)} ${zeroY}" fill="none" stroke="var(--valline)" stroke-width="1" stroke-dasharray="2 4" stroke-opacity="0.55" vector-effect="non-scaling-stroke"/>
     <path d="${lineI}" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>
     <path d="${lineA}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-    ${ptsA.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="${col}"/>`).join("")}`;
-  leg.textContent=`実線＝総資産（清算価値）／点線＝元手　実線と点線の差が損益　期間 ${c[0].date}〜${c[c.length-1].date}`;
+    ${ptsA.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="${col}"/>`).join("")}
+    <path d="${lineV}" fill="none" stroke="var(--valline)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    ${ptsV.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" fill="var(--valline)"/>`).join("")}`;
+  leg.innerHTML=`<span style="color:${col}">━</span> 総資産（清算価値）　`
+    +`<span style="color:var(--muted)">┄</span> 元手　`
+    +`<span style="color:var(--valline)">━</span> 評価損益（含み損益・別スケール ${yen(vLo)}〜${yen(vHi)}）`
+    +`<br>実線と元手の点線の差が損益　／　評価損益は紫の点線が損益ゼロ　／　期間 ${c[0].date}〜${c[c.length-1].date}`;
 }
 
 function updateHint(){
