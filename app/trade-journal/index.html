@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="トレード日記">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0d2036">
+<title>トレード判断日記</title>
+<style>
+:root{
+  --navy:#0d2036;--navy2:#163654;--blue:#2878d0;--blue2:#eaf3fc;
+  --bg:#f3f6f8;--paper:#fff;--ink:#172433;--muted:#697887;--line:#dce4ea;
+  --green:#16815d;--green-bg:#e8f7f1;--red:#c74646;--red-bg:#fff0ef;
+  --amber:#a86a0a;--amber-bg:#fff5df;--shadow:0 8px 30px rgba(16,37,56,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.55;font-size:15px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1080px;margin:0 auto;padding:0 18px 70px}
+.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;margin:0 -18px 22px;padding:22px max(18px,calc((100vw - 1080px)/2 + 18px)) 25px;box-shadow:0 4px 20px rgba(10,30,50,.16)}
+.topline{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px}
+.mark{width:40px;height:40px;border-radius:12px;background:#fff;color:var(--navy);display:grid;place-items:center;font-size:22px;box-shadow:0 5px 16px rgba(0,0,0,.14)}
+h1{font-size:21px;line-height:1.25;margin:0;letter-spacing:.02em}
+.tagline{opacity:.74;font-size:12px;margin-top:3px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:700;padding:10px 15px;min-height:42px}
+button:hover{filter:brightness(.96)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(40,120,208,.28);outline-offset:1px}
+.top button{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22)}
+.primary{background:var(--blue)}
+.ghost{background:#fff;color:var(--blue);border:1px solid var(--line)}
+.danger{background:#fff;color:var(--red);border:1px solid #efcccc}
+.small{font-size:13px;padding:7px 11px;min-height:34px}
+.hero-actions{display:flex;gap:10px;margin-top:21px;flex-wrap:wrap}
+.hero-actions .new{background:#fff;color:var(--navy);min-width:190px}
+.hero-actions .daily{background:#2e8f70;border:1px solid rgba(255,255,255,.18);min-width:190px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-1px;margin-bottom:20px}
+.stat,.panel,.trade{background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px}
+.stat{padding:14px 16px}
+.stat span{display:block;color:var(--muted);font-size:11px;font-weight:700}
+.stat strong{display:block;font-size:23px;margin-top:2px;font-variant-numeric:tabular-nums}
+.stat strong.green{color:var(--green)}
+.panel{padding:20px;margin-bottom:18px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+h2{font-size:17px;margin:0}
+.sub{font-size:12px;color:var(--muted)}
+.empty{padding:32px 18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:13px;background:#fbfcfd}
+.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+.trade-list{display:grid;gap:12px}
+.trade{padding:16px;box-shadow:none;position:relative;overflow:hidden}
+.trade::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--blue)}
+.trade.closed::before{background:#93a1ac}
+.trade-main{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.trade-title{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.trade-title h3{font-size:18px;margin:0}
+.pill{display:inline-flex;align-items:center;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:800;background:var(--blue2);color:var(--blue)}
+.pill.sell{background:#f3eefa;color:#7244a0}
+.pill.good{background:var(--green-bg);color:var(--green)}
+.pill.warn{background:var(--amber-bg);color:var(--amber)}
+.pill.bad{background:var(--red-bg);color:var(--red)}
+.trade-meta{font-size:12px;color:var(--muted);margin-top:6px}
+.thesis{margin:11px 0 0;padding:10px 12px;border-radius:10px;background:#f7f9fb;font-size:13px}
+.trade-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.timeline{border-top:1px solid var(--line);margin-top:13px;padding-top:12px}
+.timeline summary{cursor:pointer;color:var(--blue);font-size:12px;font-weight:700}
+.event{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.event:last-child{border-bottom:0}
+.event time{font-size:11px;color:var(--muted)}
+.event b{display:block;margin-bottom:2px}
+.event-img{margin-top:8px;max-width:320px;max-height:180px;border-radius:9px;border:1px solid var(--line);object-fit:cover}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:3px}
+.tab{background:#eef2f5;color:var(--muted);min-height:36px;padding:7px 13px;white-space:nowrap}
+.tab.active{background:var(--navy);color:#fff}
+.hidden{display:none!important}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+label.field{display:flex;flex-direction:column;gap:5px;color:var(--muted);font-size:12px;font-weight:700}
+.span2{grid-column:span 2}.span4{grid-column:1/-1}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#fbfcfd;color:var(--ink);padding:10px 11px;min-height:42px}
+textarea{min-height:82px;resize:vertical}
+.emotion-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+.emotion{position:relative}
+.emotion input{position:absolute;opacity:0;pointer-events:none}
+.emotion span{display:block;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);padding:7px 11px;font-size:12px;cursor:pointer}
+.emotion input:checked+span{color:var(--blue);border-color:#8dbce9;background:var(--blue2);font-weight:800}
+.form-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:17px}
+.filebox{border:1px dashed #aebdc9;background:#f8fafb;border-radius:11px;padding:12px;color:var(--muted);font-size:12px}
+.filebox input{border:0;background:transparent;padding:4px 0;min-height:auto}
+.note{border-left:4px solid #e0a847;background:var(--amber-bg);padding:10px 12px;border-radius:8px;font-size:12px;color:#715223}
+.candidate{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.candidate:last-child{border-bottom:0}
+.candidate h3{font-size:14px;margin:0 0 2px}
+dialog{border:0;border-radius:18px;padding:0;width:min(620px,calc(100vw - 24px));max-height:92vh;overflow:auto;box-shadow:0 24px 80px rgba(0,0,0,.28);color:var(--ink)}
+dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
+.dialog-head{display:flex;justify-content:space-between;align-items:center;background:var(--navy);color:#fff;padding:17px 19px}
+.dialog-head h2{font-size:17px}.dialog-head button{background:transparent;padding:5px;min-height:auto;font-size:20px}
+.dialog-body{padding:19px}
+.scenario{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.scenario label input{position:absolute;opacity:0}
+.scenario span{display:grid;place-items:center;text-align:center;border:1px solid var(--line);border-radius:11px;min-height:54px;padding:8px;font-size:12px;cursor:pointer}
+.scenario input:checked+span{border-color:var(--blue);background:var(--blue2);color:var(--blue);font-weight:800}
+.footer{text-align:center;color:var(--muted);font-size:11px;margin-top:26px}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(20px);background:#122b42;color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:.2s;z-index:20}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.span4{grid-column:1/-1}.event{grid-template-columns:75px 1fr}}
+@media(max-width:480px){.app{padding-left:11px;padding-right:11px}.top{margin-left:-11px;margin-right:-11px}.topline{display:block}.tools{margin-top:14px}.hero-actions>*{flex:1}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.span2,.span4{grid-column:auto}.stats{gap:8px}.stat{padding:11px}.stat strong{font-size:20px}.trade-actions{justify-content:flex-start}.scenario{grid-template-columns:1fr}.candidate{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="topline">
+      <div class="brand">
+        <div class="mark">✎</div>
+        <div><h1>トレード判断日記</h1><div class="tagline">結果よりも、「なぜ」と「どう感じたか」を残す</div></div>
+      </div>
+      <div class="tools">
+        <button class="small" onclick="exportData()">バックアップ</button>
+        <button class="small" onclick="document.getElementById('importFile').click()">読み込む</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden onchange="importData(this)">
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button class="new" onclick="showNewTrade()">＋ 新規エントリー</button>
+      <button class="daily" onclick="startFirstDaily()">今日の記録をつける</button>
+    </div>
+  </header>
+
+  <section class="stats" aria-label="サマリー">
+    <div class="stat"><span>保有中</span><strong id="statOpen">0</strong></div>
+    <div class="stat"><span>今日の記録済み</span><strong id="statToday" class="green">0</strong></div>
+    <div class="stat"><span>記録待ち</span><strong id="statDue">0</strong></div>
+    <div class="stat"><span>記事候補</span><strong id="statArticles">0</strong></div>
+  </section>
+
+  <nav class="tabs" aria-label="表示切り替え">
+    <button class="tab active" data-view="today" onclick="switchView('today',this)">今日</button>
+    <button class="tab" data-view="all" onclick="switchView('all',this)">すべての記録</button>
+    <button class="tab" data-view="articles" onclick="switchView('articles',this)">記事候補</button>
+  </nav>
+
+  <main>
+    <section id="newTradePanel" class="panel hidden" style="margin-top:14px">
+      <div class="panel-head"><div><h2>新規エントリーを記録</h2><div class="sub">分かる範囲だけでOKです。必須は銘柄・日時・根拠です。</div></div><button class="ghost small" onclick="hideNewTrade()">閉じる</button></div>
+      <form id="tradeForm" onsubmit="saveTrade(event)">
+        <div class="form-grid">
+          <label class="field">銘柄・商品名<input id="symbol" required placeholder="例：日本225"></label>
+          <label class="field">売買方向<select id="side"><option value="buy">買い（ロング）</option><option value="sell">売り（ショート）</option></select></label>
+          <label class="field">スタイル<select id="style"><option>デイトレード</option><option selected>スイング</option><option>中長期</option></select></label>
+          <label class="field">エントリー日時<input id="entryAt" type="datetime-local" required></label>
+          <label class="field">価格<input id="entryPrice" type="number" inputmode="decimal" step="any" placeholder="任意"></label>
+          <label class="field">数量<input id="quantity" type="number" inputmode="decimal" step="any" placeholder="任意"></label>
+          <label class="field">損切り予定<input id="stopPrice" type="number" inputmode="decimal" step="any" placeholder="任意"></label>
+          <label class="field">利確予定<input id="targetPrice" type="number" inputmode="decimal" step="any" placeholder="任意"></label>
+          <label class="field span2">エントリー根拠<input id="basis" required placeholder="例：日足の押し目＋直近高値を上抜け"></label>
+          <label class="field span2">想定シナリオ<input id="thesis" placeholder="例：前回高値まで上昇。安値割れで撤退"></label>
+          <div class="span4">
+            <label class="field">その時の感情</label>
+            <div class="emotion-row" id="entryEmotions"></div>
+          </div>
+          <label class="field">自信度（1〜5）<select id="confidence"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+          <label class="field span2">頭の中にあったこと<textarea id="thought" placeholder="焦り、迷い、期待などを一言で"></textarea></label>
+          <label class="field">公開設定<select id="privacy"><option value="private">完全非公開</option><option value="hideNumbers">数字を隠せば公開可</option><option value="hideSymbol">銘柄を隠せば公開可</option><option value="public">公開可</option></select></label>
+          <div class="span4 filebox">チャート画像（任意・端末内だけに保存）<input id="entryImage" type="file" accept="image/*"></div>
+        </div>
+        <div class="form-actions"><button type="submit">このエントリーを保存</button><span class="sub">あとから日次記録と決済記録を追加できます。</span></div>
+      </form>
+    </section>
+
+    <section id="todayView" class="panel" style="margin-top:14px">
+      <div class="panel-head"><div><h2>保有中のポジション</h2><div class="sub" id="todayMessage">今日の状態を1ポジション1分で残します。</div></div></div>
+      <div id="openTrades" class="trade-list"></div>
+    </section>
+
+    <section id="allView" class="panel hidden" style="margin-top:14px">
+      <div class="panel-head"><div><h2>すべての記録</h2><div class="sub">保有中と決済済みをまとめて確認できます。</div></div><select id="allFilter" onchange="renderAll()" style="width:auto"><option value="all">すべて</option><option value="open">保有中</option><option value="closed">決済済み</option></select></div>
+      <div id="allTrades" class="trade-list"></div>
+    </section>
+
+    <section id="articlesView" class="panel hidden" style="margin-top:14px">
+      <div class="panel-head"><div><h2>ブログ記事候補</h2><div class="sub">決済後に選んだ記録を、記事素材としてMarkdownにします。</div></div></div>
+      <div class="note">公開前に、銘柄名・金額・画像内の口座情報を必ず確認してください。売買推奨ではなく、判断と学びを伝える記事素材として出力します。</div>
+      <div id="articleList" style="margin-top:10px"></div>
+    </section>
+  </main>
+
+  <div class="footer">データと画像はこのブラウザ内だけに保存されます。定期的に「バックアップ」を書き出してください。</div>
+</div>
+
+<dialog id="dailyDialog">
+  <div class="dialog-head"><h2 id="dailyTitle">今日の記録</h2><button onclick="closeDialog('dailyDialog')" aria-label="閉じる">×</button></div>
+  <form class="dialog-body" onsubmit="saveDaily(event)">
+    <input type="hidden" id="dailyTradeId">
+    <div class="form-grid">
+      <label class="field">記録日時<input id="dailyAt" type="datetime-local" required></label>
+      <label class="field">現在価格<input id="currentPrice" type="number" inputmode="decimal" step="any" placeholder="任意"></label>
+      <label class="field">含み損益（円）<input id="unrealizedPnl" type="number" inputmode="numeric" step="any" placeholder="任意"></label>
+      <label class="field">明日の方針<select id="nextAction"><option>継続保有</option><option>様子見</option><option>追加予定</option><option>一部決済予定</option><option>全決済予定</option></select></label>
+      <div class="span4"><label class="field">当初シナリオの状態</label><div class="scenario"><label><input type="radio" name="scenario" value="good" checked><span>シナリオどおり</span></label><label><input type="radio" name="scenario" value="warn"><span>少し外れた</span></label><label><input type="radio" name="scenario" value="bad"><span>シナリオが崩れた</span></label></div></div>
+      <div class="span4"><label class="field">現在の感情</label><div class="emotion-row" id="dailyEmotions"></div></div>
+      <label class="field span2">今日起きたこと<textarea id="dailyNote" required placeholder="値動きと判断を一言で"></textarea></label>
+      <label class="field span2">明日どうするか<textarea id="nextNote" placeholder="変更する条件、注意点など"></textarea></label>
+      <div class="span4 filebox">今日のチャート画像（任意）<input id="dailyImage" type="file" accept="image/*"></div>
+    </div>
+    <div class="form-actions"><button type="submit">今日の状態を保存</button><button type="button" class="ghost" onclick="closeDialog('dailyDialog')">キャンセル</button></div>
+  </form>
+</dialog>
+
+<dialog id="closeTradeDialog">
+  <div class="dialog-head"><h2 id="closeTitle">決済を記録</h2><button onclick="closeDialog('closeTradeDialog')" aria-label="閉じる">×</button></div>
+  <form class="dialog-body" onsubmit="saveClose(event)">
+    <input type="hidden" id="closeTradeId">
+    <div class="form-grid">
+      <label class="field">決済日時<input id="closedAt" type="datetime-local" required></label>
+      <label class="field">決済価格<input id="exitPrice" type="number" inputmode="decimal" step="any" placeholder="任意"></label>
+      <label class="field">実現損益（円）<input id="realizedPnl" type="number" inputmode="numeric" step="any" placeholder="任意"></label>
+      <label class="field">結果と判断<select id="quality"><option value="good-win">良い判断・勝ち</option><option value="good-loss">良い判断・負け</option><option value="bad-win">悪い判断・勝ち</option><option value="bad-loss">悪い判断・負け</option></select></label>
+      <label class="field span2">良かった点<textarea id="goodPoint" placeholder="守れたこと、再現したいこと"></textarea></label>
+      <label class="field span2">改善する点<textarea id="improvePoint" required placeholder="次回はどうするか"></textarea></label>
+      <label class="field span4" style="flex-direction:row;align-items:center;gap:9px"><input id="articleCandidate" type="checkbox" style="width:auto;min-height:auto">このトレードをブログ記事候補にする</label>
+    </div>
+    <div class="form-actions"><button type="submit">決済と振り返りを保存</button><button type="button" class="ghost" onclick="closeDialog('closeTradeDialog')">キャンセル</button></div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+const KEY="tradeDecisionJournal.v1";
+const EMOTIONS=["冷静","自信","迷い","不安","焦り","FOMO","興奮","取り返したい"];
+let trades=loadTrades();
+
+function loadTrades(){try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(v)?v:[]}catch(_){return[]}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(trades))}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function localNow(){const d=new Date(Date.now()-new Date().getTimezoneOffset()*60000);return d.toISOString().slice(0,16)}
+function today(){return localNow().slice(0,10)}
+function dateLabel(v){if(!v)return"—";const d=new Date(v);return isNaN(d)?v:d.toLocaleString("ja-JP",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})}
+function yen(v){if(v===""||v==null||!isFinite(Number(v)))return"—";const n=Number(v);return(n>0?"+":"")+n.toLocaleString("ja-JP")+"円"}
+function selectedEmotion(container){return container.querySelector('input[type="radio"]:checked')?.value||""}
+function emotionChoices(name){return EMOTIONS.map((e,i)=>`<label class="emotion"><input type="radio" name="${name}" value="${e}" ${i===0?"checked":""}><span>${e}</span></label>`).join("")}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1900)}
+
+async function imageData(input){
+  const file=input.files&&input.files[0];if(!file)return"";
+  return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onerror=reject;fr.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const max=1280,scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext("2d").drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL("image/jpeg",.72))};img.src=fr.result};fr.readAsDataURL(file)})
+}
+
+function showNewTrade(){document.getElementById("newTradePanel").classList.remove("hidden");document.getElementById("entryAt").value=localNow();document.getElementById("symbol").focus();window.scrollTo({top:document.getElementById("newTradePanel").offsetTop-10,behavior:"smooth"})}
+function hideNewTrade(){document.getElementById("newTradePanel").classList.add("hidden")}
+async function saveTrade(e){
+  e.preventDefault();const btn=e.submitter;btn.disabled=true;btn.textContent="保存中…";
+  try{
+    const trade={id:uid(),status:"open",createdAt:new Date().toISOString(),symbol:symbol.value.trim(),side:side.value,style:style.value,entryAt:entryAt.value,entryPrice:entryPrice.value,quantity:quantity.value,stopPrice:stopPrice.value,targetPrice:targetPrice.value,basis:basis.value.trim(),thesis:thesis.value.trim(),emotion:selectedEmotion(entryEmotions),confidence:confidence.value,thought:thought.value.trim(),privacy:privacy.value,articleCandidate:false,events:[]};
+    const img=await imageData(entryImage);trade.events.push({id:uid(),type:"entry",at:trade.entryAt,title:"エントリー",note:trade.basis,emotion:trade.emotion,image:img});
+    trades.unshift(trade);persist();e.target.reset();document.getElementById("entryEmotions").innerHTML=emotionChoices("entryEmotion");hideNewTrade();render();toast("エントリーを保存しました");
+  }catch(_){alert("画像を保存できませんでした。画像を外してもう一度お試しください。")}finally{btn.disabled=false;btn.textContent="このエントリーを保存"}
+}
+
+function openDaily(id){const t=trades.find(x=>x.id===id);if(!t)return;dailyTradeId.value=id;dailyTitle.textContent=t.symbol+"｜今日の記録";dailyAt.value=localNow();currentPrice.value="";unrealizedPnl.value="";dailyNote.value="";nextNote.value="";dailyImage.value="";document.querySelector('input[name="scenario"][value="good"]').checked=true;dailyDialog.showModal()}
+function startFirstDaily(){const due=trades.find(t=>t.status==="open"&&!hasToday(t));if(due)return openDaily(due.id);const first=trades.find(t=>t.status==="open");if(first)return openDaily(first.id);showNewTrade()}
+async function saveDaily(e){
+  e.preventDefault();const btn=e.submitter,t=trades.find(x=>x.id===dailyTradeId.value);if(!t)return;btn.disabled=true;btn.textContent="保存中…";
+  try{const img=await imageData(dailyImage);t.events.push({id:uid(),type:"daily",at:dailyAt.value,title:"日次記録",currentPrice:currentPrice.value,pnl:unrealizedPnl.value,scenario:document.querySelector('input[name="scenario"]:checked').value,emotion:selectedEmotion(dailyEmotions),note:dailyNote.value.trim(),nextAction:nextAction.value,nextNote:nextNote.value.trim(),image:img});persist();dailyDialog.close();render();toast("今日の状態を保存しました")}catch(_){alert("画像を保存できませんでした。画像を外してもう一度お試しください。")}finally{btn.disabled=false;btn.textContent="今日の状態を保存"}
+}
+
+function openClose(id){const t=trades.find(x=>x.id===id);if(!t)return;closeTradeId.value=id;closeTitle.textContent=t.symbol+"｜決済を記録";closedAt.value=localNow();exitPrice.value="";realizedPnl.value="";goodPoint.value="";improvePoint.value="";articleCandidate.checked=false;closeTradeDialog.showModal()}
+function saveClose(e){e.preventDefault();const t=trades.find(x=>x.id===closeTradeId.value);if(!t)return;t.status="closed";t.closedAt=closedAt.value;t.exitPrice=exitPrice.value;t.realizedPnl=realizedPnl.value;t.quality=quality.value;t.goodPoint=goodPoint.value.trim();t.improvePoint=improvePoint.value.trim();t.articleCandidate=articleCandidate.checked;t.events.push({id:uid(),type:"close",at:t.closedAt,title:"決済",pnl:t.realizedPnl,note:t.improvePoint,quality:t.quality});persist();closeTradeDialog.close();render();toast("決済と振り返りを保存しました")}
+function closeDialog(id){document.getElementById(id).close()}
+function hasToday(t){return(t.events||[]).some(e=>e.type==="daily"&&String(e.at).slice(0,10)===today())}
+
+function scenarioText(v){return v==="good"?"シナリオどおり":v==="warn"?"少し外れた":"シナリオ崩れ"}
+function qualityText(v){return({"good-win":"良い判断・勝ち","good-loss":"良い判断・負け","bad-win":"悪い判断・勝ち","bad-loss":"悪い判断・負け"})[v]||""}
+function eventHtml(e){
+  const status=e.scenario?` <span class="pill ${e.scenario}">${scenarioText(e.scenario)}</span>`:"";
+  const details=[e.currentPrice?`現在値 ${esc(e.currentPrice)}`:"",e.pnl!==""&&e.pnl!=null?`損益 ${yen(e.pnl)}`:"",e.emotion?`感情：${esc(e.emotion)}`:"",e.nextAction?`方針：${esc(e.nextAction)}`:""].filter(Boolean).join(" ／ ");
+  return `<div class="event"><time>${dateLabel(e.at)}</time><div><b>${esc(e.title)}${status}</b>${e.note?`<div>${esc(e.note)}</div>`:""}${e.nextNote?`<div class="sub">次：${esc(e.nextNote)}</div>`:""}${details?`<div class="sub">${details}</div>`:""}${e.image?`<img class="event-img" src="${e.image}" alt="記録したチャート画像">`:""}</div></div>`
+}
+function tradeHtml(t){
+  const daily=hasToday(t);const last=[...(t.events||[])].reverse().find(e=>e.type==="daily");
+  const action=t.status==="open"?`<button class="small" onclick="openDaily('${t.id}')">${daily?"今日の記録を追加":"今日の記録"}</button><button class="ghost small" onclick="openClose('${t.id}')">決済</button>`:`${t.articleCandidate?'<span class="pill good">記事候補</span>':''}<button class="ghost small" onclick="toggleArticle('${t.id}')">${t.articleCandidate?"候補から外す":"記事候補にする"}</button>`;
+  return `<article class="trade ${t.status==="closed"?"closed":""}"><div class="trade-main"><div><div class="trade-title"><h3>${esc(t.symbol)}</h3><span class="pill ${t.side==="sell"?"sell":""}">${t.side==="sell"?"売り":"買い"}</span><span class="pill">${esc(t.style)}</span>${t.status==="open"&&!daily?'<span class="pill warn">本日未記録</span>':''}</div><div class="trade-meta">${dateLabel(t.entryAt)} エントリー${t.entryPrice?` ／ ${esc(t.entryPrice)}`:""}${t.emotion?` ／ 感情：${esc(t.emotion)}`:""}${last?` ／ 最新：${scenarioText(last.scenario)}`:""}${t.status==="closed"?` ／ 決済 ${dateLabel(t.closedAt)} ／ ${yen(t.realizedPnl)}`:""}</div><div class="thesis"><b>根拠：</b>${esc(t.basis)}${t.thesis?`<br><span class="sub">想定：${esc(t.thesis)}</span>`:""}</div></div><div class="trade-actions">${action}<button class="danger small" onclick="deleteTrade('${t.id}')">削除</button></div></div><details class="timeline"><summary>判断と感情のタイムライン（${(t.events||[]).length}件）</summary>${(t.events||[]).map(eventHtml).join("")}</details></article>`
+}
+
+function render(){
+  const open=trades.filter(t=>t.status==="open"),done=open.filter(hasToday),candidates=trades.filter(t=>t.articleCandidate);
+  statOpen.textContent=open.length;statToday.textContent=done.length;statDue.textContent=open.length-done.length;statArticles.textContent=candidates.length;
+  openTrades.innerHTML=open.length?open.map(tradeHtml).join(""):`<div class="empty"><b>保有中のポジションはありません</b>新規エントリーから最初の記録を始めます。<div style="margin-top:12px"><button onclick="showNewTrade()">＋ 新規エントリー</button></div></div>`;
+  todayMessage.textContent=open.length?`${open.length}件中 ${done.length}件を本日記録済みです。`:"エントリーを登録すると、毎日の状態を追えるようになります。";
+  renderAll();renderArticles();
+}
+function renderAll(){const filter=allFilter.value;const list=trades.filter(t=>filter==="all"||t.status===filter);allTrades.innerHTML=list.length?list.map(tradeHtml).join(""):`<div class="empty"><b>該当する記録がありません</b></div>`}
+function renderArticles(){const list=trades.filter(t=>t.articleCandidate);articleList.innerHTML=list.length?list.map(t=>`<div class="candidate"><div><h3>${esc(t.symbol)}｜${dateLabel(t.entryAt)}のトレード</h3><div class="sub">${qualityText(t.quality)} ／ 学び：${esc(t.improvePoint||"未入力")}</div></div><button class="ghost small" onclick="exportMarkdown('${t.id}')">Markdown書出</button></div>`).join(""):`<div class="empty"><b>記事候補はまだありません</b>決済時に「ブログ記事候補にする」を選ぶと、ここに並びます。</div>`}
+function switchView(name,btn){["todayView","allView","articlesView"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById(name+"View").classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
+function toggleArticle(id){const t=trades.find(x=>x.id===id);if(!t)return;t.articleCandidate=!t.articleCandidate;persist();render()}
+function deleteTrade(id){const t=trades.find(x=>x.id===id);if(!t||!confirm(`「${t.symbol}」の記録を削除しますか？`))return;trades=trades.filter(x=>x.id!==id);persist();render();toast("記録を削除しました")}
+
+function exportMarkdown(id){
+  const t=trades.find(x=>x.id===id);if(!t)return;const title=`${t.symbol}のトレードで学んだこと`;
+  const daily=(t.events||[]).filter(e=>e.type==="daily").map(e=>`### ${dateLabel(e.at)}\n\n- 状態：${scenarioText(e.scenario)}\n- 感情：${e.emotion||"未記録"}\n- 起きたこと：${e.note||""}\n- 次の方針：${e.nextAction||""} ${e.nextNote||""}`).join("\n\n");
+  const md=`# ${title}\n\nこんにちはりょうです。\n\n※この記事は特定銘柄の売買を推奨するものではありません。僕自身の判断と学びを振り返る記録です。\n\n## エントリー前に考えていたこと\n\n- 日時：${dateLabel(t.entryAt)}\n- 売買方向：${t.side==="sell"?"売り":"買い"}\n- 根拠：${t.basis}\n- 想定シナリオ：${t.thesis||"未記録"}\n- その時の感情：${t.emotion||"未記録"}\n- 自信度：${t.confidence}/5\n\n${t.thought||""}\n\n## 保有中に起きたこと\n\n${daily||"日次記録なし"}\n\n## 結果と判断\n\n- 評価：${qualityText(t.quality)}\n- 実現損益：${t.privacy==="public"?yen(t.realizedPnl):"非公開"}\n- 良かった点：${t.goodPoint||"未記録"}\n\n## 次回の改善点\n\n${t.improvePoint||"未記録"}\n\n## まとめ\n\n今回の経験を、次の判断に生かしていきます。\n`;
+  download(new Blob([md],{type:"text/markdown;charset=utf-8"}),`trade-journal-${t.entryAt.slice(0,10)}.md`)
+}
+function exportData(){download(new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),trades},null,2)],{type:"application/json"}),`trade-journal-backup-${today()}.json`)}
+function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importData(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const v=JSON.parse(r.result),arr=Array.isArray(v)?v:v.trades;if(!Array.isArray(arr))throw 0;if(trades.length&&!confirm("現在の記録を、読み込んだバックアップで置き換えますか？"))return;trades=arr;persist();render();toast("バックアップを読み込みました")}catch(_){alert("このアプリのバックアップファイルを選んでください。") }finally{input.value=""}};r.readAsText(f)}
+
+entryEmotions.innerHTML=emotionChoices("entryEmotion");dailyEmotions.innerHTML=emotionChoices("dailyEmotion");entryAt.value=localNow();render();
+</script>
+</body>
+</html>
