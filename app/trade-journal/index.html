@@ -106,6 +106,12 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
 .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:26px}
 .toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(20px);background:#122b42;color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:.2s;z-index:20}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.public-intro{background:linear-gradient(120deg,#fff,#f3f8fc);border:1px solid var(--line);border-radius:16px;padding:20px;margin:18px 0;box-shadow:var(--shadow)}
+.public-intro h2{font-size:20px;margin-bottom:7px}.public-intro p{margin:0;color:var(--muted)}
+.disclaimer{font-size:11px;color:var(--muted);border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+.sync{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.7)}
+.sync::before{content:"";width:7px;height:7px;border-radius:50%;background:#78d7b4}.sync.error::before{background:#efb15b}
+.publish{background:var(--green)}
 @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.span4{grid-column:1/-1}.event{grid-template-columns:75px 1fr}}
 @media(max-width:480px){.app{padding-left:11px;padding-right:11px}.top{margin-left:-11px;margin-right:-11px}.topline{display:block}.tools{margin-top:14px}.hero-actions>*{flex:1}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.span2,.span4{grid-column:auto}.stats{gap:8px}.stat{padding:11px}.stat strong{font-size:20px}.trade-actions{justify-content:flex-start}.scenario{grid-template-columns:1fr}.candidate{grid-template-columns:1fr}}
 </style>
@@ -119,8 +125,10 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
         <div><h1>トレード判断日記</h1><div class="tagline">結果よりも、「なぜ」と「どう感じたか」を残す</div></div>
       </div>
       <div class="tools">
-        <button class="small" onclick="exportData()">バックアップ</button>
-        <button class="small" onclick="document.getElementById('importFile').click()">読み込む</button>
+        <span id="syncStatus" class="sync hidden">保存済み</span>
+        <button class="small owner-only" onclick="exportData()">バックアップ</button>
+        <button class="small owner-only" onclick="document.getElementById('importFile').click()">読み込む</button>
+        <button id="loginButton" class="small" onclick="openLogin()">管理者ログイン</button>
         <input id="importFile" type="file" accept="application/json,.json" hidden onchange="importData(this)">
       </div>
     </div>
@@ -129,6 +137,12 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
       <button class="daily" onclick="startFirstDaily()">今日の記録をつける</button>
     </div>
   </header>
+
+  <section id="publicIntro" class="public-intro hidden">
+    <h2>FPりょうのトレード判断記録</h2>
+    <p>売買の結果だけではなく、入った根拠、保有中の感情、決済後の学びを公開しています。</p>
+    <div class="disclaimer">この記録は、FPりょう自身の判断と学びを振り返るものです。特定の金融商品や売買タイミングを推奨するものではありません。</div>
+  </section>
 
   <section class="stats" aria-label="サマリー">
     <div class="stat"><span>保有中</span><strong id="statOpen">0</strong></div>
@@ -164,8 +178,8 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
           </div>
           <label class="field">自信度（1〜5）<select id="confidence"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
           <label class="field span2">頭の中にあったこと<textarea id="thought" placeholder="焦り、迷い、期待などを一言で"></textarea></label>
-          <label class="field">公開設定<select id="privacy"><option value="private">完全非公開</option><option value="hideNumbers">数字を隠せば公開可</option><option value="hideSymbol">銘柄を隠せば公開可</option><option value="public">公開可</option></select></label>
-          <div class="span4 filebox">チャート画像（任意・端末内だけに保存）<input id="entryImage" type="file" accept="image/*"></div>
+	          <label class="field">公開時の見せ方<select id="privacy"><option value="private">完全非公開</option><option value="hideNumbers" selected>数字を隠して公開</option><option value="hideSymbol">銘柄と数字を隠して公開</option><option value="public">すべて公開</option></select></label>
+	          <div class="span4 filebox">チャート画像（任意・非公開の間は管理者だけに表示）<input id="entryImage" type="file" accept="image/*"></div>
         </div>
         <div class="form-actions"><button type="submit">このエントリーを保存</button><span class="sub">あとから日次記録と決済記録を追加できます。</span></div>
       </form>
@@ -177,7 +191,7 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
     </section>
 
     <section id="allView" class="panel hidden" style="margin-top:14px">
-      <div class="panel-head"><div><h2>すべての記録</h2><div class="sub">保有中と決済済みをまとめて確認できます。</div></div><select id="allFilter" onchange="renderAll()" style="width:auto"><option value="all">すべて</option><option value="open">保有中</option><option value="closed">決済済み</option></select></div>
+	      <div class="panel-head"><div><h2 id="allHeading">すべての記録</h2><div class="sub" id="allDescription">保有中と決済済みをまとめて確認できます。</div></div><select id="allFilter" onchange="renderAll()" style="width:auto"><option value="all">すべて</option><option value="open">保有中</option><option value="closed">決済済み</option></select></div>
       <div id="allTrades" class="trade-list"></div>
     </section>
 
@@ -188,7 +202,7 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
     </section>
   </main>
 
-  <div class="footer">データと画像はこのブラウザ内だけに保存されます。定期的に「バックアップ」を書き出してください。</div>
+	  <div class="footer" id="footerText">管理者の記録はNetlify上へ保存されます。念のため定期的にバックアップも書き出してください。</div>
 </div>
 
 <dialog id="dailyDialog">
@@ -207,6 +221,19 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
       <div class="span4 filebox">今日のチャート画像（任意）<input id="dailyImage" type="file" accept="image/*"></div>
     </div>
     <div class="form-actions"><button type="submit">今日の状態を保存</button><button type="button" class="ghost" onclick="closeDialog('dailyDialog')">キャンセル</button></div>
+  </form>
+</dialog>
+
+<dialog id="loginDialog">
+  <div class="dialog-head"><h2>管理者ログイン</h2><button onclick="closeDialog('loginDialog')" aria-label="閉じる">×</button></div>
+  <form class="dialog-body" onsubmit="loginAdmin(event)">
+    <p class="sub" style="margin-top:0">編集はFPりょうの管理者アカウントだけが利用できます。</p>
+    <div class="form-grid">
+      <label class="field span2">メールアドレス<input id="loginEmail" type="email" autocomplete="username" required></label>
+      <label class="field span2">パスワード<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+    </div>
+    <div id="loginError" class="sub" style="color:var(--red);margin-top:10px"></div>
+    <div class="form-actions"><button type="submit">ログイン</button><button type="button" class="ghost" onclick="closeDialog('loginDialog')">キャンセル</button></div>
   </form>
 </dialog>
 
@@ -233,6 +260,8 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
 const KEY="tradeDecisionJournal.v1";
 const EMOTIONS=["冷静","自信","迷い","不安","焦り","FOMO","興奮","取り返したい"];
 let trades=loadTrades();
+let isAdmin=location.protocol==="file:";
+const cloudMode=location.protocol==="https:"||location.hostname==="localhost";
 
 function loadTrades(){try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(v)?v:[]}catch(_){return[]}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(trades))}
@@ -246,9 +275,63 @@ function emotionChoices(name){return EMOTIONS.map((e,i)=>`<label class="emotion"
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1900)}
 
+async function requestJSON(url,options={}){
+  const response=await fetch(url,{credentials:"same-origin",...options,headers:{"content-type":"application/json",...(options.headers||{})}});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||"通信に失敗しました。");
+  return data;
+}
+async function saveCloud(){
+  persist();
+  if(!cloudMode||!isAdmin)return;
+  syncStatus.classList.remove("hidden","error");syncStatus.textContent="保存中…";
+  try{await requestJSON("/api/trade-journal",{method:"PUT",body:JSON.stringify({trades})});syncStatus.textContent="保存済み"}
+  catch(error){syncStatus.textContent="未保存";syncStatus.classList.add("error");alert(error.message)}
+}
+function openLogin(){
+  if(isAdmin&&cloudMode){if(confirm("管理者モードからログアウトしますか？"))logoutAdmin();return}
+  loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginEmail.focus();
+}
+async function loginAdmin(event){
+  event.preventDefault();const button=event.submitter;button.disabled=true;loginError.textContent="";
+  try{const result=await requestJSON("/api/trade-journal-auth",{method:"POST",body:JSON.stringify({email:loginEmail.value,password:loginPassword.value})});isAdmin=result.admin;loginDialog.close();await loadCloudData(true);applyMode();toast("管理者としてログインしました")}
+  catch(error){loginError.textContent=error.message}
+  finally{button.disabled=false}
+}
+async function logoutAdmin(){
+  try{await requestJSON("/api/trade-journal-auth",{method:"DELETE",body:"{}"})}catch(_){}
+  isAdmin=false;await loadCloudData(false);applyMode();toast("ログアウトしました");
+}
+async function loadCloudData(admin){
+  const local=loadTrades();
+  const result=await requestJSON("/api/trade-journal"+(admin?"?admin=1":""));
+  trades=result.trades||[];
+  if(admin&&!trades.length&&local.length&&confirm(`この端末にある${local.length}件の記録を、公開管理用の保存先へ移しますか？`)){
+    trades=local;trades.forEach(t=>{if(t.published==null)t.published=false});await saveCloud();
+  }
+}
+async function boot(){
+  if(cloudMode){
+    try{const session=await requestJSON("/api/trade-journal-auth");isAdmin=session.admin;await loadCloudData(isAdmin)}
+    catch(_){isAdmin=false;trades=[];syncStatus.classList.add("error");syncStatus.textContent="接続待ち"}
+  }
+  applyMode();render();
+}
+function applyMode(){
+  document.querySelectorAll(".owner-only,.hero-actions,.stats,.tabs").forEach(el=>el.classList.toggle("hidden",!isAdmin));
+  publicIntro.classList.toggle("hidden",isAdmin);
+  loginButton.textContent=isAdmin&&cloudMode?"ログアウト":"管理者ログイン";
+  syncStatus.classList.toggle("hidden",!isAdmin||!cloudMode);
+  allFilter.classList.toggle("hidden",!isAdmin);
+  allHeading.textContent=isAdmin?"すべての記録":"公開中のトレード記録";
+  allDescription.textContent=isAdmin?"保有中と決済済みをまとめて確認できます。":"決済後に公開した判断と学びを掲載しています。";
+  footerText.textContent=isAdmin?"管理者の記録はNetlify上へ保存されます。念のため定期的にバックアップも書き出してください。":"公開されている内容は閲覧専用です。読者が記録を変更することはできません。";
+  if(!isAdmin){todayView.classList.add("hidden");articlesView.classList.add("hidden");allView.classList.remove("hidden")}
+}
+
 async function imageData(input){
   const file=input.files&&input.files[0];if(!file)return"";
-  return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onerror=reject;fr.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const max=1280,scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext("2d").drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL("image/jpeg",.72))};img.src=fr.result};fr.readAsDataURL(file)})
+  return new Promise((resolve,reject)=>{const fr=new FileReader();fr.onerror=reject;fr.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const max=1024,scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext("2d").drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL("image/jpeg",.62))};img.src=fr.result};fr.readAsDataURL(file)})
 }
 
 function showNewTrade(){document.getElementById("newTradePanel").classList.remove("hidden");document.getElementById("entryAt").value=localNow();document.getElementById("symbol").focus();window.scrollTo({top:document.getElementById("newTradePanel").offsetTop-10,behavior:"smooth"})}
@@ -256,9 +339,9 @@ function hideNewTrade(){document.getElementById("newTradePanel").classList.add("
 async function saveTrade(e){
   e.preventDefault();const btn=e.submitter;btn.disabled=true;btn.textContent="保存中…";
   try{
-    const trade={id:uid(),status:"open",createdAt:new Date().toISOString(),symbol:symbol.value.trim(),side:side.value,style:style.value,entryAt:entryAt.value,entryPrice:entryPrice.value,quantity:quantity.value,stopPrice:stopPrice.value,targetPrice:targetPrice.value,basis:basis.value.trim(),thesis:thesis.value.trim(),emotion:selectedEmotion(entryEmotions),confidence:confidence.value,thought:thought.value.trim(),privacy:privacy.value,articleCandidate:false,events:[]};
+    const trade={id:uid(),status:"open",published:false,createdAt:new Date().toISOString(),symbol:symbol.value.trim(),side:side.value,style:style.value,entryAt:entryAt.value,entryPrice:entryPrice.value,quantity:quantity.value,stopPrice:stopPrice.value,targetPrice:targetPrice.value,basis:basis.value.trim(),thesis:thesis.value.trim(),emotion:selectedEmotion(entryEmotions),confidence:confidence.value,thought:thought.value.trim(),privacy:privacy.value,articleCandidate:false,events:[]};
     const img=await imageData(entryImage);trade.events.push({id:uid(),type:"entry",at:trade.entryAt,title:"エントリー",note:trade.basis,emotion:trade.emotion,image:img});
-    trades.unshift(trade);persist();e.target.reset();document.getElementById("entryEmotions").innerHTML=emotionChoices("entryEmotion");hideNewTrade();render();toast("エントリーを保存しました");
+    trades.unshift(trade);await saveCloud();e.target.reset();document.getElementById("entryEmotions").innerHTML=emotionChoices("entryEmotion");hideNewTrade();render();toast("エントリーを保存しました");
   }catch(_){alert("画像を保存できませんでした。画像を外してもう一度お試しください。")}finally{btn.disabled=false;btn.textContent="このエントリーを保存"}
 }
 
@@ -266,11 +349,11 @@ function openDaily(id){const t=trades.find(x=>x.id===id);if(!t)return;dailyTrade
 function startFirstDaily(){const due=trades.find(t=>t.status==="open"&&!hasToday(t));if(due)return openDaily(due.id);const first=trades.find(t=>t.status==="open");if(first)return openDaily(first.id);showNewTrade()}
 async function saveDaily(e){
   e.preventDefault();const btn=e.submitter,t=trades.find(x=>x.id===dailyTradeId.value);if(!t)return;btn.disabled=true;btn.textContent="保存中…";
-  try{const img=await imageData(dailyImage);t.events.push({id:uid(),type:"daily",at:dailyAt.value,title:"日次記録",currentPrice:currentPrice.value,pnl:unrealizedPnl.value,scenario:document.querySelector('input[name="scenario"]:checked').value,emotion:selectedEmotion(dailyEmotions),note:dailyNote.value.trim(),nextAction:nextAction.value,nextNote:nextNote.value.trim(),image:img});persist();dailyDialog.close();render();toast("今日の状態を保存しました")}catch(_){alert("画像を保存できませんでした。画像を外してもう一度お試しください。")}finally{btn.disabled=false;btn.textContent="今日の状態を保存"}
+  try{const img=await imageData(dailyImage);t.events.push({id:uid(),type:"daily",at:dailyAt.value,title:"日次記録",currentPrice:currentPrice.value,pnl:unrealizedPnl.value,scenario:document.querySelector('input[name="scenario"]:checked').value,emotion:selectedEmotion(dailyEmotions),note:dailyNote.value.trim(),nextAction:nextAction.value,nextNote:nextNote.value.trim(),image:img});await saveCloud();dailyDialog.close();render();toast("今日の状態を保存しました")}catch(_){alert("画像または記録を保存できませんでした。画像を外してもう一度お試しください。")}finally{btn.disabled=false;btn.textContent="今日の状態を保存"}
 }
 
 function openClose(id){const t=trades.find(x=>x.id===id);if(!t)return;closeTradeId.value=id;closeTitle.textContent=t.symbol+"｜決済を記録";closedAt.value=localNow();exitPrice.value="";realizedPnl.value="";goodPoint.value="";improvePoint.value="";articleCandidate.checked=false;closeTradeDialog.showModal()}
-function saveClose(e){e.preventDefault();const t=trades.find(x=>x.id===closeTradeId.value);if(!t)return;t.status="closed";t.closedAt=closedAt.value;t.exitPrice=exitPrice.value;t.realizedPnl=realizedPnl.value;t.quality=quality.value;t.goodPoint=goodPoint.value.trim();t.improvePoint=improvePoint.value.trim();t.articleCandidate=articleCandidate.checked;t.events.push({id:uid(),type:"close",at:t.closedAt,title:"決済",pnl:t.realizedPnl,note:t.improvePoint,quality:t.quality});persist();closeTradeDialog.close();render();toast("決済と振り返りを保存しました")}
+async function saveClose(e){e.preventDefault();const t=trades.find(x=>x.id===closeTradeId.value);if(!t)return;t.status="closed";t.closedAt=closedAt.value;t.exitPrice=exitPrice.value;t.realizedPnl=realizedPnl.value;t.quality=quality.value;t.goodPoint=goodPoint.value.trim();t.improvePoint=improvePoint.value.trim();t.articleCandidate=articleCandidate.checked;t.events.push({id:uid(),type:"close",at:t.closedAt,title:"決済",pnl:t.realizedPnl,note:t.improvePoint,quality:t.quality});await saveCloud();closeTradeDialog.close();render();toast("決済と振り返りを保存しました")}
 function closeDialog(id){document.getElementById(id).close()}
 function hasToday(t){return(t.events||[]).some(e=>e.type==="daily"&&String(e.at).slice(0,10)===today())}
 
@@ -283,8 +366,11 @@ function eventHtml(e){
 }
 function tradeHtml(t){
   const daily=hasToday(t);const last=[...(t.events||[])].reverse().find(e=>e.type==="daily");
-  const action=t.status==="open"?`<button class="small" onclick="openDaily('${t.id}')">${daily?"今日の記録を追加":"今日の記録"}</button><button class="ghost small" onclick="openClose('${t.id}')">決済</button>`:`${t.articleCandidate?'<span class="pill good">記事候補</span>':''}<button class="ghost small" onclick="toggleArticle('${t.id}')">${t.articleCandidate?"候補から外す":"記事候補にする"}</button>`;
-  return `<article class="trade ${t.status==="closed"?"closed":""}"><div class="trade-main"><div><div class="trade-title"><h3>${esc(t.symbol)}</h3><span class="pill ${t.side==="sell"?"sell":""}">${t.side==="sell"?"売り":"買い"}</span><span class="pill">${esc(t.style)}</span>${t.status==="open"&&!daily?'<span class="pill warn">本日未記録</span>':''}</div><div class="trade-meta">${dateLabel(t.entryAt)} エントリー${t.entryPrice?` ／ ${esc(t.entryPrice)}`:""}${t.emotion?` ／ 感情：${esc(t.emotion)}`:""}${last?` ／ 最新：${scenarioText(last.scenario)}`:""}${t.status==="closed"?` ／ 決済 ${dateLabel(t.closedAt)} ／ ${yen(t.realizedPnl)}`:""}</div><div class="thesis"><b>根拠：</b>${esc(t.basis)}${t.thesis?`<br><span class="sub">想定：${esc(t.thesis)}</span>`:""}</div></div><div class="trade-actions">${action}<button class="danger small" onclick="deleteTrade('${t.id}')">削除</button></div></div><details class="timeline"><summary>判断と感情のタイムライン（${(t.events||[]).length}件）</summary>${(t.events||[]).map(eventHtml).join("")}</details></article>`
+  let action="";
+  if(isAdmin&&t.status==="open")action=`<button class="small" onclick="openDaily('${t.id}')">${daily?"今日の記録を追加":"今日の記録"}</button><button class="ghost small" onclick="openClose('${t.id}')">決済</button>`;
+  if(isAdmin&&t.status==="closed")action=`${t.articleCandidate?'<span class="pill good">記事候補</span>':''}<select aria-label="公開時の見せ方" onchange="changePrivacy('${t.id}',this.value)" class="small" style="width:auto;min-height:34px;padding:5px"><option value="private" ${t.privacy==="private"?"selected":""}>完全非公開</option><option value="hideNumbers" ${t.privacy==="hideNumbers"?"selected":""}>数字を隠す</option><option value="hideSymbol" ${t.privacy==="hideSymbol"?"selected":""}>銘柄も隠す</option><option value="public" ${t.privacy==="public"?"selected":""}>すべて公開</option></select><button class="${t.published?"ghost":"publish"} small" onclick="togglePublish('${t.id}')">${t.published?"公開を停止":"公開する"}</button><button class="ghost small" onclick="toggleArticle('${t.id}')">${t.articleCandidate?"候補から外す":"記事候補にする"}</button>`;
+  const ownerBadges=isAdmin?`${t.published?'<span class="pill good">公開中</span>':'<span class="pill">非公開</span>'}${t.status==="open"&&!daily?'<span class="pill warn">本日未記録</span>':''}`:"";
+  return `<article class="trade ${t.status==="closed"?"closed":""}"><div class="trade-main"><div><div class="trade-title"><h3>${esc(t.symbol)}</h3><span class="pill ${t.side==="sell"?"sell":""}">${t.side==="sell"?"売り":"買い"}</span><span class="pill">${esc(t.style)}</span>${ownerBadges}</div><div class="trade-meta">${dateLabel(t.entryAt)} エントリー${t.entryPrice?` ／ ${esc(t.entryPrice)}`:""}${t.emotion?` ／ 感情：${esc(t.emotion)}`:""}${last?` ／ 最新：${scenarioText(last.scenario)}`:""}${t.status==="closed"?` ／ 決済 ${dateLabel(t.closedAt)}${t.realizedPnl!==undefined?` ／ ${yen(t.realizedPnl)}`:""}`:""}</div><div class="thesis"><b>根拠：</b>${esc(t.basis)}${t.thesis?`<br><span class="sub">想定：${esc(t.thesis)}</span>`:""}</div></div>${isAdmin?`<div class="trade-actions">${action}<button class="danger small" onclick="deleteTrade('${t.id}')">削除</button></div>`:""}</div><details class="timeline" ${!isAdmin?"open":""}><summary>判断と感情のタイムライン（${(t.events||[]).length}件）</summary>${(t.events||[]).map(eventHtml).join("")}</details></article>`
 }
 
 function render(){
@@ -297,8 +383,10 @@ function render(){
 function renderAll(){const filter=allFilter.value;const list=trades.filter(t=>filter==="all"||t.status===filter);allTrades.innerHTML=list.length?list.map(tradeHtml).join(""):`<div class="empty"><b>該当する記録がありません</b></div>`}
 function renderArticles(){const list=trades.filter(t=>t.articleCandidate);articleList.innerHTML=list.length?list.map(t=>`<div class="candidate"><div><h3>${esc(t.symbol)}｜${dateLabel(t.entryAt)}のトレード</h3><div class="sub">${qualityText(t.quality)} ／ 学び：${esc(t.improvePoint||"未入力")}</div></div><button class="ghost small" onclick="exportMarkdown('${t.id}')">Markdown書出</button></div>`).join(""):`<div class="empty"><b>記事候補はまだありません</b>決済時に「ブログ記事候補にする」を選ぶと、ここに並びます。</div>`}
 function switchView(name,btn){["todayView","allView","articlesView"].forEach(id=>document.getElementById(id).classList.add("hidden"));document.getElementById(name+"View").classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
-function toggleArticle(id){const t=trades.find(x=>x.id===id);if(!t)return;t.articleCandidate=!t.articleCandidate;persist();render()}
-function deleteTrade(id){const t=trades.find(x=>x.id===id);if(!t||!confirm(`「${t.symbol}」の記録を削除しますか？`))return;trades=trades.filter(x=>x.id!==id);persist();render();toast("記録を削除しました")}
+async function toggleArticle(id){const t=trades.find(x=>x.id===id);if(!t)return;t.articleCandidate=!t.articleCandidate;await saveCloud();render()}
+async function changePrivacy(id,value){const t=trades.find(x=>x.id===id);if(!t)return;t.privacy=value;if(value==="private"&&t.published)t.published=false;await saveCloud();render()}
+async function togglePublish(id){const t=trades.find(x=>x.id===id);if(!t)return;if(t.status!=="closed")return alert("公開は決済後の記録だけに限定しています。");if(!t.published&&t.privacy==="private")return alert("先に公開時の見せ方を選んでください。");if(!t.published&&!confirm(`「${t.symbol}」の記録を一般公開します。画像内の口座情報も確認済みですか？`))return;t.published=!t.published;await saveCloud();render();toast(t.published?"一般公開しました":"公開を停止しました")}
+async function deleteTrade(id){const t=trades.find(x=>x.id===id);if(!t||!confirm(`「${t.symbol}」の記録を削除しますか？`))return;trades=trades.filter(x=>x.id!==id);await saveCloud();render();toast("記録を削除しました")}
 
 function exportMarkdown(id){
   const t=trades.find(x=>x.id===id);if(!t)return;const title=`${t.symbol}のトレードで学んだこと`;
@@ -308,9 +396,9 @@ function exportMarkdown(id){
 }
 function exportData(){download(new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),trades},null,2)],{type:"application/json"}),`trade-journal-backup-${today()}.json`)}
 function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function importData(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const v=JSON.parse(r.result),arr=Array.isArray(v)?v:v.trades;if(!Array.isArray(arr))throw 0;if(trades.length&&!confirm("現在の記録を、読み込んだバックアップで置き換えますか？"))return;trades=arr;persist();render();toast("バックアップを読み込みました")}catch(_){alert("このアプリのバックアップファイルを選んでください。") }finally{input.value=""}};r.readAsText(f)}
+function importData(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const v=JSON.parse(r.result),arr=Array.isArray(v)?v:v.trades;if(!Array.isArray(arr))throw 0;if(trades.length&&!confirm("現在の記録を、読み込んだバックアップで置き換えますか？"))return;trades=arr;trades.forEach(t=>{if(t.published==null)t.published=false});await saveCloud();render();toast("バックアップを読み込みました")}catch(_){alert("このアプリのバックアップファイルを選んでください。") }finally{input.value=""}};r.readAsText(f)}
 
-entryEmotions.innerHTML=emotionChoices("entryEmotion");dailyEmotions.innerHTML=emotionChoices("dailyEmotion");entryAt.value=localNow();render();
+entryEmotions.innerHTML=emotionChoices("entryEmotion");dailyEmotions.innerHTML=emotionChoices("dailyEmotion");entryAt.value=localNow();boot();
 </script>
 </body>
 </html>
