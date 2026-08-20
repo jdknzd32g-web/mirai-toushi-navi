@@ -367,6 +367,10 @@ a:focus-visible {
   margin-bottom: 52px;
 }
 
+.latest-section .post-card + .post-card {
+  margin-top: 18px;
+}
+
 .post-card {
   display: grid;
   grid-template-columns: 190px 1fr auto;
