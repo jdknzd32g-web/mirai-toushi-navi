@@ -15,9 +15,6 @@
     "post:full": "tsx src/x-post-full-article.ts"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.0.1",
-    "@netlify/functions": "^6.0.0",
-    "@netlify/identity": "^2.0.0",
     "dotenv": "^16.4.5",
     "twitter-api-v2": "^1.17.3"
   },
