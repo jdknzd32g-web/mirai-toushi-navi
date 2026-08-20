@@ -373,11 +373,20 @@ a:focus-visible {
 
 .post-card {
   display: grid;
-  grid-template-columns: 190px 1fr auto;
+  grid-template-columns: 150px 1fr auto auto;
   gap: 28px;
   align-items: center;
   padding: 27px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-pnl {
+  min-width: 110px;
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: right;
 }
 
 .post-card:hover {
@@ -567,6 +576,65 @@ a:focus-visible {
   gap: 18px;
 }
 
+.trade-record {
+  scroll-margin-top: 20px;
+  padding: 31px;
+}
+
+.trade-record:target {
+  border-color: rgba(210, 170, 98, 0.58);
+  box-shadow: var(--shadow), 0 0 34px rgba(210, 170, 98, 0.12);
+}
+
+.trade-record-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.trade-record-head h2 {
+  margin: 0;
+  font-size: clamp(25px, 4vw, 34px);
+}
+
+.trade-pnl {
+  color: #fff;
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 4vw, 35px);
+  font-weight: 500;
+}
+
+.trade-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.trade-phase {
+  padding: 21px;
+  background: linear-gradient(135deg, rgba(17, 49, 76, 0.7), rgba(7, 25, 41, 0.75));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.phase-label {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font: 800 10px Georgia, serif;
+  letter-spacing: 0.12em;
+}
+
+.entry-label { color: var(--cyan); background: rgba(98, 199, 220, 0.09); border: 1px solid rgba(98, 199, 220, 0.2); }
+.exit-label { color: var(--gold); background: rgba(210, 170, 98, 0.09); border: 1px solid rgba(210, 170, 98, 0.2); }
+.trade-details { margin: 0; }
+.trade-details div { padding: 13px 0; border-top: 1px solid var(--line); }
+.trade-details dt { color: var(--muted); font-size: 11px; font-weight: 700; }
+.trade-details dd { margin: 4px 0 0; color: #eef4f8; font-size: 14px; }
+
 .journal-section {
   padding: 31px;
 }
@@ -605,7 +673,8 @@ a:focus-visible {
   .hero,
   .performance-grid,
   .philosophy,
-  .journal-layout {
+  .journal-layout,
+  .trade-columns {
     grid-template-columns: 1fr;
   }
 
@@ -677,6 +746,22 @@ a:focus-visible {
 
   .arrow-button {
     display: none;
+  }
+
+  .card-pnl {
+    grid-column: 2;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .trade-record,
+  .trade-phase {
+    padding: 20px;
+  }
+
+  .trade-record-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .footer-inner {
