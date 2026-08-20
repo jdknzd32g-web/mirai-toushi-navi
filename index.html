@@ -1137,6 +1137,11 @@
 
         }
     </style>
+<script>
+  if (/^#(invite_token|recovery_token)=/.test(location.hash)) {
+    location.replace('/app/trade-journal/' + location.hash);
+  }
+</script>
 </head>
 
 <body>

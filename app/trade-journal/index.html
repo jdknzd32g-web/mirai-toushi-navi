@@ -225,15 +225,16 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
 </dialog>
 
 <dialog id="loginDialog">
-  <div class="dialog-head"><h2>管理者ログイン</h2><button onclick="closeDialog('loginDialog')" aria-label="閉じる">×</button></div>
+  <div class="dialog-head"><h2 id="loginDialogTitle">管理者ログイン</h2><button onclick="closeDialog('loginDialog')" aria-label="閉じる">×</button></div>
   <form class="dialog-body" onsubmit="loginAdmin(event)">
-    <p class="sub" style="margin-top:0">編集はFPりょうの管理者アカウントだけが利用できます。</p>
+    <p id="loginHelp" class="sub" style="margin-top:0">編集はFPりょうの管理者アカウントだけが利用できます。</p>
+    <input id="inviteToken" type="hidden">
     <div class="form-grid">
-      <label class="field span2">メールアドレス<input id="loginEmail" type="email" autocomplete="username" required></label>
-      <label class="field span2">パスワード<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+      <label id="loginEmailField" class="field span2">メールアドレス<input id="loginEmail" type="email" autocomplete="username"></label>
+      <label class="field span2"><span id="passwordLabel">パスワード</span><input id="loginPassword" type="password" autocomplete="current-password" minlength="8" required></label>
     </div>
     <div id="loginError" class="sub" style="color:var(--red);margin-top:10px"></div>
-    <div class="form-actions"><button type="submit">ログイン</button><button type="button" class="ghost" onclick="closeDialog('loginDialog')">キャンセル</button></div>
+    <div class="form-actions"><button id="loginSubmit" type="submit">ログイン</button><button type="button" class="ghost" onclick="closeDialog('loginDialog')">キャンセル</button></div>
   </form>
 </dialog>
 
@@ -290,11 +291,11 @@ async function saveCloud(){
 }
 function openLogin(){
   if(isAdmin&&cloudMode){if(confirm("管理者モードからログアウトしますか？"))logoutAdmin();return}
-  loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginEmail.focus();
+  inviteToken.value="";loginDialogTitle.textContent="管理者ログイン";loginHelp.textContent="編集はFPりょうの管理者アカウントだけが利用できます。";loginEmailField.classList.remove("hidden");loginEmail.required=true;passwordLabel.textContent="パスワード";loginSubmit.textContent="ログイン";loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginEmail.focus();
 }
 async function loginAdmin(event){
   event.preventDefault();const button=event.submitter;button.disabled=true;loginError.textContent="";
-  try{const result=await requestJSON("/api/trade-journal-auth",{method:"POST",body:JSON.stringify({email:loginEmail.value,password:loginPassword.value})});isAdmin=result.admin;loginDialog.close();await loadCloudData(true);applyMode();toast("管理者としてログインしました")}
+  try{const payload=inviteToken.value?{action:"acceptInvite",token:inviteToken.value,password:loginPassword.value}:{email:loginEmail.value,password:loginPassword.value};const result=await requestJSON("/api/trade-journal-auth",{method:"POST",body:JSON.stringify(payload)});isAdmin=result.admin;if(!isAdmin)throw new Error("管理者権限を確認できませんでした。");history.replaceState(null,"",location.pathname);loginDialog.close();await loadCloudData(true);applyMode();toast(inviteToken.value?"管理者登録が完了しました":"管理者としてログインしました")}
   catch(error){loginError.textContent=error.message}
   finally{button.disabled=false}
 }
@@ -315,8 +316,9 @@ async function boot(){
     try{const session=await requestJSON("/api/trade-journal-auth");isAdmin=session.admin;await loadCloudData(isAdmin)}
     catch(_){isAdmin=false;trades=[];syncStatus.classList.add("error");syncStatus.textContent="接続待ち"}
   }
-  applyMode();render();
+  applyMode();render();handleInviteLink();
 }
+function handleInviteLink(){const params=new URLSearchParams(location.hash.slice(1));const token=params.get("invite_token");if(!token)return;inviteToken.value=token;loginDialogTitle.textContent="管理者アカウントを有効化";loginHelp.textContent="今後このアプリへログインするときのパスワードを設定してください。";loginEmailField.classList.add("hidden");loginEmail.required=false;passwordLabel.textContent="新しいパスワード（8文字以上）";loginSubmit.textContent="登録を完了";loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginPassword.focus()}
 function applyMode(){
   document.querySelectorAll(".owner-only,.hero-actions,.stats,.tabs").forEach(el=>el.classList.toggle("hidden",!isAdmin));
   publicIntro.classList.toggle("hidden",isAdmin);

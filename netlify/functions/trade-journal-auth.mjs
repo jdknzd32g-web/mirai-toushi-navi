@@ -1,4 +1,4 @@
-import { getUser, login, logout, verifyRequestOrigin } from "@netlify/identity";
+import { acceptInvite, getUser, login, logout, verifyRequestOrigin } from "@netlify/identity";
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -24,6 +24,17 @@ export default async (request) => {
       body = await request.json();
     } catch {
       return json({ error: "入力内容を確認してください。" }, 400);
+    }
+    if (body.action === "acceptInvite") {
+      if (!body.token || !body.password || String(body.password).length < 8) {
+        return json({ error: "8文字以上のパスワードを入力してください。" }, 400);
+      }
+      try {
+        const user = await acceptInvite(String(body.token), String(body.password));
+        return json(session(user));
+      } catch {
+        return json({ error: "招待を完了できませんでした。招待リンクをもう一度開いてください。" }, 400);
+      }
     }
     if (!body.email || !body.password) return json({ error: "メールアドレスとパスワードを入力してください。" }, 400);
     try {
