@@ -1,4 +1,12 @@
-import { acceptInvite, getUser, login, logout, verifyRequestOrigin } from "@netlify/identity";
+import {
+  acceptInvite,
+  getUser,
+  login,
+  logout,
+  recoverPassword,
+  requestPasswordRecovery,
+  verifyRequestOrigin,
+} from "@netlify/identity";
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -24,6 +32,31 @@ export default async (request) => {
       body = await request.json();
     } catch {
       return json({ error: "入力内容を確認してください。" }, 400);
+    }
+    if (body.action === "requestPasswordRecovery") {
+      if (!body.email) return json({ error: "メールアドレスを入力してください。" }, 400);
+      try {
+        await requestPasswordRecovery(String(body.email));
+        return json({ ok: true });
+      } catch {
+        return json({ error: "設定メールを送信できませんでした。時間をおいて再度お試しください。" }, 400);
+      }
+    }
+    if (body.action === "recoverPassword") {
+      if (!body.token || !body.password || String(body.password).length < 8) {
+        return json({ error: "8文字以上の新しいパスワードを入力してください。" }, 400);
+      }
+      try {
+        const user = await recoverPassword(String(body.token), String(body.password));
+        const result = session(user);
+        if (!result.admin) {
+          await logout();
+          return json({ error: "管理者として登録されていません。" }, 403);
+        }
+        return json(result);
+      } catch {
+        return json({ error: "パスワードを設定できませんでした。設定メールをもう一度送ってください。" }, 400);
+      }
     }
     if (body.action === "acceptInvite") {
       if (!body.token || !body.password || String(body.password).length < 8) {

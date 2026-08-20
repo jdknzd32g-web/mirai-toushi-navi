@@ -88,6 +88,7 @@ textarea{min-height:82px;resize:vertical}
 .emotion span{display:block;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);padding:7px 11px;font-size:12px;cursor:pointer}
 .emotion input:checked+span{color:var(--blue);border-color:#8dbce9;background:var(--blue2);font-weight:800}
 .form-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:17px}
+.text-button{display:inline;padding:3px 0;min-height:auto;background:transparent;color:var(--blue);font-size:12px;text-decoration:underline;text-underline-offset:3px}
 .filebox{border:1px dashed #aebdc9;background:#f8fafb;border-radius:11px;padding:12px;color:var(--muted);font-size:12px}
 .filebox input{border:0;background:transparent;padding:4px 0;min-height:auto}
 .note{border-left:4px solid #e0a847;background:var(--amber-bg);padding:10px 12px;border-radius:8px;font-size:12px;color:#715223}
@@ -229,12 +230,24 @@ dialog::backdrop{background:rgba(9,25,39,.58);backdrop-filter:blur(3px)}
   <form class="dialog-body" onsubmit="loginAdmin(event)">
     <p id="loginHelp" class="sub" style="margin-top:0">編集はFPりょうの管理者アカウントだけが利用できます。</p>
     <input id="inviteToken" type="hidden">
+    <input id="recoveryToken" type="hidden">
     <div class="form-grid">
       <label id="loginEmailField" class="field span2">メールアドレス<input id="loginEmail" type="email" autocomplete="username"></label>
       <label class="field span2"><span id="passwordLabel">パスワード</span><input id="loginPassword" type="password" autocomplete="current-password" minlength="8" required></label>
     </div>
     <div id="loginError" class="sub" style="color:var(--red);margin-top:10px"></div>
+    <button id="passwordSetupButton" class="text-button" type="button" onclick="openPasswordSetup()">初めての方・パスワードを設定／再設定する</button>
     <div class="form-actions"><button id="loginSubmit" type="submit">ログイン</button><button type="button" class="ghost" onclick="closeDialog('loginDialog')">キャンセル</button></div>
+  </form>
+</dialog>
+
+<dialog id="passwordSetupDialog">
+  <div class="dialog-head"><h2>パスワードを設定・再設定</h2><button onclick="closeDialog('passwordSetupDialog')" aria-label="閉じる">×</button></div>
+  <form class="dialog-body" onsubmit="requestPasswordSetup(event)">
+    <p class="sub" style="margin-top:0">管理者として登録済みのメールアドレスへ、パスワード設定用のリンクを送ります。</p>
+    <label class="field">メールアドレス<input id="setupEmail" type="email" autocomplete="username" required></label>
+    <div id="setupError" class="sub" style="color:var(--red);margin-top:10px"></div>
+    <div class="form-actions"><button type="submit">設定メールを送る</button><button type="button" class="ghost" onclick="closeDialog('passwordSetupDialog')">キャンセル</button></div>
   </form>
 </dialog>
 
@@ -291,11 +304,20 @@ async function saveCloud(){
 }
 function openLogin(){
   if(isAdmin&&cloudMode){if(confirm("管理者モードからログアウトしますか？"))logoutAdmin();return}
-  inviteToken.value="";loginDialogTitle.textContent="管理者ログイン";loginHelp.textContent="編集はFPりょうの管理者アカウントだけが利用できます。";loginEmailField.classList.remove("hidden");loginEmail.required=true;passwordLabel.textContent="パスワード";loginSubmit.textContent="ログイン";loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginEmail.focus();
+  inviteToken.value="";recoveryToken.value="";loginDialogTitle.textContent="管理者ログイン";loginHelp.textContent="編集はFPりょうの管理者アカウントだけが利用できます。";loginEmailField.classList.remove("hidden");loginEmail.required=true;passwordLabel.textContent="パスワード";loginPassword.autocomplete="current-password";passwordSetupButton.classList.remove("hidden");loginSubmit.textContent="ログイン";loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginEmail.focus();
+}
+function openPasswordSetup(){
+  setupEmail.value=loginEmail.value||"jd.knzd32.g@gmail.com";setupError.textContent="";loginDialog.close();passwordSetupDialog.showModal();setupEmail.focus();
+}
+async function requestPasswordSetup(event){
+  event.preventDefault();const button=event.submitter;button.disabled=true;setupError.textContent="";
+  try{await requestJSON("/api/trade-journal-auth",{method:"POST",body:JSON.stringify({action:"requestPasswordRecovery",email:setupEmail.value})});passwordSetupDialog.close();toast("パスワード設定メールを送信しました")}
+  catch(error){setupError.textContent=error.message}
+  finally{button.disabled=false}
 }
 async function loginAdmin(event){
   event.preventDefault();const button=event.submitter;button.disabled=true;loginError.textContent="";
-  try{const payload=inviteToken.value?{action:"acceptInvite",token:inviteToken.value,password:loginPassword.value}:{email:loginEmail.value,password:loginPassword.value};const result=await requestJSON("/api/trade-journal-auth",{method:"POST",body:JSON.stringify(payload)});isAdmin=result.admin;if(!isAdmin)throw new Error("管理者権限を確認できませんでした。");history.replaceState(null,"",location.pathname);loginDialog.close();await loadCloudData(true);applyMode();toast(inviteToken.value?"管理者登録が完了しました":"管理者としてログインしました")}
+  try{const payload=inviteToken.value?{action:"acceptInvite",token:inviteToken.value,password:loginPassword.value}:recoveryToken.value?{action:"recoverPassword",token:recoveryToken.value,password:loginPassword.value}:{email:loginEmail.value,password:loginPassword.value};const result=await requestJSON("/api/trade-journal-auth",{method:"POST",body:JSON.stringify(payload)});isAdmin=result.admin;if(!isAdmin)throw new Error("管理者権限を確認できませんでした。");history.replaceState(null,"",location.pathname);loginDialog.close();await loadCloudData(true);applyMode();toast(inviteToken.value?"管理者登録が完了しました":recoveryToken.value?"新しいパスワードを設定しました":"管理者としてログインしました")}
   catch(error){loginError.textContent=error.message}
   finally{button.disabled=false}
 }
@@ -316,9 +338,12 @@ async function boot(){
     try{const session=await requestJSON("/api/trade-journal-auth");isAdmin=session.admin;await loadCloudData(isAdmin)}
     catch(_){isAdmin=false;trades=[];syncStatus.classList.add("error");syncStatus.textContent="接続待ち"}
   }
-  applyMode();render();handleInviteLink();
+  applyMode();render();handleAuthLink();
 }
-function handleInviteLink(){const params=new URLSearchParams(location.hash.slice(1));const token=params.get("invite_token");if(!token)return;inviteToken.value=token;loginDialogTitle.textContent="管理者アカウントを有効化";loginHelp.textContent="今後このアプリへログインするときのパスワードを設定してください。";loginEmailField.classList.add("hidden");loginEmail.required=false;passwordLabel.textContent="新しいパスワード（8文字以上）";loginSubmit.textContent="登録を完了";loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginPassword.focus()}
+function handleAuthLink(){
+  const params=new URLSearchParams(location.hash.slice(1));const invite=params.get("invite_token");const recovery=params.get("recovery_token");if(!invite&&!recovery)return;
+  inviteToken.value=invite||"";recoveryToken.value=recovery||"";loginDialogTitle.textContent=invite?"管理者アカウントを有効化":"新しいパスワードを設定";loginHelp.textContent=invite?"今後このアプリへログインするときのパスワードを設定してください。":"新しいパスワードを入力してください。設定後、そのまま管理者画面へ進みます。";loginEmailField.classList.add("hidden");loginEmail.required=false;passwordLabel.textContent="新しいパスワード（8文字以上）";loginPassword.autocomplete="new-password";passwordSetupButton.classList.add("hidden");loginSubmit.textContent=invite?"登録を完了":"新しいパスワードを設定";loginError.textContent="";loginPassword.value="";loginDialog.showModal();loginPassword.focus();
+}
 function applyMode(){
   document.querySelectorAll(".owner-only,.hero-actions,.stats,.tabs").forEach(el=>el.classList.toggle("hidden",!isAdmin));
   publicIntro.classList.toggle("hidden",isAdmin);
