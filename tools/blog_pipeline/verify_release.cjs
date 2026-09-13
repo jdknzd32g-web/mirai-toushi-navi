@@ -4,7 +4,9 @@ const { createRequire } = require('module');
 const runtime = createRequire('/Users/satoshioka/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/package.json');
 const { chromium } = runtime('playwright');
 const root = path.resolve(__dirname, '../..');
-const out = path.join(root, process.env.RELEASE_BATCH === 'additional' ? 'dist/blog-release-additional' : 'dist/blog-release');
+const daily = process.env.RELEASE_DATE;
+if (daily && !/^\d{4}-\d{2}-\d{2}$/.test(daily)) throw Error('Invalid RELEASE_DATE');
+const out = path.join(root, daily ? 'dist/blog-release-' + daily : process.env.RELEASE_BATCH === 'additional' ? 'dist/blog-release-additional' : 'dist/blog-release');
 const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
 (async () => {
   const deploy = read('deploy.json'), manifest = read('package.json');

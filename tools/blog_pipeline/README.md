@@ -1,5 +1,13 @@
 # 未来投資navi — 安全な記事制作フロー
 
+## Evaの事業・セクション管理
+
+このパイプラインはmirai-toushi-navi事業のブログセクション。YouTubeは同一事業、WAIZUは別事業。新規企画の前に`/Users/satoshioka/eva-solution-ops/00_strategy_management/business-sections.md`を読み、business-work-items.jsonへ事業・セクション・topic_id・intent・source_pathを登録し、`node tools/blog_pipeline/eva-governance.cjs check`を通す。同一事業の動画→記事はderived_fromで関連付ける。WAIZUの企画・素材・アカウントは混ぜず、既存の日次公開権限をWAIZUへ適用しない。
+
+## 現行の公開権限（2026-09-13更新）
+
+ユーザーが毎日の自動公開まで承認済み。`docs/daily-publishing.md`を現行手順とし、**日次2記事の作成・Drive同期・全検査合格→自動公開→本番検査合格→非SBI記事をX投稿**まで進める。以下の過去記録にある「公開には都度承認が必要」「日常の自動実行には組み込まない」はこの日次フローに限り上書きする。検査失敗時は公開・投稿しない。`RELEASE_DATE`で対象日を指定し、旧2バッチの固定コマンドを再利用しない。
+
 ## 本番公開済みの例外（2026-09-13）
 
 最新の変更：ユーザー指示により、**本番公開・本番検査後の非SBI記事のX投稿のみ自動化済み**。`docs/x-after-deploy.md`に従う。`verify_release.cjs --production`は合格後に`post-published-x.cjs --send`を呼ぶ。15分ごとのフォローも未投稿を照合する。下記の「SNS投稿を自動化しない」はこの公開後処理には適用しない。毎朝の原稿作成だけで本番公開する権限は追加していない。

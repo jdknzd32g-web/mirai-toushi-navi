@@ -10,7 +10,10 @@ import pipeline as p
 import quality
 
 ADDITIONAL = os.environ.get('RELEASE_BATCH') == 'additional'
-OUT = p.ROOT / ('dist/blog-release-additional' if ADDITIONAL else 'dist/blog-release')
+DAILY = os.environ.get('RELEASE_DATE')
+if DAILY and not re.fullmatch(r'\d{4}-\d{2}-\d{2}', DAILY):
+  raise ValueError('Invalid RELEASE_DATE')
+OUT = p.ROOT / ('dist/blog-release-' + DAILY if DAILY else 'dist/blog-release-additional' if ADDITIONAL else 'dist/blog-release')
 SITE = OUT / 'site'
 TARGETS = ({'2026-09-13-sbi-contact-details-check', '2026-09-13-family-account-map'} if ADDITIONAL else {'2026-09-13-sbi-first-order-checklist', '2026-09-13-cash-reserve-worksheet'})
 
@@ -18,7 +21,11 @@ def main():
   if not quality.check():
     raise ValueError('Preview gates did not pass')
   articles = [a for a in p.articles() if a['id'] in TARGETS]
-  if {a['id'] for a in articles} != TARGETS:
+  if DAILY:
+    articles = [a for a in p.articles() if a['date'] == DAILY]
+    if len(articles) != 2 or sum(bool(re.search(r'sbi|ＳＢＩ', a['path'] + a['title'] + a['category'], re.I)) for a in articles) != 1:
+      raise ValueError('Daily release requires exactly one SBI and one non-SBI article')
+  elif {a['id'] for a in articles} != TARGETS:
     raise ValueError('Two approved articles required')
   remote = {f['path'].lstrip('/'): f['sha'] for f in p.read(OUT / 'remote-files.json')}
   package = {}
@@ -50,11 +57,18 @@ def main():
   # Existing LP was tested with exactly this single-slot change.
   original = (OUT / 'baseline/index.html').read_text()
   previous = p.ROOT / 'dist/blog-release/site/index.html' if ADDITIONAL else p.ROOT / 'index.html'
-  if original != previous.read_text():
+  if not DAILY and original != previous.read_text():
     raise ValueError('LP baseline differs from reviewed source')
-  if ADDITIONAL:
+  if DAILY or ADDITIONAL:
     # Preserve the live page, changing only the existing latest-three slot.
-    third = next(a for a in p.articles() if a['id'] == '2026-09-13-sbi-first-order-checklist')
+    if DAILY:
+      published_ids = {id for r in p.read(p.DATA / 'published-releases.json')['releases'] if r['status'] == 'published' for id in r['articles']}
+      older = sorted([a for a in p.articles() if a['id'] in published_ids and a['path'] in remote], key=lambda a: (a['date'], a['id']), reverse=True)
+      if not older:
+        raise ValueError('Previous published article required for three-card LP')
+      third = older[0]
+    else:
+      third = next(a for a in p.articles() if a['id'] == '2026-09-13-sbi-first-order-checklist')
     candidate = p.inject_lp(original, articles + [third])
     css = '<link rel="stylesheet" href="/assets/editorial/lp-slot.css">'
     if candidate.count(css) == 2:
@@ -110,7 +124,7 @@ def main():
     dest = SITE / name
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_bytes(content)
-  manifest = {'files': list(package), 'hashes': {name: hashlib.sha1(data).hexdigest() for name, data in package.items()}, 'articles': [a['path'] for a in articles], 'build_fingerprint': p.read(p.OUT / 'build-report.json')['build_fingerprint']}
+  manifest = {'files': list(package), 'hashes': {name: hashlib.sha1(data).hexdigest() for name, data in package.items()}, 'articles': [a['path'] for a in articles], 'article_ids': [a['id'] for a in articles], 'build_fingerprint': p.read(p.OUT / 'build-report.json')['build_fingerprint']}
   p.save(OUT / 'package.json', manifest)
   print(json.dumps({'files': list(package), 'source_files_unchanged': True}, ensure_ascii=False, indent=2))
 

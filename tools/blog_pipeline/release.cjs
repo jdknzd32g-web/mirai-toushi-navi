@@ -5,7 +5,9 @@ const path = require('path');
 const crypto = require('crypto');
 const root = path.resolve(__dirname, '../..');
 const additional = process.env.RELEASE_BATCH === 'additional';
-const out = path.join(root, additional ? 'dist/blog-release-additional' : 'dist/blog-release');
+const daily = process.env.RELEASE_DATE;
+if (daily && !/^\d{4}-\d{2}-\d{2}$/.test(daily)) throw Error('Invalid RELEASE_DATE');
+const out = path.join(root, daily ? 'dist/blog-release-' + daily : additional ? 'dist/blog-release-additional' : 'dist/blog-release');
 const preview = path.join(root, 'dist/blog-preview/site');
 const siteId = '2674e228-ed72-43a3-be06-05e8441e0823';
 const origin = 'https://eva-solution.com';
@@ -43,6 +45,13 @@ async function inspect() {
     if (remote && fs.existsSync(path.join(root, name)) && hash(fs.readFileSync(path.join(root, name))) === remote.sha) bytes = fs.readFileSync(path.join(root, name));
     const prior = path.join(root, 'dist/blog-release/site', name);
     if (additional && remote && fs.existsSync(prior) && hash(fs.readFileSync(prior)) === remote.sha) bytes = fs.readFileSync(prior);
+    if (daily) {
+      for (const release of read(path.join(root, 'editorial/published-releases.json')).releases) {
+        const source = path.resolve(root, path.dirname(release.package), 'site', name);
+        if (!source.startsWith(path.join(root, 'dist') + path.sep)) throw Error('Unsafe release source');
+        if (remote && fs.existsSync(source) && hash(fs.readFileSync(source)) === remote.sha) bytes = fs.readFileSync(source);
+      }
+    }
     if (!remote || hash(bytes) !== remote.sha) throw Error('Remote content hash mismatch: ' + name);
     save('baseline/' + name, bytes);
     report.push({ name, localMatches: fs.existsSync(path.join(root, name)) && hash(fs.readFileSync(path.join(root, name))) === remote.sha });
@@ -62,7 +71,7 @@ async function draft() {
     local[hash(bytes)] = { name, bytes };
   }
   if (fs.existsSync(path.join(out, 'deploy.json'))) throw Error('Deploy already created; inspect it, do not duplicate');
-  const deploy = await api('/sites/' + siteId + '/deploys', 'POST', { files, draft: true, title: additional ? 'Publish approved contact details and family account map articles' : 'Publish two approved articles: SBI checklist and cash reserve worksheet' });
+  const deploy = await api('/sites/' + siteId + '/deploys', 'POST', { files, draft: true, title: daily ? 'Daily verified articles ' + daily : additional ? 'Publish approved contact details and family account map articles' : 'Publish two approved articles: SBI checklist and cash reserve worksheet' });
   save('deploy.json', { id: deploy.id, url: deploy.deploy_ssl_url, previous: baseline.published });
   for (const sha of deploy.required || []) {
     if (!local[sha]) throw Error('Netlify requested an unchanged remote asset; refusing incomplete deploy');
@@ -81,9 +90,20 @@ async function publish() {
   const verified = read(path.join(out, 'verified.json'));
   if (verified.deploy !== saved.id || verified.status !== 'pass') throw Error('Release not verified');
   const site = await current();
-  if (site.published_deploy.id !== saved.previous) throw Error('Concurrent live change; do not overwrite');
+  if (![saved.previous, saved.id].includes(site.published_deploy.id)) throw Error('Concurrent live change; do not overwrite');
   if ((await api('/deploys/' + saved.id)).state !== 'ready') throw Error('Deploy not ready');
-  await api('/sites/' + siteId + '/deploys/' + saved.id + '/restore', 'POST');
-  console.log(JSON.stringify({ published: (await current()).published_deploy.id, expected: saved.id, origin }));
+  if (site.published_deploy.id !== saved.id) await api('/sites/' + siteId + '/deploys/' + saved.id + '/restore', 'POST');
+  if ((await current()).published_deploy.id !== saved.id) throw Error('Publication not confirmed');
+  if (daily) {
+    const manifest = read(path.join(out, 'package.json'));
+    if (!Array.isArray(manifest.article_ids) || manifest.article_ids.length !== 2) throw Error('Missing article IDs');
+    const ledgerPath = path.join(root, 'editorial/published-releases.json');
+    const ledger = read(ledgerPath);
+    if (!ledger.releases.some(r=>r.deploy_id === saved.id)) {
+      ledger.releases.unshift({date:daily,status:'published',deploy_id:saved.id,previous_deploy_id:saved.previous,origin,articles:manifest.article_ids,urls:manifest.articles.map(n=>origin+'/'+n),package:path.relative(root,path.join(out,'package.json')),source_sync:'not_promoted_to_git_checkout',drive_sync:'not_updated'});
+      fs.writeFileSync(ledgerPath, JSON.stringify(ledger, null, 2));
+    }
+  }
+  console.log(JSON.stringify({ published: saved.id, expected: saved.id, origin }));
 }
 ({ inspect, draft, status, publish }[process.argv[2]] || (() => { throw Error('Choose inspect, draft, status or publish'); }))().catch(e => { console.error(e.message); process.exitCode = 1; });
