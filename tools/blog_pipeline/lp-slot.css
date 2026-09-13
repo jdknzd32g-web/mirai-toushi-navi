@@ -1,0 +1,9 @@
+/* All rules are scoped to the existing LP article slot. No global selectors. */
+[aria-labelledby="blog-list-heading"] .bp-latest { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 28px 0 30px; }
+[aria-labelledby="blog-list-heading"] .bp-latest-card { display: flex; flex-direction: column; text-align: left; text-decoration: none; color: #f1f5f9; border: 1px solid rgba(212,175,55,.32); border-radius: 12px; background: rgba(13,20,47,.65); padding: 24px; min-width: 0; }
+[aria-labelledby="blog-list-heading"] .bp-latest-card span { color: #e5c158; font-size: 16px; }
+[aria-labelledby="blog-list-heading"] .bp-latest-card h3 { color: #f1f5f9; font-size: 18px; line-height: 1.7; margin: 16px 0; overflow-wrap: anywhere; }
+[aria-labelledby="blog-list-heading"] .bp-latest-card small { color: #cbd5e1; font-size: 16px; margin-top: auto; }
+[aria-labelledby="blog-list-heading"] .bp-latest-card:hover { border-color: #e5c158; }
+[aria-labelledby="blog-list-heading"] .bp-latest-card:focus-visible { outline: 3px solid #e5c158; outline-offset: 4px; }
+@media (max-width: 760px) { [aria-labelledby="blog-list-heading"] .bp-latest { grid-template-columns: 1fr; } }

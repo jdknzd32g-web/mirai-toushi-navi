@@ -58,6 +58,7 @@ env/
 logs/
 *.log
 dist/
+/editorial/
 
 # シェル設定
 .zsh_history
