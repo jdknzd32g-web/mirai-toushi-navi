@@ -9,6 +9,47 @@ p = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(p)
 
 class SafetyTests(unittest.TestCase):
+  def test_emphasis_is_scoped_and_escaped(self):
+    result = p.emphasized('前<script>後', {'kind': 'highlight', 'text': '<script>'})
+    self.assertIn('<strong class="bp-highlight">&lt;script&gt;</strong>', result)
+    self.assertNotIn('<script>', result)
+
+  def test_ambiguous_stale_long_emphasis_rejected(self):
+    for value, phrase in [('同じ同じ', '同じ'), ('原稿', '変更済み'), ('長' * 41, '長' * 41)]:
+      with self.assertRaises(ValueError):
+        p.emphasized(value, {'kind': 'bold', 'text': phrase})
+
+  def test_trials_have_three_highlights_and_four_bold_spans(self):
+    for article in p.articles():
+      result = p.render_article(article)
+      self.assertEqual(result.count('class="bp-highlight"'), 3)
+      self.assertEqual(result.count('class="bp-emphasis"'), 4)
+      self.assertEqual(result.count('class="bp-related-link"'), len(article['related']))
+
+  def test_design_requires_summary_and_diagrams(self):
+    with self.assertRaises(ValueError):
+      p.design_content({'id': 'unknown-draft', 'sections': []})
+
+  def test_design_rejects_out_of_range_section(self):
+    with self.assertRaises(ValueError):
+      p.design_content({'id': 'test', 'sections': [], 'design': {'summary': ['要約'], 'diagrams': {'1': {'title': '図', 'cards': [['a', 'b'], ['c', 'd']]}}}})
+
+  def test_diagram_text_is_escaped(self):
+    result = p.render_diagram({'title': '<script>alert(1)</script>', 'cards': [['<img src=x>', '説明'], ['確認', '内容']]})
+    self.assertNotIn('<script>', result)
+    self.assertNotIn('<img', result)
+    self.assertIn('&lt;script&gt;', result)
+
+  def test_trial_articles_have_common_components_in_order(self):
+    for a in p.articles():
+      result = p.render_article(a)
+      markers = ['class="bp-hero"', 'class="bp-article-header"', 'class="bp-lead"', 'class="bp-youtube"', 'class="bp-toc"', '<article>', 'class="bp-summary"', 'class="bp-cta"', 'class="bp-author"', 'class="bp-sources"']
+      positions = [result.index(marker) for marker in markers]
+      self.assertEqual(positions, sorted(positions))
+      self.assertIn(p.LINE_URL, result)
+      self.assertIn(p.YOUTUBE_URL, result)
+      self.assertGreaterEqual(result.count('class="bp-diagram"'), 1)
+
   def test_path_traversal_rejected(self):
     for value in ('../index.html', '/tmp/a.html', 'blog/../index.html', 'blog/a.js'):
       with self.assertRaises(ValueError):

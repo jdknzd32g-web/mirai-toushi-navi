@@ -19,6 +19,8 @@ OUT = ROOT / "dist/blog-preview"
 SITE = OUT / "site"
 BASE = "https://eva-solution.com"
 HERE = Path(__file__).resolve().parent
+LINE_URL = 'https://lin.ee/FxIOpk1'
+YOUTUBE_URL = 'https://www.youtube.com/channel/UCb-u1hcuQyo7qruBhuiOBZg'
 LP_PATTERN = re.compile(r'<section class="reveal-on-scroll" aria-labelledby="blog-list-heading">.*?</section>', re.S)
 ASSETS = {".html", ".css", ".js", ".png", ".jpg", ".jpeg", ".webp", ".svg", ".ico", ".woff", ".woff2", ".mp4", ".pdf"}
 
@@ -162,19 +164,63 @@ def doc(title, description, body, path):
   <footer class="bp-footer">未来投資navi / eva solution<br>投資には元本割れのリスクがあります。</footer>
 </body></html>'''
 
+def design_content(a):
+  # New drafts keep these fields in their structured manuscript. The two
+  # original trials use a versioned local supplement; never overwrite Drive.
+  content = a.get('design') or read(HERE / 'design-content.json').get(a['id'])
+  if not content or not content.get('summary') or not content.get('diagrams'):
+    raise ValueError('Missing summary/diagram design content: ' + a['id'])
+  if not isinstance(content['summary'], list) or any(not isinstance(s, str) or not s.strip() for s in content['summary']):
+    raise ValueError('Invalid summary')
+  if not isinstance(content['diagrams'], dict):
+    raise ValueError('Invalid diagrams')
+  for section, figure in content['diagrams'].items():
+    if not str(section).isdigit() or not 1 <= int(section) <= len(a['sections']):
+      raise ValueError('Invalid diagram section')
+    if not isinstance(figure.get('title'), str) or not figure['title'].strip() or not 2 <= len(figure.get('cards', [])) <= 3:
+      raise ValueError('Invalid diagram content')
+    if any(not isinstance(card, list) or len(card) != 2 or any(not isinstance(t, str) or not t.strip() for t in card) for card in figure['cards']):
+      raise ValueError('Invalid diagram cards')
+  return content
+
+def render_diagram(figure):
+  e = html.escape
+  return '<figure class="bp-diagram" aria-label="' + e(figure['title'], quote=True) + '"><figcaption>' + e(figure['title']) + '</figcaption><div class="bp-diagram-grid">' + ''.join(
+    f'<div class="bp-diagram-card"><span class="bp-diagram-number" aria-hidden="true">{i:02}</span><strong>{e(card[0])}</strong><span>{e(card[1])}</span></div>'
+    for i, card in enumerate(figure['cards'], 1)) + '</div></figure>'
+
+def emphasized(value, rule=None):
+  if rule is None:
+    return inline(value)
+  phrase = rule.get('text', '')
+  if rule.get('kind') not in ('bold', 'highlight') or not 1 <= len(phrase) <= 40 or value.count(phrase) != 1 or re.search(r'\[S\d+\]', phrase):
+    raise ValueError('Invalid, ambiguous or stale emphasis rule')
+  before, after = value.split(phrase)
+  klass = 'bp-highlight' if rule['kind'] == 'highlight' else 'bp-emphasis'
+  return inline(before) + f'<strong class="{klass}">' + html.escape(phrase) + '</strong>' + inline(after)
+
 def render_article(a):
   e = html.escape
-  body = f'<nav class="bp-breadcrumb"><a href="/index.html">ホーム</a> / <a href="/blog/index.html">投資コラム</a> / {e(a["category"])}</nav>'
-  body += f'<header><p class="bp-category">{e(a["category"])}</p><h1>{e(a["title"])}</h1><p class="bp-meta">未来投資navi 編集部 ｜ 原稿作成・情報確認 {a["date"]}</p></header>'
-  body += f'<img class="bp-hero" src="/{e(a["hero"])}" alt="{e(a["hero_alt"])}" width="1200" height="675">'
-  body += '<div class="bp-lead">' + ''.join(f'<p>{inline(p)}</p>' for p in a['lead']) + '</div>'
+  design = design_content(a)
+  rules = design.get('emphasis', {})
+  used = set()
+  def rich(value, key):
+    if key in rules:
+      used.add(key)
+    return emphasized(value, rules.get(key))
+  body = f'<img class="bp-hero" src="/{e(a["hero"])}" alt="{e(a["hero_alt"])}" width="1200" height="675">'
+  body += f'<header class="bp-article-header"><p class="bp-category">{e(a["category"])}</p><h1>{e(a["title"])}</h1><p class="bp-meta">りょう｜未来投資navi ・ 原稿作成・情報確認 {a["date"]}</p></header>'
+  body += '<div class="bp-lead">' + ''.join(f'<p>{rich(p, "lead." + str(j))}</p>' for j, p in enumerate(a['lead'])) + '</div>'
+  body += f'<a class="bp-youtube" href="{YOUTUBE_URL}" target="_blank" rel="noopener noreferrer"><div class="bp-yt-inner"><span class="bp-yt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><div><span class="bp-yt-label">YOUTUBE CHANNEL</span><strong class="bp-yt-name">未来投資navi</strong></div></div><p>50代・60代からの資産づくりを、動画でもわかりやすくお伝えします。</p><span class="bp-yt-button">YouTubeチャンネルを見る</span></a>'
   body += '<nav class="bp-toc" aria-label="目次"><h2>この記事で確認すること</h2><ol>'
   body += ''.join(f'<li><a href="#section-{i}">{e(s["heading"])}</a></li>' for i, s in enumerate(a['sections'], 1)) + '</ol></nav>'
   body += '<article>'
   for i, s in enumerate(a['sections'], 1):
     body += f'<section id="section-{i}"><h2>{e(s["heading"])}</h2>'
-    for p in s.get('paragraphs', []):
-      body += f'<p>{inline(p)}</p>'
+    if str(i) in design['diagrams']:
+      body += render_diagram(design['diagrams'][str(i)])
+    for j, p in enumerate(s.get('paragraphs', [])):
+      body += '<p>' + rich(p, f'sections.{i}.paragraphs.{j}') + '</p>'
     if s.get('items'):
       body += '<ul class="bp-checklist">' + ''.join(f'<li>{inline(p)}</li>' for p in s['items']) + '</ul>'
     if s.get('table'):
@@ -185,10 +231,14 @@ def render_article(a):
     if s.get('note'):
       body += f'<aside class="bp-note">{inline(s["note"])}</aside>'
     body += '</section>'
-  body += '<section><h2>よくある質問</h2>' + ''.join(f'<h3>{e(f["q"])}</h3><p>{inline(f["a"])}</p>' for f in a['faq']) + '</section></article>'
-  body += '<aside class="bp-cta"><h2>自分の家計に当てはめて考えたい方へ</h2><p>生活費・年金・今後の予定によって、無理のない投資額は変わります。迷ったら、整理したいことを公式LINEからお知らせください。</p><a href="https://lin.ee/FxIOpk1">公式LINEで相談の入口を確認する</a></aside>'
-  body += '<section><h2>あわせて読みたい</h2><ul>' + ''.join(f'<li><a href="/{e(r["path"])}">{e(r["title"])}</a></li>' for r in a['related']) + '</ul></section>'
-  body += '<section class="bp-sources"><h2>出典・確認日</h2><ol>' + ''.join(f'<li id="source-{i}"><a href="{e(s["url"], quote=True)}" target="_blank" rel="noopener noreferrer">{e(s["title"])}</a>（{s["checked"]}確認）</li>' for i, s in enumerate(a['sources'], 1)) + '</ol><p>制度・画面・サービス条件は変更される場合があります。取引前に公式情報をご確認ください。本記事は一般的な情報提供であり、特定商品の購入や利益を保証するものではありません。</p></section>'
+  body += '<section><h2>よくある質問</h2>' + ''.join(f'<div class="bp-faq"><h3>{e(f["q"])}</h3><p>{inline(f["a"])}</p></div>' for f in a['faq']) + '</section></article>'
+  body += '<section class="bp-summary"><h2>まとめ｜今日のポイント</h2><ul>' + ''.join('<li>' + rich(s, f'summary.{j}') + '</li>' for j, s in enumerate(design['summary'])) + '</ul></section>'
+  body += f'<aside class="bp-cta"><h2>自分の家計に当てはめて考えたい方へ</h2><p>生活費・年金・今後の予定によって、無理のない投資額は変わります。迷ったら、整理したいことを公式LINEからお知らせください。</p><a href="{LINE_URL}" target="_blank" rel="noopener noreferrer">公式LINEで相談する</a></aside>'
+  body += '<aside class="bp-author" aria-label="著者紹介"><img src="/blog/2026/copper-price-2026/blog_profile_ryo.jpg" width="72" height="72" alt="りょう｜未来投資navi"><div><h2>りょう｜未来投資navi</h2><p>50代・60代の投資初心者に向けて、家計と資産づくりについて発信しています。YouTubeチャンネル「未来投資navi」も運営。</p></div></aside>'
+  body += '<section class="bp-related"><h2>あわせて読みたい</h2><p>気になるテーマから、次の確認へ進めます。</p><ul>' + ''.join(f'<li><a class="bp-related-link" href="/{e(r["path"])}"><span class="bp-link-label">関連記事</span><span class="bp-link-title">{e(r["title"])}</span><span class="bp-link-action">記事を読む <span aria-hidden="true">→</span></span></a></li>' for r in a['related']) + '</ul></section>'
+  body += '<section class="bp-sources"><h2>出典・確認日</h2><p>本文の出典番号から、根拠となる公式資料を確認できます。</p><ol>' + ''.join(f'<li id="source-{i}"><a class="bp-source-link" href="{e(s["url"], quote=True)}" target="_blank" rel="noopener noreferrer">{e(s["title"])}</a><span class="bp-source-meta">{s["checked"]}確認 ・ 外部サイト／新しいタブ</span></li>' for i, s in enumerate(a['sources'], 1)) + '</ol><p>制度・画面・サービス条件は変更される場合があります。取引前に公式情報をご確認ください。本記事は一般的な情報提供であり、特定商品の購入や利益を保証するものではありません。</p></section>'
+  if used != set(rules):
+    raise ValueError('Unresolved emphasis locations: ' + ', '.join(set(rules) - used))
   return doc(a['title'], a['description'], body, a['path'])
 
 def markdown(a):

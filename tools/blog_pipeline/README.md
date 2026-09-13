@@ -1,5 +1,15 @@
 # 未来投資navi — 安全な記事制作フロー
 
+## 本番公開済みの例外（2026-09-13）
+
+追記：追加2記事（SBI登録情報・家族向け資産一覧）も公開済み。合計4記事の公開記録は`editorial/published-releases.json`を優先する。追加公開パッケージは`dist/blog-release-additional/package.json`（5ファイル）。Git連携デプロイ・push前の統合は、下記初回パッケージに追加パッケージを重ねた最終状態を使用する。X投稿は今回明示承認された非SBIの2記事のみを`post-approved-x.cjs`で扱い、日常の自動実行には組み込まない。
+
+ユーザーの明示指示により試作2記事をNetlify APIで公開済み。公開状態の正本記録は`editorial/published-releases.json`。下記の「未公開」は日常のプレビュー生成フローの説明であり、この2記事の本番状態には当てはまらない。台帳や原稿のdraft表記だけで再公開・再作成しない。
+
+**本番とGitチェックアウトは未同期。次のGit連携デプロイ・push前に、`dist/blog-release/package.json`の7ファイルを確認・統合すること。** 現行の古いルートをそのままデプロイすると新記事が消える可能性がある。今回の本番公開は既存334ファイルのハッシュを引き継ぎ、2記事・共通CSS2件・LP・記事一覧・サイトマップだけを追加／更新した。既存LPと記事一覧の元デザインを保持し、私的な原稿・スクリプト・認証情報を追加アップロードしていない。
+
+公開用生成は`package_release.py`、明示デプロイは`release.cjs`、配信確認は`verify_release.cjs`。これらは今回専用の対象ID固定ツールであり、日常の自動実行には組み込まない。次回は本番の最新ハッシュと公開済み状態を取得してから差分を作る。ローカルのプレビュー生成・検査が自動的に本番へ反映されることはない。Drive台帳の公開状態同期も別途必要。
+
 ## この版の範囲
 
 本番非公開。公開済みHTML・LP・画像を変更せず、`dist/blog-preview/site` にだけサイトを構築する。
@@ -37,6 +47,7 @@ python3 tools/blog_pipeline/serve.py
 
 ```sh
 node tools/blog_pipeline/visual-test.cjs
+node tools/blog_pipeline/design-check.cjs
 python3 tools/blog_pipeline/quality.py
 ```
 
@@ -55,12 +66,21 @@ PlaywrightはPC同梱のランタイムと既存Google Chromeを使用する。O
 4. 同日のSBI1件＋その他1件が存在したら増やさない。未完の検査・同期だけ再開する。
 5. 台帳のタイトル・見出しと検索用本文を比較する。検索意図・結論・具体例が同じ案は採用しない。文字列類似度は補助であり、意味の重複を保証するものではない。
 6. 公式資料で事実確認。`editorial/articles/`の試作JSONに従い、原稿・具体例・FAQ・関連先・出典・確認日・重複確認理由を書く。
-7. buildと単体テスト、表示検査を実行。`build-report.json`がstatic_pass、`visual-report.json`がpassでなければデザイン完了にしない。
+7. buildと単体テスト、表示検査、`design-check.cjs`を実行。`build-report.json`がstatic_pass、`visual-report.json`と`design-report.json`がpassでなければ先に進まない。最後にquality.pyの合格を確認する。
 8. 原稿・台帳・資料・方針・検証レポートをDriveへ同期する。既存ファイルはID維持のupdate_file、初回だけupload_file。書く直前にget_file_metadataでmodified_timeを再確認。更新があれば停止。text/plainまたはtext/markdownとして保存し、fetchで内容を読み返してローカルと照合する。
 9. 成功後にdrive-mapのID・更新時刻・ローカルSHA256を保存する。同期失敗は未完としてログに残す。公開URLはあくまで予定、公開状態はdraftのまま。
 10. りょうさんの承認前に本番ファイルを更新しない。毎回デザイン基準を作り直さない。
 
 ## デザイン保護
+
+2026-09-13承認：銅価格の記事を主基準とする。仕様は`docs/blog-design-spec.md`。
+`design-check.cjs`は原本のハッシュを固定して、実ブラウザーで色・幅・見出し・ヘッダー順序・公式URL・YouTube・LINE・著者・まとめ・図解の有無とスマホの可読性を検査する。元記事の小さい補助文字はそのまま複製せず16px以上、図解はスマホで縦積みにする。
+故障注入12件を毎回実行し、URL改変・部品削除・色や幅の変化・ヘッダー順序・小さい図解文字・非表示・横はみ出し・赤い強調・長文強調・関連記事装飾の消失を拒否する。すべてブラウザー内だけの変更で、原本を書き換えない。
+最終ゲートはデザイン検査とビルドの指紋、検査ツール自身のハッシュを照合する。検査結果が古ければ停止する。テスト合格は公開許可ではない。
+
+新規原稿JSONには`design.summary`（文字列配列）と`design.diagrams`（節番号をキーにした`title`と2〜3組の`cards: [[見出し, 説明]]`）を含める。すべてプレーンテキストとしてエスケープする。試作2記事のみ`design-content.json`をローカル補足として使用し、Drive原稿は勝手に上書きしない。補足は次回の承認済み同期で原稿へ統合する。図解やまとめのない原稿は生成を止める。
+
+太字・ハイライトは設計書第11節に従う。`design.emphasis`に場所をキーとして`{"kind":"bold"または"highlight","text":"原文中の短い文字列"}`を設定する。対応キーは`lead.0`、`sections.1.paragraphs.0`、`summary.0`（節番号のみ1始まり、配列番号は0始まり）。段落内で一意に一致する40字以内の箇所だけを装飾し、曖昧・不一致・未対応の場所なら停止する。自由なHTMLは使わない。強調数・密度・色・禁止箇所・関連カードと出典リンクの装飾もブラウザー検査の対象。
 
 - ソースハッシュ：`editorial/source-lock.json`。LP・既存記事・画像・CSS・sitemapの変更や追加を検知したら停止。
 - テンプレートハッシュ：`editorial/design-lock.json`。固定CSSや生成処理の変更を検知したら停止。

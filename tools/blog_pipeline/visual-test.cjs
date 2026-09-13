@@ -115,7 +115,9 @@ async function prepare(page, url) {
           width: innerWidth,
           scrollWidth: document.documentElement.scrollWidth,
           brokenImages: [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.getAttribute('src')),
-          paragraphsBelow16: [...document.querySelectorAll('.bp-container p, .bp-container td, .bp-container li')].filter(e => parseFloat(getComputedStyle(e).fontSize) < 16).length
+          // Category badges and publication metadata follow the benchmark's
+          // compact typography; reading content must remain at least 16px.
+          paragraphsBelow16: [...document.querySelectorAll('.bp-container p:not(.bp-meta):not(.bp-category), .bp-container td, .bp-container th, .bp-container li, .bp-diagram span')].filter(e => parseFloat(getComputedStyle(e).fontSize) < 16).length
         }));
         if (metrics.scrollWidth > width + 1) errors.push(rel + ': horizontal overflow ' + metrics.scrollWidth);
         if (metrics.brokenImages.length) errors.push(rel + ': broken images ' + metrics.brokenImages.join(', '));

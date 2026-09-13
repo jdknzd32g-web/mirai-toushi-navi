@@ -11,6 +11,15 @@ def check():
   build = p.read(p.OUT / 'build-report.json')
   visual = p.read(p.OUT / 'visual-report.json')
   failures = []
+  design_path = p.OUT / 'design-report.json'
+  design = p.read(design_path) if design_path.exists() else {}
+  if (design.get('status') != 'pass'
+      or design.get('build_fingerprint') != build['build_fingerprint']
+      or design.get('checker_sha256') != p.digest(p.HERE / 'design-check.cjs')
+      or design.get('widths') != [1440, 768, 390, 320]
+      or len(design.get('negative_tests', [])) != 12
+      or not all(t.get('detected') for t in design.get('negative_tests', []))):
+    failures.append('Benchmark design checks missing, failed, or stale')
   if build['status'] != 'static_pass':
     failures.append('Static checks failed')
   if visual['status'] != 'pass' or visual.get('build_fingerprint') != build['build_fingerprint']:
@@ -28,6 +37,7 @@ def check():
     'checked_at': datetime.now().astimezone().isoformat(),
     'build_fingerprint': build['build_fingerprint'],
     'source_unchanged': True,
+    'benchmark_design': design.get('status', 'missing'),
     'drive_files_verified': len(mapping['files']),
     'viewports': [v['width'] for v in visual.get('viewports', [])],
     'failures': failures,
