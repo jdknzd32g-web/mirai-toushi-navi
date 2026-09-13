@@ -2,6 +2,8 @@
 
 ## 本番公開済みの例外（2026-09-13）
 
+最新の変更：ユーザー指示により、**本番公開・本番検査後の非SBI記事のX投稿のみ自動化済み**。`docs/x-after-deploy.md`に従う。`verify_release.cjs --production`は合格後に`post-published-x.cjs --send`を呼ぶ。15分ごとのフォローも未投稿を照合する。下記の「SNS投稿を自動化しない」はこの公開後処理には適用しない。毎朝の原稿作成だけで本番公開する権限は追加していない。
+
 追記：追加2記事（SBI登録情報・家族向け資産一覧）も公開済み。合計4記事の公開記録は`editorial/published-releases.json`を優先する。追加公開パッケージは`dist/blog-release-additional/package.json`（5ファイル）。Git連携デプロイ・push前の統合は、下記初回パッケージに追加パッケージを重ねた最終状態を使用する。X投稿は今回明示承認された非SBIの2記事のみを`post-approved-x.cjs`で扱い、日常の自動実行には組み込まない。
 
 ユーザーの明示指示により試作2記事をNetlify APIで公開済み。公開状態の正本記録は`editorial/published-releases.json`。下記の「未公開」は日常のプレビュー生成フローの説明であり、この2記事の本番状態には当てはまらない。台帳や原稿のdraft表記だけで再公開・再作成しない。

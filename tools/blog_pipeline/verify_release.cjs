@@ -60,4 +60,11 @@ const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
   fs.writeFileSync(path.join(out, base === deploy.url ? 'verified.json' : 'production-verified.json'), JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
   process.exitCode = report.status === 'pass' ? 0 : 1;
+  if (report.status === 'pass' && process.argv.includes('--production')) {
+    const result = require('child_process').spawnSync(process.execPath, [path.join(__dirname, 'post-published-x.cjs'), '--send'], {cwd:root, stdio:'inherit'});
+    if (result.error || result.status !== 0) {
+      console.error('Production verification passed, but X posting needs attention. Inspect posting logs before retrying.');
+      process.exitCode = 1;
+    }
+  }
 })();
