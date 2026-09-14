@@ -14,7 +14,7 @@
 
 各コマンドに同じ`RELEASE_DATE=YYYY-MM-DD`（対象原稿の日付）を付ける。出力は`dist/blog-release-YYYY-MM-DD`。以下は必ず順に実施する。
 
-1. READMEの原稿作成・一次情報確認・Drive同期・単体テスト・デザイン・表示検査を完了し、`quality.py`が合格すること。Drive同期は既存ファイル更新を基本とし、更新が安全レビュー・競合・所有者確認で止まる場合は、りょうさん個人運用の正本管理として新規連番ファイルへ同期し、読み戻し確認済みIDをdrive-mapの最新版として扱う。
+1. READMEの原稿作成・一次情報確認・重複チェック・Drive同期・単体テスト・デザイン・表示検査を完了し、`quality.py`が合格すること。重複チェックでは、記事JSONの`duplicate_review`で既存記事との差分を明記し、さらに`pipeline.py build`のタイトル類似・本文類似ゲートを必ず通す。類似判定で停止した場合は、同じテーマを言い換えて公開せず、別テーマへ差し替える。Drive同期は、各管理フォルダ配下の`YYYY-MM-DD`日付フォルダへ保存する。既存ファイル更新を基本とし、更新が安全レビュー・競合・所有者確認で止まる場合は、りょうさん個人運用の正本管理として新規連番ファイルへ同期し、読み戻し確認済みIDをdrive-mapの最新版として扱う。
 2. `node tools/blog_pipeline/release.cjs inspect`：現在の本番を取得。ローカル公開ソースは過去のパッケージも含め、本番SHA1が一致したものだけ使用。
 3. `python3 tools/blog_pipeline/package_release.py`：当日2記事のみ梱包。SBI/非SBI各1件を要求。既存記事の上書き禁止。共通CSSは同一なら再利用、変更されていれば停止。LPは既存枠の最新3件だけ差し替える。
 4. `node tools/blog_pipeline/release.cjs draft`：既存本番マニフェストに対象ファイルだけ追加する。保存済みdeploy.jsonがあれば再作成せず状態を確認。

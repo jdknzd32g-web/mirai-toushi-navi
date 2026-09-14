@@ -126,6 +126,67 @@ def similarity(a, b):
   aa, bb = grams(a), grams(b)
   return len(aa & bb) / max(1, len(aa | bb))
 
+def article_text(a):
+  parts = [a.get(k, '') for k in ('title', 'description', 'category', 'intent', 'angle')]
+  parts += a.get('lead', [])
+  for s in a.get('sections', []):
+    parts.append(s.get('heading', ''))
+    parts += s.get('paragraphs', [])
+    parts += s.get('items', [])
+    if s.get('note'):
+      parts.append(s['note'])
+    if s.get('table'):
+      t = s['table']
+      parts.append(t.get('caption', ''))
+      parts += t.get('columns', [])
+      for row in t.get('rows', []):
+        parts += row
+  for f in a.get('faq', []):
+    parts += [f.get('q', ''), f.get('a', '')]
+  return '\n'.join(str(p) for p in parts if p)
+
+def comparison_text(a):
+  return a.get('search_text') or article_text(a)
+
+def duplicate_candidates(article, rows):
+  candidates = []
+  article_body = article_text(article)
+  for other in rows:
+    if other['path'] == article['path']:
+      continue
+    title_score = similarity(article['title'], other['title'])
+    body_score = similarity(article_body, comparison_text(other))
+    candidates.append({
+      'path': other['path'],
+      'title': other['title'],
+      'category': other.get('category', ''),
+      'title_score': round(title_score, 3),
+      'body_score': round(body_score, 3),
+    })
+  return sorted(candidates, key=lambda item: (item['body_score'], item['title_score']), reverse=True)
+
+def validate_duplicate_gate(current, rows):
+  report = []
+  for a in current:
+    candidates = duplicate_candidates(a, rows)[:8]
+    blocking = [c for c in candidates if c['title_score'] >= 0.85 or c['body_score'] >= 0.30]
+    if blocking:
+      top = blocking[0]
+      raise ValueError(
+        'Potential duplicate article: '
+        + a['id'] + ' resembles ' + top['path']
+        + f' (title={top["title_score"]}, body={top["body_score"]})'
+      )
+    report.append({
+      'id': a['id'],
+      'candidates': candidates,
+      'editorial_review': a['duplicate_review'],
+      'gate': 'pass',
+      'thresholds': {'title_score': 0.85, 'body_score': 0.30},
+      'limitation': 'Character similarity is a hard pre-publication gate; editorial_review must still explain intent, angle, and audience difference.',
+    })
+  return report
+
 def articles():
   result = [read(p) for p in sorted((DATA / 'articles').glob('*.json'))]
   seen = set()
@@ -314,12 +375,7 @@ def build_staged():
   current = articles()
   existing = read(DATA / 'existing-articles.json')
   rows = existing + [dict(a, status='draft') for a in current]
-  duplicate_report = []
-  for a in current:
-    candidates = sorted([{'path': b['path'], 'title': b['title'], 'score': round(similarity(a['title'], b['title']), 3)} for b in rows if b['path'] != a['path']], key=lambda b: b['score'], reverse=True)[:5]
-    if candidates and candidates[0]['score'] > 0.85:
-      raise ValueError('Near-identical article title: ' + a['title'])
-    duplicate_report.append({'id': a['id'], 'candidates': candidates, 'editorial_review': a['duplicate_review'], 'limitation': 'Character similarity is advisory; compare intent and existing article text before writing.'})
+  duplicate_report = validate_duplicate_gate(current, rows)
   SITE.mkdir(parents=True, exist_ok=True)
   # Only public assets are copied. No .env, Git data, scripts, drafts or credentials.
   for p in source_files():

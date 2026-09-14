@@ -73,6 +73,12 @@ class SafetyTests(unittest.TestCase):
     self.assertEqual(rendered.count('class="bp-latest-card"'), 3)
     self.assertEqual(p.LP_PATTERN.sub('', raw), p.LP_PATTERN.sub('', rendered.replace('<link rel="stylesheet" href="/assets/editorial/lp-slot.css">\n', '')))
 
+  def test_duplicate_gate_blocks_reused_body(self):
+    first = p.articles()[0]
+    duplicate = dict(first, id='copy', path='blog/copy.html', title=first['title'] + ' コピー')
+    with self.assertRaises(ValueError):
+      p.validate_duplicate_gate([duplicate], [first, duplicate])
+
   def test_existing_sbi_index_is_an_article(self):
     records = p.inventory()
     paths = [a['path'] for a in records]
