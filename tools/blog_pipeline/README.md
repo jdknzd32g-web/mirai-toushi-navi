@@ -77,8 +77,8 @@ PlaywrightはPC同梱のランタイムと既存Google Chromeを使用する。O
 5. 台帳のタイトル・見出しと検索用本文を比較する。検索意図・結論・具体例が同じ案は採用しない。文字列類似度は補助であり、意味の重複を保証するものではない。
 6. 公式資料で事実確認。`editorial/articles/`の試作JSONに従い、原稿・具体例・FAQ・関連先・出典・確認日・重複確認理由を書く。
 7. buildと単体テスト、表示検査、`design-check.cjs`を実行。`build-report.json`がstatic_pass、`visual-report.json`と`design-report.json`がpassでなければ先に進まない。最後にquality.pyの合格を確認する。
-8. 原稿・台帳・資料・方針・検証レポートをDriveへ同期する。既存ファイルはID維持のupdate_file、初回だけupload_file。書く直前にget_file_metadataでmodified_timeを再確認。更新があれば停止。text/plainまたはtext/markdownとして保存し、fetchで内容を読み返してローカルと照合する。
-9. 成功後にdrive-mapのID・更新時刻・ローカルSHA256を保存する。同期失敗は未完としてログに残す。公開URLはあくまで予定、公開状態はdraftのまま。
+8. 原稿・台帳・資料・方針・検証レポートをDriveへ同期する。通常は既存ファイルIDを維持してupdate_fileし、書く直前にget_file_metadataでmodified_timeを再確認する。更新・競合・安全レビューで既存更新が止まる場合は、りょうさん個人運用の正本管理として、対象フォルダへ `YYYY-MM-DD-NNN_用途_記事ID.ext` 形式の新規連番ファイルをupload_fileし、古い版は消さない。text/plainまたはtext/markdownとして保存し、fetchで内容を読み返してローカルと照合する。
+9. 成功後にdrive-mapのID・更新時刻・ローカルSHA256・連番名を保存する。同期失敗は未完としてログに残す。公開URLはあくまで予定、公開状態はdraftのまま。正本の混乱は連番とdrive-mapの最新版参照で制御し、同日の再開時は最新連番を優先する。
 10. りょうさんの承認前に本番ファイルを更新しない。毎回デザイン基準を作り直さない。
 
 ## デザイン保護
