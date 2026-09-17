@@ -65,6 +65,16 @@
 .bp-diagram-card strong { display: block; font-size: 18px; margin-bottom: 10px; }
 .bp-diagram-card span { display: block; font-size: 16px; }
 .bp-diagram-number { color: #f5c842; margin-bottom: 8px; }
+.bp-diagram--flow .bp-diagram-grid { gap: 34px; }
+.bp-diagram--flow .bp-diagram-card { position: relative; background: #244d6c; }
+.bp-diagram--flow .bp-diagram-card:not(:last-child)::after { content: "→"; position: absolute; right: -28px; top: 50%; transform: translateY(-50%); color: #f5c842; font-size: 24px; font-weight: 700; }
+.bp-diagram--flow .bp-diagram-number { font-weight: 700; letter-spacing: .08em; }
+.bp-diagram--record { background: #17324a; }
+.bp-diagram--record .bp-diagram-grid { grid-template-columns: 1fr; gap: 10px; max-width: 720px; margin: 0 auto; }
+.bp-diagram--record .bp-diagram-card { display: grid; grid-template-columns: minmax(120px, .7fr) minmax(0, 1.8fr); align-items: center; gap: 16px; background: #fff; color: #17324a; border-top-color: #f5c842; padding: 15px 18px; }
+.bp-diagram--record .bp-diagram-card:nth-child(2), .bp-diagram--record .bp-diagram-card:nth-child(3) { background: #fff; }
+.bp-diagram--record .bp-diagram-card strong { margin: 0; }
+.bp-diagram--record .bp-diagram-number { display: none; }
 .bp-sources { font-size: 16px; }
 .bp-emphasis { font-weight: 700; }
 .bp-highlight { color: #333; font-weight: 700; background: linear-gradient(transparent 58%, #ffe58a 58%); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -99,4 +109,7 @@
   .bp-diagram { padding: 24px 18px; }
   .bp-diagram-grid { grid-template-columns: 1fr; gap: 14px; }
   .bp-diagram figcaption { font-size: 20px; }
+  .bp-diagram--flow .bp-diagram-grid { gap: 32px; }
+  .bp-diagram--flow .bp-diagram-card:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -28px; transform: translateX(50%); }
+  .bp-diagram--record .bp-diagram-card { grid-template-columns: 1fr; gap: 6px; }
 }

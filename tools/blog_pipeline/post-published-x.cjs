@@ -6,16 +6,16 @@ const origin = 'https://eva-solution.com';
 const norm = value => value.replace(/\.html$/, '').replace(/\/$/, '');
 const eligible = a => !/sbi|ＳＢＩ/i.test([a.path, a.title, a.category].join(' '));
 function compose(a) {
-  const url = origin + '/' + a.path;
-  const budget = 250;
+  const budget = 275;
   let summary = '', count = 0;
   for (const c of a.description || a.title) {
     const size = c.codePointAt(0) > 127 ? 2 : 1;
     if (count + size > budget) { summary += '…'; break; }
     summary += c; count += size;
   }
-  return summary + '\n' + url;
+  return summary;
 }
+function composeReply(a) { return origin + '/' + a.path; }
 async function run() {
   require('dotenv').config({path:path.join(root, '.env')});
   const {TwitterApi} = require('twitter-api-v2');
@@ -54,7 +54,7 @@ async function run() {
           if (!['verified','skipped_existing'].includes(previous.status)) throw Error('Uncertain previous posting: ' + id);
           continue;
         }
-        if (!jobs.some(j=>j.article === id)) jobs.push({article:id, url, text:compose(a)});
+        if (!jobs.some(j=>j.article === id)) jobs.push({article:id, url, text:compose(a), reply_text:composeReply(a)});
       }
     }
     if (!jobs.length) { console.log(JSON.stringify({status:'no_pending_posts'})); return; }
@@ -77,13 +77,19 @@ async function run() {
       records.push(record); save();
       const posted = await client.v2.tweet(job.text);
       record.id = posted.data.id; record.post_url = 'https://x.com/' + me.username + '/status/' + record.id;
+      record.status = 'main_posted'; save();
+      const replied = await client.v2.tweet({text:job.reply_text,reply:{in_reply_to_tweet_id:record.id}});
+      record.reply_id = replied.data.id;
+      record.reply_url = 'https://x.com/' + me.username + '/status/' + record.reply_id;
       record.status = 'posted'; save();
-      const verified = (await client.v2.singleTweet(record.id, {'tweet.fields':['author_id','entities']})).data;
-      if (verified.author_id !== me.id || !verified.entities?.urls?.some(u=>norm(u.expanded_url) === norm(job.url))) throw Error('Post readback mismatch');
+      const verifiedMain = (await client.v2.singleTweet(record.id, {'tweet.fields':['author_id','entities']})).data;
+      const verifiedReply = (await client.v2.singleTweet(record.reply_id, {'tweet.fields':['author_id','entities','referenced_tweets']})).data;
+      if (verifiedMain.author_id !== me.id || verifiedMain.entities?.urls?.some(u=>norm(u.expanded_url) === norm(job.url))) throw Error('Main post readback mismatch');
+      if (verifiedReply.author_id !== me.id || !verifiedReply.entities?.urls?.some(u=>norm(u.expanded_url) === norm(job.url)) || !verifiedReply.referenced_tweets?.some(t=>t.type === 'replied_to' && t.id === record.id)) throw Error('Reply readback mismatch');
       record.status = 'verified'; save();
       console.log(JSON.stringify(record));
     }
   } finally { if (locked) fs.unlinkSync(lock); }
 }
-module.exports = {eligible, compose, norm};
+module.exports = {eligible, compose, composeReply, norm};
 if (require.main === module) run().catch(e=>{console.error(JSON.stringify({error:e.message}));process.exitCode=1;});

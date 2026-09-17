@@ -240,14 +240,19 @@ def design_content(a):
       raise ValueError('Invalid diagram section')
     if not isinstance(figure.get('title'), str) or not figure['title'].strip() or not 2 <= len(figure.get('cards', [])) <= 3:
       raise ValueError('Invalid diagram content')
+    if figure.get('layout', 'cards') not in ('cards', 'flow', 'record'):
+      raise ValueError('Invalid diagram layout')
     if any(not isinstance(card, list) or len(card) != 2 or any(not isinstance(t, str) or not t.strip() for t in card) for card in figure['cards']):
       raise ValueError('Invalid diagram cards')
   return content
 
 def render_diagram(figure):
   e = html.escape
-  return '<figure class="bp-diagram" aria-label="' + e(figure['title'], quote=True) + '"><figcaption>' + e(figure['title']) + '</figcaption><div class="bp-diagram-grid">' + ''.join(
-    f'<div class="bp-diagram-card"><span class="bp-diagram-number" aria-hidden="true">{i:02}</span><strong>{e(card[0])}</strong><span>{e(card[1])}</span></div>'
+  layout = figure.get('layout', 'cards')
+  klass = 'bp-diagram bp-diagram--' + layout
+  number = (lambda i: f'STEP {i}') if layout == 'flow' else (lambda i: f'{i:02}')
+  return '<figure class="' + klass + '" aria-label="' + e(figure['title'], quote=True) + '"><figcaption>' + e(figure['title']) + '</figcaption><div class="bp-diagram-grid">' + ''.join(
+    f'<div class="bp-diagram-card"><span class="bp-diagram-number" aria-hidden="true">{number(i)}</span><strong>{e(card[0])}</strong><span>{e(card[1])}</span></div>'
     for i, card in enumerate(figure['cards'], 1)) + '</div></figure>'
 
 def emphasized(value, rule=None):

@@ -40,6 +40,22 @@ class SafetyTests(unittest.TestCase):
     self.assertNotIn('<img', result)
     self.assertIn('&lt;script&gt;', result)
 
+  def test_diagram_layout_variants(self):
+    flow = p.render_diagram({'title': '流れ', 'layout': 'flow', 'cards': [['確認', '内容'], ['試算', '内容']]})
+    record = p.render_diagram({'title': '記録', 'layout': 'record', 'cards': [['年額', '表示額'], ['確認日', '日付']]})
+    self.assertIn('bp-diagram--flow', flow)
+    self.assertIn('STEP 1', flow)
+    self.assertIn('bp-diagram--record', record)
+
+  def test_design_rejects_unknown_diagram_layout(self):
+    article = {
+      'id': 'test',
+      'sections': [{'heading': '確認'}],
+      'design': {'summary': ['要約'], 'diagrams': {'1': {'title': '図', 'layout': 'unsafe', 'cards': [['a', 'b'], ['c', 'd']]}}},
+    }
+    with self.assertRaises(ValueError):
+      p.design_content(article)
+
   def test_trial_articles_have_common_components_in_order(self):
     for a in p.articles():
       result = p.render_article(a)
@@ -48,7 +64,7 @@ class SafetyTests(unittest.TestCase):
       self.assertEqual(positions, sorted(positions))
       self.assertIn(p.LINE_URL, result)
       self.assertIn(p.YOUTUBE_URL, result)
-      self.assertGreaterEqual(result.count('class="bp-diagram"'), 1)
+      self.assertGreaterEqual(result.count('class="bp-diagram'), 1)
 
   def test_path_traversal_rejected(self):
     for value in ('../index.html', '/tmp/a.html', 'blog/../index.html', 'blog/a.js'):

@@ -1,11 +1,12 @@
 const assert = require('node:assert/strict');
-const {eligible, compose, norm} = require('./post-published-x.cjs');
+const {eligible, compose, composeReply, norm} = require('./post-published-x.cjs');
 assert.equal(eligible({path:'blog/sbi-securities/a.html',title:'登録情報',category:'証券'}),false);
 assert.equal(eligible({path:'blog/nisa/a.html',title:'ＳＢＩ証券',category:'NISA'}),false);
 assert.equal(eligible({path:'blog/nisa/a.html',title:'新NISAの基本',category:'NISA'}),true);
 const a = {path:'blog/nisa/a.html',description:'家計の確認。'.repeat(100)};
 const text = compose(a);
-const body = text.replace('https://eva-solution.com/'+a.path,'');
-assert.ok([...body].reduce((n,c)=>n+(c.codePointAt(0)>127?2:1),23)<=280);
+assert.ok(!text.includes('https://'));
+assert.ok([...text].reduce((n,c)=>n+(c.codePointAt(0)>127?2:1),0)<=280);
+assert.equal(composeReply(a),'https://eva-solution.com/'+a.path);
 assert.equal(norm('https://eva-solution.com/blog/nisa/a.html'),norm('https://eva-solution.com/blog/nisa/a'));
-console.log('5 X posting unit checks passed');
+console.log('7 X posting unit checks passed');

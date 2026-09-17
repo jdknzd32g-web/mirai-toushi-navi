@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -24,6 +25,12 @@ class DailyReleaseTests(unittest.TestCase):
       out = Path(tmp)
       shutil.copytree(source / 'baseline', out / 'baseline')
       shutil.copyfile(source / 'remote-files.json', out / 'remote-files.json')
+      remote = json.loads((out / 'remote-files.json').read_text())
+      for item in remote:
+        name = item['path'].lstrip('/')
+        if name in {'assets/editorial/article.css', 'assets/editorial/lp-slot.css'}:
+          item['sha'] = hashlib.sha1((r.p.SITE / name).read_bytes()).hexdigest()
+      (out / 'remote-files.json').write_text(json.dumps(remote))
       with patch.object(r, 'DAILY', '2026-09-13'), patch.object(r, 'OUT', out), patch.object(r, 'SITE', out / 'site'), patch.object(r.quality, 'check', return_value=True), patch.object(r.p, 'articles', return_value=articles):
         r.main()
       result = json.loads((out / 'package.json').read_text())
