@@ -5,8 +5,10 @@ const runtime = createRequire('/Users/satoshioka/.cache/codex-runtimes/codex-pri
 const { chromium } = runtime('playwright');
 const root = path.resolve(__dirname, '../..');
 const daily = process.env.RELEASE_DATE;
+const addonId = process.env.RELEASE_ARTICLE_ID;
 if (daily && !/^\d{4}-\d{2}-\d{2}$/.test(daily)) throw Error('Invalid RELEASE_DATE');
-const out = path.join(root, daily ? 'dist/blog-release-' + daily : process.env.RELEASE_BATCH === 'additional' ? 'dist/blog-release-additional' : 'dist/blog-release');
+if (addonId && !/^[a-z0-9-]+$/.test(addonId)) throw Error('Invalid RELEASE_ARTICLE_ID');
+const out = path.join(root, daily ? 'dist/blog-release-' + daily : addonId ? 'dist/blog-release-addon-' + addonId : process.env.RELEASE_BATCH === 'additional' ? 'dist/blog-release-additional' : 'dist/blog-release');
 const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
 (async () => {
   const deploy = read('deploy.json'), manifest = read('package.json');

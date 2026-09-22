@@ -40,6 +40,21 @@ class DailyReleaseTests(unittest.TestCase):
       self.assertEqual(lp.count('class="bp-latest-card"'), 3)
       self.assertEqual(lp.count('href="/assets/editorial/lp-slot.css"'), 1)
 
+  def test_packages_one_explicit_addon_with_reviewed_shared_css(self):
+    article_id = '2026-09-18-new-nisa-monthly-amount'
+    source = r.p.ROOT / 'dist/blog-release-2026-09-18'
+    with tempfile.TemporaryDirectory() as tmp:
+      out = Path(tmp)
+      shutil.copytree(source / 'baseline', out / 'baseline')
+      shutil.copyfile(source / 'remote-files.json', out / 'remote-files.json')
+      with patch.object(r, 'DAILY', None), patch.object(r, 'ADDON_ID', article_id), patch.object(r, 'OUT', out), patch.object(r, 'SITE', out / 'site'), patch.object(r.quality, 'check', return_value=True), patch.dict(r.os.environ, {'ALLOW_REVIEWED_SHARED_ASSET':'1'}):
+        r.main()
+      result = json.loads((out / 'package.json').read_text())
+      self.assertEqual(result['article_ids'], [article_id])
+      self.assertEqual(result['release_mode'], 'addon')
+      self.assertIn('assets/editorial/article.css', result['files'])
+      self.assertEqual((out / 'site/index.html').read_text().count('class="bp-latest-card"'), 3)
+
 
 if __name__ == '__main__':
   unittest.main()

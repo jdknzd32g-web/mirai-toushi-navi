@@ -16,6 +16,12 @@ function compose(a) {
   return summary;
 }
 function composeReply(a) { return origin + '/' + a.path; }
+function mediaPath(a, base = root) {
+  if (!/^blog\/[a-z0-9_/-]+\.(?:jpe?g|png|webp)$/i.test(a.hero || '') || a.hero.includes('..')) throw Error('Invalid hero path');
+  const target = path.resolve(base, a.hero);
+  if (!target.startsWith(path.resolve(base) + path.sep)) throw Error('Invalid hero path');
+  return target;
+}
 async function run() {
   require('dotenv').config({path:path.join(root, '.env')});
   const {TwitterApi} = require('twitter-api-v2');
@@ -75,21 +81,26 @@ async function run() {
       if (!send) { console.log(JSON.stringify({status:'dry_run',...job})); continue; }
       const record = {...job,status:'sending',at:new Date().toISOString()};
       records.push(record); save();
+      const article = read(path.join(root, 'editorial/articles', job.article + '.json'));
+      const hero = mediaPath(article);
+      if (!fs.existsSync(hero)) throw Error('Hero image missing: ' + job.article);
+      record.media_id = await client.v1.uploadMedia(hero);
+      record.status = 'media_uploaded'; save();
       const posted = await client.v2.tweet(job.text);
       record.id = posted.data.id; record.post_url = 'https://x.com/' + me.username + '/status/' + record.id;
       record.status = 'main_posted'; save();
-      const replied = await client.v2.tweet({text:job.reply_text,reply:{in_reply_to_tweet_id:record.id}});
+      const replied = await client.v2.tweet({text:job.reply_text,reply:{in_reply_to_tweet_id:record.id},media:{media_ids:[record.media_id]}});
       record.reply_id = replied.data.id;
       record.reply_url = 'https://x.com/' + me.username + '/status/' + record.reply_id;
       record.status = 'posted'; save();
       const verifiedMain = (await client.v2.singleTweet(record.id, {'tweet.fields':['author_id','entities']})).data;
-      const verifiedReply = (await client.v2.singleTweet(record.reply_id, {'tweet.fields':['author_id','entities','referenced_tweets']})).data;
+      const verifiedReply = (await client.v2.singleTweet(record.reply_id, {'tweet.fields':['author_id','entities','referenced_tweets','attachments']})).data;
       if (verifiedMain.author_id !== me.id || verifiedMain.entities?.urls?.some(u=>norm(u.expanded_url) === norm(job.url))) throw Error('Main post readback mismatch');
-      if (verifiedReply.author_id !== me.id || !verifiedReply.entities?.urls?.some(u=>norm(u.expanded_url) === norm(job.url)) || !verifiedReply.referenced_tweets?.some(t=>t.type === 'replied_to' && t.id === record.id)) throw Error('Reply readback mismatch');
+      if (verifiedReply.author_id !== me.id || !verifiedReply.entities?.urls?.some(u=>norm(u.expanded_url) === norm(job.url)) || !verifiedReply.referenced_tweets?.some(t=>t.type === 'replied_to' && t.id === record.id) || !verifiedReply.attachments?.media_keys?.length) throw Error('Reply readback mismatch');
       record.status = 'verified'; save();
       console.log(JSON.stringify(record));
     }
   } finally { if (locked) fs.unlinkSync(lock); }
 }
-module.exports = {eligible, compose, composeReply, norm};
+module.exports = {eligible, compose, composeReply, mediaPath, norm};
 if (require.main === module) run().catch(e=>{console.error(JSON.stringify({error:e.message}));process.exitCode=1;});

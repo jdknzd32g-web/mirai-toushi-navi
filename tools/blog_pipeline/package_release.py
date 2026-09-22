@@ -11,9 +11,14 @@ import quality
 
 ADDITIONAL = os.environ.get('RELEASE_BATCH') == 'additional'
 DAILY = os.environ.get('RELEASE_DATE')
+ADDON_ID = os.environ.get('RELEASE_ARTICLE_ID')
 if DAILY and not re.fullmatch(r'\d{4}-\d{2}-\d{2}', DAILY):
   raise ValueError('Invalid RELEASE_DATE')
-OUT = p.ROOT / ('dist/blog-release-' + DAILY if DAILY else 'dist/blog-release-additional' if ADDITIONAL else 'dist/blog-release')
+if ADDON_ID and not re.fullmatch(r'[a-z0-9-]+', ADDON_ID):
+  raise ValueError('Invalid RELEASE_ARTICLE_ID')
+if sum(bool(value) for value in [DAILY, ADDITIONAL, ADDON_ID]) > 1:
+  raise ValueError('Choose only one release mode')
+OUT = p.ROOT / ('dist/blog-release-' + DAILY if DAILY else 'dist/blog-release-addon-' + ADDON_ID if ADDON_ID else 'dist/blog-release-additional' if ADDITIONAL else 'dist/blog-release')
 SITE = OUT / 'site'
 TARGETS = ({'2026-09-13-sbi-contact-details-check', '2026-09-13-family-account-map'} if ADDITIONAL else {'2026-09-13-sbi-first-order-checklist', '2026-09-13-cash-reserve-worksheet'})
 
@@ -21,7 +26,11 @@ def main():
   if not quality.check():
     raise ValueError('Preview gates did not pass')
   articles = [a for a in p.articles() if a['id'] in TARGETS]
-  if DAILY:
+  if ADDON_ID:
+    articles = [a for a in p.articles() if a['id'] == ADDON_ID]
+    if len(articles) != 1:
+      raise ValueError('Add-on release requires exactly one explicit article')
+  elif DAILY:
     articles = [a for a in p.articles() if a['date'] == DAILY]
     if len(articles) != 2 or sum(bool(re.search(r'sbi|ＳＢＩ', a['path'] + a['title'] + a['category'], re.I)) for a in articles) != 1:
       raise ValueError('Daily release requires exactly one SBI and one non-SBI article')
@@ -51,25 +60,34 @@ def main():
   for name in ['assets/editorial/article.css', 'assets/editorial/lp-slot.css']:
     if name in remote:
       if hashlib.sha1((p.SITE / name).read_bytes()).hexdigest() != remote[name]:
-        raise ValueError('Shared asset changed; review existing consumers')
+        if not ADDON_ID or os.environ.get('ALLOW_REVIEWED_SHARED_ASSET') != '1':
+          raise ValueError('Shared asset changed; review existing consumers')
+        build = p.read(p.OUT / 'build-report.json')
+        design = p.read(p.OUT / 'design-report.json')
+        visual = p.read(p.OUT / 'visual-report.json')
+        fingerprint = build['build_fingerprint']
+        if design.get('status') != 'pass' or visual.get('status') != 'pass' or design.get('build_fingerprint') != fingerprint or visual.get('build_fingerprint') != fingerprint:
+          raise ValueError('Shared asset review is missing or stale')
+        add(name, (p.SITE / name).read_bytes())
       continue
     add(name, (p.SITE / name).read_bytes())
   # Existing LP was tested with exactly this single-slot change.
   original = (OUT / 'baseline/index.html').read_text()
   previous = p.ROOT / 'dist/blog-release/site/index.html' if ADDITIONAL else p.ROOT / 'index.html'
-  if not DAILY and original != previous.read_text():
+  if not (DAILY or ADDON_ID) and original != previous.read_text():
     raise ValueError('LP baseline differs from reviewed source')
-  if DAILY or ADDITIONAL:
+  if DAILY or ADDITIONAL or ADDON_ID:
     # Preserve the live page, changing only the existing latest-three slot.
-    if DAILY:
+    if DAILY or ADDON_ID:
       published_ids = {id for r in p.read(p.DATA / 'published-releases.json')['releases'] if r['status'] == 'published' for id in r['articles']}
       older = sorted([a for a in p.articles() if a['id'] in published_ids and a['path'] in remote], key=lambda a: (a['date'], a['id']), reverse=True)
-      if not older:
-        raise ValueError('Previous published article required for three-card LP')
-      third = older[0]
+      needed = 3 - len(articles)
+      if len(older) < needed:
+        raise ValueError('Previous published articles required for three-card LP')
+      discovery_articles = articles + older[:needed]
     else:
-      third = next(a for a in p.articles() if a['id'] == '2026-09-13-sbi-first-order-checklist')
-    candidate = p.inject_lp(original, articles + [third])
+      discovery_articles = articles + [next(a for a in p.articles() if a['id'] == '2026-09-13-sbi-first-order-checklist')]
+    candidate = p.inject_lp(original, discovery_articles)
     css = '<link rel="stylesheet" href="/assets/editorial/lp-slot.css">'
     if candidate.count(css) == 2:
       candidate = candidate.replace(css + '\n', '', 1)
@@ -124,7 +142,7 @@ def main():
     dest = SITE / name
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_bytes(content)
-  manifest = {'files': list(package), 'hashes': {name: hashlib.sha1(data).hexdigest() for name, data in package.items()}, 'articles': [a['path'] for a in articles], 'article_ids': [a['id'] for a in articles], 'build_fingerprint': p.read(p.OUT / 'build-report.json')['build_fingerprint']}
+  manifest = {'files': list(package), 'hashes': {name: hashlib.sha1(data).hexdigest() for name, data in package.items()}, 'articles': [a['path'] for a in articles], 'article_ids': [a['id'] for a in articles], 'release_date': articles[0]['date'], 'release_mode': 'addon' if ADDON_ID else 'daily' if DAILY else 'additional' if ADDITIONAL else 'initial', 'build_fingerprint': p.read(p.OUT / 'build-report.json')['build_fingerprint']}
   p.save(OUT / 'package.json', manifest)
   print(json.dumps({'files': list(package), 'source_files_unchanged': True}, ensure_ascii=False, indent=2))
 

@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const {eligible, compose, composeReply, norm} = require('./post-published-x.cjs');
+const {eligible, compose, composeReply, mediaPath, norm} = require('./post-published-x.cjs');
 assert.equal(eligible({path:'blog/sbi-securities/a.html',title:'登録情報',category:'証券'}),false);
 assert.equal(eligible({path:'blog/nisa/a.html',title:'ＳＢＩ証券',category:'NISA'}),false);
 assert.equal(eligible({path:'blog/nisa/a.html',title:'新NISAの基本',category:'NISA'}),true);
@@ -9,4 +9,6 @@ assert.ok(!text.includes('https://'));
 assert.ok([...text].reduce((n,c)=>n+(c.codePointAt(0)>127?2:1),0)<=280);
 assert.equal(composeReply(a),'https://eva-solution.com/'+a.path);
 assert.equal(norm('https://eva-solution.com/blog/nisa/a.html'),norm('https://eva-solution.com/blog/nisa/a'));
-console.log('7 X posting unit checks passed');
+assert.equal(mediaPath({hero:'blog/2026/a/header.jpg'},'/tmp/site'),'/tmp/site/blog/2026/a/header.jpg');
+assert.throws(()=>mediaPath({hero:'../secret.jpg'},'/tmp/site'),/Invalid hero path/);
+console.log('9 X posting unit checks passed');
