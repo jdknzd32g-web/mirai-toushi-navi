@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import xml.etree.ElementTree as ET
 import pipeline as p
 import quality
@@ -48,9 +49,15 @@ def main():
     rendered = (p.SITE / a['path']).read_text()
     rendered = rendered.replace('<meta name="robots" content="noindex,nofollow">', '<meta name="robots" content="index,follow">')
     rendered = rendered.replace('  <div class="bp-preview">ローカル確認用・未公開</div>\n', '')
-    rendered = rendered.replace('原稿作成・情報確認 ' + a['date'], '公開 ' + a['date'] + ' ・ 情報確認 ' + a['date'])
+    publication_date = a.get('publication_date', a['date'])
+    checked_date = a.get('checked_date', a['date'])
+    for value in (publication_date, checked_date):
+      if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', value):
+        raise ValueError('Invalid article publication or checked date')
+    rendered = rendered.replace('原稿作成・情報確認 ' + a['date'], '公開 ' + publication_date + ' ・ 情報確認 ' + checked_date)
     schema = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': a['description'], 'image': p.BASE + '/' + a['hero'], 'datePublished': a['date'], 'dateModified': a['date'], 'author': {'@type': 'Person', 'name': 'りょう'}, 'publisher': {'@type': 'Organization', 'name': '未来投資navi'}, 'mainEntityOfPage': p.BASE + '/' + a['path']}
-    metas = {'og:type': 'article', 'og:title': a['title'], 'og:description': a['description'], 'og:url': p.BASE + '/' + a['path'], 'og:image': p.BASE + '/' + a['hero'], 'og:site_name': '未来投資navi', 'article:published_time': a['date']}
+    schema.update(datePublished=publication_date, dateModified=checked_date)
+    metas = {'og:type': 'article', 'og:title': a['title'], 'og:description': a['description'], 'og:url': p.BASE + '/' + a['path'], 'og:image': p.BASE + '/' + a['hero'], 'og:site_name': '未来投資navi', 'article:published_time': publication_date}
     extra = '\n'.join(f'<meta property="{key}" content="{html.escape(value, quote=True)}">' for key, value in metas.items())
     extra += '\n<meta name="twitter:card" content="summary_large_image">\n<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c') + '</script>\n'
     rendered = rendered.replace('</head>', extra + '</head>')
@@ -87,20 +94,32 @@ def main():
       discovery_articles = articles + older[:needed]
     else:
       discovery_articles = articles + [next(a for a in p.articles() if a['id'] == '2026-09-13-sbi-first-order-checklist')]
-    candidate = p.inject_lp(original, discovery_articles)
+    candidate = p.inject_lp(original, [dict(a, date=a.get('publication_date', a['date'])) for a in discovery_articles])
     css = '<link rel="stylesheet" href="/assets/editorial/lp-slot.css">'
     if candidate.count(css) == 2:
       candidate = candidate.replace(css + '\n', '', 1)
     add('index.html', candidate)
   else:
     add('index.html', (p.SITE / 'index.html').read_bytes())
-  # Preserve the existing blog index design and all existing cards.
-  blog = (OUT / 'baseline/blog/index.html').read_text()
-  marker = '<div class="grid">'
-  if blog.count(marker) != 1:
-    raise ValueError('Ambiguous blog index insertion point')
-  cards = ''.join(f'<a class="card" href="/{html.escape(a["path"])}"><span class="tag">{html.escape(a["category"])}</span><h3>{html.escape(a["title"])}</h3><div class="meta"><time datetime="{a["date"]}">{a["date"].replace("-", ".")}</time><span class="read">記事を読む →</span></div></a>\n' for a in articles)
-  add('blog/index.html', blog.replace(marker, marker + '\n' + cards, 1))
+  # The all-article index and current monthly archive are generated together so
+  # their counts and links cannot drift when the daily pair is published.
+  if DAILY:
+    generated = OUT / 'archive-generated'
+    subprocess.run(['node', str(p.ROOT / 'tools/build-blog-archives.cjs'), '--output-root', str(generated)], cwd=p.ROOT, check=True, capture_output=True, text=True)
+    add('blog/index.html', (generated / 'blog/index.html').read_bytes())
+    months = {a['date'][:7] for a in articles}
+    for month in months:
+      year, number = month.split('-')
+      archive = f'blog/archive/{year}/{number}/index.html'
+      add(archive, (generated / archive).read_bytes())
+  else:
+    # Preserve the existing blog index design and all existing cards.
+    blog = (OUT / 'baseline/blog/index.html').read_text()
+    marker = '<div class="grid">'
+    if blog.count(marker) != 1:
+      raise ValueError('Ambiguous blog index insertion point')
+    cards = ''.join(f'<a class="card" href="/{html.escape(a["path"])}"><span class="tag">{html.escape(a["category"])}</span><h3>{html.escape(a["title"])}</h3><div class="meta"><time datetime="{a["date"]}">{a["date"].replace("-", ".")}</time><span class="read">記事を読む →</span></div></a>\n' for a in articles)
+    add('blog/index.html', blog.replace(marker, marker + '\n' + cards, 1))
   # Repair unescaped ampersands only; preserve existing sitemap entries.
   raw = (OUT / 'baseline/sitemap.xml').read_text()
   raw = re.sub(r'&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[0-9a-fA-F]+;)', '&amp;', raw)
@@ -111,7 +130,7 @@ def main():
   for a in articles:
     url = ET.SubElement(tree, '{' + ns + '}url')
     ET.SubElement(url, '{' + ns + '}loc').text = p.BASE + '/' + a['path']
-    ET.SubElement(url, '{' + ns + '}lastmod').text = a['date']
+    ET.SubElement(url, '{' + ns + '}lastmod').text = a.get('checked_date', a['date'])
   add('sitemap.xml', ET.tostring(tree, encoding='utf-8', xml_declaration=True))
   # Only add missing dependencies used by the approved article pages.
   for a in articles:

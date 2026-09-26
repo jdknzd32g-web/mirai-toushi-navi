@@ -68,7 +68,7 @@ def source_files():
 def inventory():
   rows = []
   for p in sorted((ROOT / 'blog').rglob('*.html')):
-    if 'drafts' in p.parts or p.name.startswith('category-') or p == ROOT / 'blog/index.html':
+    if 'drafts' in p.parts or 'archive' in p.parts or p.name.startswith('category-') or p == ROOT / 'blog/index.html':
       continue
     raw = p.read_text(encoding='utf-8')
     page = Page(raw)

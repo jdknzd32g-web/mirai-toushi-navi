@@ -20,6 +20,9 @@ class DailyReleaseTests(unittest.TestCase):
     for a in articles:
       if a['id'] not in {'2026-09-13-sbi-contact-details-check', '2026-09-13-family-account-map'}:
         a['date'] = '2026-09-12'
+      else:
+        a['publication_date'] = '2026-09-25'
+        a['checked_date'] = '2026-09-25'
     source = r.p.ROOT / 'dist/blog-release-additional'
     with tempfile.TemporaryDirectory() as tmp:
       out = Path(tmp)
@@ -35,10 +38,16 @@ class DailyReleaseTests(unittest.TestCase):
         r.main()
       result = json.loads((out / 'package.json').read_text())
       self.assertEqual(len(result['article_ids']), 2)
-      self.assertEqual(len(result['files']), 5)
+      self.assertEqual(len(result['files']), 6)
+      self.assertIn('blog/archive/2026/09/index.html', result['files'])
       lp = (out / 'site/index.html').read_text()
       self.assertEqual(lp.count('class="bp-latest-card"'), 3)
       self.assertEqual(lp.count('href="/assets/editorial/lp-slot.css"'), 1)
+      for article_path in result['articles']:
+        rendered = (out / 'site' / article_path).read_text()
+        self.assertIn('公開 2026-09-25 ・ 情報確認 2026-09-25', rendered)
+        self.assertIn('"datePublished": "2026-09-25"', rendered)
+        self.assertIn('"dateModified": "2026-09-25"', rendered)
 
   def test_packages_one_explicit_addon_with_reviewed_shared_css(self):
     article_id = '2026-09-18-new-nisa-monthly-amount'
