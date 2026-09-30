@@ -34,6 +34,7 @@ async function current() {
 const targets = ['index.html', 'blog/index.html', 'sitemap.xml'];
 async function inspect() {
   const site = await current();
+  const published = await api('/deploys/' + site.published_deploy.id);
   const files = await api('/sites/' + siteId + '/files');
   if (!Array.isArray(files) || !files.length || files.some(f => f.deploy_id !== site.published_deploy.id)) throw Error('Mixed/empty remote inventory');
   save('remote-files.json', files);
@@ -56,16 +57,74 @@ async function inspect() {
         if (remote && fs.existsSync(source) && hash(fs.readFileSync(source)) === remote.sha) bytes = fs.readFileSync(source);
       }
     }
+    // A normal GitHub production deploy can supersede an API-published daily
+    // release. Accept its exact source bytes only when Netlify identifies the
+    // configured repository's main branch and the commit-pinned GitHub file
+    // independently matches the remote inventory SHA1.
+    if (remote && hash(bytes) !== remote.sha &&
+        published.context === 'production' &&
+        published.branch === 'main' &&
+        /^[0-9a-f]{40}$/.test(published.commit_ref || '')) {
+      const sourceUrl = `https://raw.githubusercontent.com/jdknzd32g-web/mirai-toushi-navi/${published.commit_ref}/${name}`;
+      const sourceResponse = await fetch(sourceUrl, { redirect: 'error', signal: AbortSignal.timeout(60000) });
+      if (sourceResponse.ok) {
+        const sourceBytes = Buffer.from(await sourceResponse.arrayBuffer());
+        if (hash(sourceBytes) === remote.sha) bytes = sourceBytes;
+      }
+    }
     if (!remote || hash(bytes) !== remote.sha) throw Error('Remote content hash mismatch: ' + name);
     save('baseline/' + name, bytes);
     report.push({ name, localMatches: fs.existsSync(path.join(root, name)) && hash(fs.readFileSync(path.join(root, name))) === remote.sha });
   }
-  console.log(JSON.stringify({ baseline: site.published_deploy.id, files: files.length, targets: report }, null, 2));
+  let releaseFiles = files;
+  let recovery = null;
+  if (published.context === 'production' &&
+      published.branch === 'main' &&
+      /^[0-9a-f]{40}$/.test(published.commit_ref || '')) {
+    const ledger = read(path.join(root, 'editorial/published-releases.json'));
+    const previous = ledger.releases.find(r => r.deploy_id !== published.id);
+    const previousInventory = previous &&
+      path.resolve(root, path.dirname(previous.package), 'remote-files.json');
+    if (previousInventory &&
+        previousInventory.startsWith(path.join(root, 'dist') + path.sep) &&
+        fs.existsSync(previousInventory)) {
+      const commitResponse = await fetch(
+        `https://api.github.com/repos/jdknzd32g-web/mirai-toushi-navi/commits/${published.commit_ref}`,
+        { redirect: 'error', signal: AbortSignal.timeout(60000), headers: { Accept: 'application/vnd.github+json' } }
+      );
+      if (!commitResponse.ok) throw Error('Cannot verify GitHub production commit');
+      const commit = await commitResponse.json();
+      if (commit.sha !== published.commit_ref || !Array.isArray(commit.files)) throw Error('Invalid GitHub commit metadata');
+      const removed = new Set(commit.files.filter(f => f.status === 'removed').map(f => '/' + f.filename));
+      const currentPaths = new Set(files.map(f => f.path));
+      const previousFiles = read(previousInventory);
+      if (!Array.isArray(previousFiles) || previousFiles.some(f => !f.path || !/^[0-9a-f]{40}$/.test(f.sha || ''))) {
+        throw Error('Invalid previous verified inventory');
+      }
+      const recovered = previousFiles.filter(f => !currentPaths.has(f.path) && !removed.has(f.path));
+      if (recovered.length) {
+        releaseFiles = [...files, ...recovered];
+        recovery = {
+          current_deploy: published.id,
+          current_commit: published.commit_ref,
+          previous_verified_deploy: previous.deploy_id,
+          current_files: files.length,
+          recovered_files: recovered.length,
+          explicit_commit_deletions_preserved: [...removed].sort(),
+          release_files: releaseFiles.length
+        };
+      }
+    }
+  }
+  save('release-files.json', releaseFiles);
+  if (recovery) save('recovery.json', recovery);
+  console.log(JSON.stringify({ baseline: site.published_deploy.id, files: files.length, releaseFiles: releaseFiles.length, recovery, targets: report }, null, 2));
 }
 async function draft() {
   const baseline = read(path.join(out, 'baseline.json'));
   if ((await current()).published_deploy.id !== baseline.published) throw Error('Live site changed');
-  const files = Object.fromEntries(read(path.join(out, 'remote-files.json')).map(f => [f.path, f.sha]));
+  const releaseInventory = fs.existsSync(path.join(out, 'release-files.json')) ? 'release-files.json' : 'remote-files.json';
+  const files = Object.fromEntries(read(path.join(out, releaseInventory)).map(f => [f.path, f.sha]));
   const manifest = read(path.join(out, 'package.json'));
   const local = {};
   for (const name of manifest.files) {

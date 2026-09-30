@@ -37,7 +37,10 @@ def main():
       raise ValueError('Daily release requires exactly one SBI and one non-SBI article')
   elif {a['id'] for a in articles} != TARGETS:
     raise ValueError('Two approved articles required')
-  remote = {f['path'].lstrip('/'): f['sha'] for f in p.read(OUT / 'remote-files.json')}
+  inventory = OUT / 'release-files.json'
+  if not inventory.exists():
+    inventory = OUT / 'remote-files.json'
+  remote = {f['path'].lstrip('/'): f['sha'] for f in p.read(inventory)}
   package = {}
   def add(name, content):
     if name.startswith(('/', '.')) or '..' in Path(name).parts:
