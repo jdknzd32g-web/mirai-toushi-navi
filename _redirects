@@ -7,4 +7,6 @@ https://eva-solution.netlify.app/* https://eva-solution.com/:splat 301!
 /simulators /simulators.html 200
 /simulator /simulators.html 200
 /asset-lifespan /asset-lifespan-simulator.html 200
-/retire-simulator /retire-simulator.html 200
+/retire-simulator /asset-lifespan-simulator.html 301
+/retire-simulator.html /asset-lifespan-simulator.html 301
+/retire-simulator-warning.html /asset-lifespan-simulator.html 301
