@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDV（超長期米国債ETF）10年保有シミュレーター | 未来投資navi</title>
+  <meta name="description" content="EDV 10年保有シミュレーション：4つのシナリオで価格変動と分配金の累積を比較。FPりょうの公式ツール。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-sub: #f1f5f9;
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 32px 16px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.92rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 24px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      background: var(--bg-sub);
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .select-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    select {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 600;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: var(--primary);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      margin-bottom: 20px;
+    }
+
+    #legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    #resultCards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .notes {
+      background: var(--bg-sub);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <a href="simulators.html" class="back-link">← シミュレーター一覧に戻る</a>
+    <h1>EDV（超長期米国債ETF）10年保有シミュレーション</h1>
+    <p class="subtitle">4つのシナリオで金利変動・価格変動と分配金累積リターンを徹底比較</p>
+  </header>
+
+  <div class="card">
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-label">想定投資額</div>
+        <div class="stat-value">$10,000</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">購入価格</div>
+        <div class="stat-value">$64/株</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">保有株数</div>
+        <div class="stat-value">156株</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">初期利回り</div>
+        <div class="stat-value">5.0%</div>
+      </div>
+    </div>
+
+    <div class="select-wrapper">
+      <label style="font-size:0.9rem; font-weight:700; color:#334155; white-space:nowrap;">シナリオ選択:</label>
+      <select id="scenario">
+        <option value="all">全シナリオを比較する</option>
+        <option value="worst">最悪シナリオ：価格-50%＆高金利継続</option>
+        <option value="bad">悪いシナリオ：価格-30%＆緩やかな回復</option>
+        <option value="base">基本シナリオ：金利サイクル正常化</option>
+        <option value="good">良いシナリオ：利下げ転換で価格上昇</option>
+      </select>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="mainChart"></canvas>
+    </div>
+
+    <div id="legend"></div>
+    <div id="resultCards"></div>
+
+    <div class="notes">
+      <strong>【前提条件】</strong><br>
+      為替変動は考慮せず（ドルベース試算）。分配金は再投資せず現金受取。分配金利回りは価格と逆相関で変動（金利上昇→価格下落→利回り上昇）。米国源泉税10%控除後。経費率0.05%は利回りから控除済み。
+    </div>
+  </div>
+</div>
+
+<script>
+const INIT = 10000;
+const PRICE0 = 64;
+const SHARES = Math.floor(INIT / PRICE0);
+const YIELD0 = 0.05;
+const TAX = 0.10;
+const years = [0,1,2,3,4,5,6,7,8,9,10];
+const labels = years.map(y => y + '年目');
+
+function calcYield(price) {
+  return (PRICE0 * YIELD0 / price) * (1 - TAX);
+}
+
+function simulate(pricePath) {
+  let cumDiv = 0;
+  let totalValues = [INIT];
+  let divValues = [0];
+  let priceValues = [INIT];
+  for (let y = 1; y <= 10; y++) {
+    let p = pricePath[y];
+    let annualYield = calcYield(p);
+    let annualDiv = SHARES * p * annualYield;
+    cumDiv += annualDiv;
+    let priceVal = SHARES * p;
+    totalValues.push(Math.round(priceVal + cumDiv));
+    divValues.push(Math.round(cumDiv));
+    priceValues.push(Math.round(priceVal));
+  }
+  return { totalValues, divValues, priceValues, finalTotal: totalValues[10], cumDiv: Math.round(cumDiv), finalPrice: Math.round(SHARES * pricePath[10]) };
+}
+
+const scenarios = {
+  worst: {
+    name: '最悪：-50%横ばい',
+    color: '#ef4444',
+    prices: [64, 32, 32, 33, 33, 34, 34, 33, 33, 32, 32],
+    desc: '金利が急上昇し価格が半減。その後も高金利が長期継続。'
+  },
+  bad: {
+    name: '悪い：-30%緩回復',
+    color: '#f59e0b',
+    prices: [64, 45, 42, 44, 46, 48, 50, 52, 54, 56, 58],
+    desc: '金利上昇で30%下落後、10年かけてゆっくり回復。'
+  },
+  base: {
+    name: '基本：サイクル正常化',
+    color: '#2563eb',
+    prices: [64, 58, 52, 55, 60, 65, 70, 72, 68, 66, 68],
+    desc: '金利サイクルが一巡。下落後に回復し、概ね横ばい圏に。'
+  },
+  good: {
+    name: '良い：利下げ転換',
+    color: '#10b981',
+    prices: [64, 60, 68, 78, 88, 95, 90, 85, 82, 80, 82],
+    desc: 'FRBが利下げに転じ、価格が大きく上昇。'
+  }
+};
+
+let chart;
+
+function buildChart(selected) {
+  const ctx = document.getElementById('mainChart');
+  if (chart) chart.destroy();
+
+  const keys = selected === 'all' ? ['worst','bad','base','good'] : [selected];
+  const datasets = [];
+
+  keys.forEach(k => {
+    const s = scenarios[k];
+    const r = simulate(s.prices);
+    datasets.push({
+      label: s.name + '（トータル）',
+      data: r.totalValues,
+      borderColor: s.color,
+      backgroundColor: s.color + '18',
+      fill: true,
+      borderWidth: 2.5,
+      tension: 0.3,
+      pointRadius: 3,
+      pointBackgroundColor: s.color
+    });
+  });
+
+  datasets.push({
+    label: '元本ライン',
+    data: Array(11).fill(INIT),
+    borderColor: '#94a3b8',
+    borderDash: [6, 4],
+    borderWidth: 1.5,
+    pointRadius: 0,
+    fill: false
+  });
+
+  const legendDiv = document.getElementById('legend');
+  legendDiv.innerHTML = datasets.map(d =>
+    `<span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:${d.borderColor};${d.borderDash ? 'opacity:0.5;' : ''}"></span>${d.label}</span>`
+  ).join('');
+
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(c) {
+              return c.dataset.label + ': $' + c.parsed.y.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          min: 3000,
+          ticks: {
+            callback: v => '$' + (v / 1000).toFixed(0) + 'k',
+            color: '#64748b'
+          },
+          grid: { color: 'rgba(226, 232, 240, 0.8)' }
+        },
+        x: {
+          ticks: { color: '#64748b' },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+
+  const cards = document.getElementById('resultCards');
+  cards.innerHTML = keys.map(k => {
+    const s = scenarios[k];
+    const r = simulate(s.prices);
+    const ret = ((r.finalTotal - INIT) / INIT * 100).toFixed(1);
+    const isPos = r.finalTotal >= INIT;
+    return `<div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;">
+      <div style="font-size:12px;color:${s.color};font-weight:700;margin-bottom:6px;">${s.name}</div>
+      <div style="font-size:20px;font-weight:800;color:${isPos ? '#059669' : '#dc2626'};font-family:'Outfit',sans-serif;">${isPos ? '+' : ''}${ret}%</div>
+      <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.6;">
+        最終評価額: $${r.finalPrice.toLocaleString()}<br>
+        累計分配金: $${r.cumDiv.toLocaleString()}<br>
+        合計: $${r.finalTotal.toLocaleString()}
+      </div>
+      <div style="font-size:11px;color:#64748b;margin-top:8px;">${s.desc}</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('scenario').addEventListener('change', e => buildChart(e.target.value));
+buildChart('all');
+</script>
+
+</body>
+</html>

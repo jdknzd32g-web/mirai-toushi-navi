@@ -2,3 +2,9 @@ https://eva-solution.netlify.app/* https://eva-solution.com/:splat 301!
 /blog/sbi-securities /blog/sbi-securities/index.html 200
 /blog/sbi-securities/ /blog/sbi-securities/index.html 200
 /blog/sbi-securities/* /blog/sbi-securities/:splat 200
+
+# Simulator shortcuts
+/simulators /simulators.html 200
+/simulator /simulators.html 200
+/asset-lifespan /asset-lifespan-simulator.html 200
+/retire-simulator /retire-simulator.html 200
