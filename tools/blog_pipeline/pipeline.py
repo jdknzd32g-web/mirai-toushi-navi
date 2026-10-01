@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Offline, preview-only editorial build. Never edits or deploys the live site."""
 import argparse
+import importlib.util
 import hashlib
 import html
 from html.parser import HTMLParser
@@ -19,6 +20,9 @@ OUT = ROOT / "dist/blog-preview"
 SITE = OUT / "site"
 BASE = "https://eva-solution.com"
 HERE = Path(__file__).resolve().parent
+_policy_spec = importlib.util.spec_from_file_location('editorial_policy', HERE / 'editorial_policy.py')
+editorial_policy = importlib.util.module_from_spec(_policy_spec)
+_policy_spec.loader.exec_module(editorial_policy)
 LINE_URL = 'https://lin.ee/FxIOpk1'
 YOUTUBE_URL = 'https://www.youtube.com/channel/UCb-u1hcuQyo7qruBhuiOBZg'
 LP_PATTERN = re.compile(r'<section class="reveal-on-scroll" aria-labelledby="blog-list-heading">.*?</section>', re.S)
@@ -238,17 +242,60 @@ def design_content(a):
   for section, figure in content['diagrams'].items():
     if not str(section).isdigit() or not 1 <= int(section) <= len(a['sections']):
       raise ValueError('Invalid diagram section')
-    if not isinstance(figure.get('title'), str) or not figure['title'].strip() or not 2 <= len(figure.get('cards', [])) <= 3:
+    if not isinstance(figure.get('title'), str) or not figure['title'].strip() or not 2 <= len(figure.get('cards', [])) <= (6 if figure.get('layout') == 'document' else 4 if figure.get('layout') == 'decision' else 3):
       raise ValueError('Invalid diagram content')
-    if figure.get('layout', 'cards') not in ('cards', 'flow', 'record'):
+    if figure.get('layout', 'cards') not in ('cards', 'flow', 'record', 'allocation', 'timeline', 'document', 'decision'):
       raise ValueError('Invalid diagram layout')
     if any(not isinstance(card, list) or len(card) != 2 or any(not isinstance(t, str) or not t.strip() for t in card) for card in figure['cards']):
       raise ValueError('Invalid diagram cards')
+    if figure.get('layout') in ('allocation', 'timeline', 'document', 'decision'):
+      if not isinstance(figure.get('note'), str) or not figure['note'].strip():
+        raise ValueError('Missing explanatory diagram note')
+      layout = figure['layout']
+      if layout in ('allocation', 'timeline') and len(figure['cards']) != 2:
+        raise ValueError('Invalid semantic diagram structure')
+      def labels(key, count=None):
+        value = figure.get(key)
+        if not isinstance(value, list) or (count is not None and len(value) != count) or not value or any(not isinstance(t,str) or not t.strip() for t in value):
+          raise ValueError('Missing semantic diagram ' + key)
+      if layout == 'allocation' and (not isinstance(figure.get('origin'), str) or not figure['origin'].strip()):
+        raise ValueError('Missing semantic diagram origin')
+      if layout == 'timeline':
+        labels('axis', 3)
+        labels('periods', 2)
+      if layout == 'document':
+        labels('document_heading', 2)
+      if layout == 'decision':
+        outcomes = figure.get('outcomes')
+        if not isinstance(outcomes,list) or len(outcomes) != 2 or any(not isinstance(c,list) or len(c) != 2 or any(not isinstance(t,str) or not t.strip() for t in c) for c in outcomes):
+          raise ValueError('Missing semantic diagram outcomes')
   return content
+
+def render_semantic_diagram(figure):
+  e = html.escape
+  layout = figure['layout']
+  cards = figure['cards']
+  def card(c, extra=''):
+    return '<div class="bp-diagram-card">' + extra + '<strong>' + e(c[0]) + '</strong><span>' + e(c[1]) + '</span></div>'
+  result = '<figure class="bp-diagram bp-diagram--' + layout + '" aria-label="' + e(figure['title'], quote=True) + '"><figcaption>' + e(figure['title']) + '</figcaption>'
+  if layout == 'allocation':
+    wallet = '<svg class="bp-pocket-icon" viewBox="0 0 64 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3"><rect x="4" y="10" width="56" height="34" rx="4"/><path d="M5 10V5h47v5M45 22h15v12H45z"/><circle cx="50" cy="28" r="1"/></svg>'
+    calendar = '<svg class="bp-pocket-icon" viewBox="0 0 64 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3"><rect x="8" y="6" width="48" height="38" rx="4"/><path d="M8 17h48M21 2v10M43 2v10M23 30l7 7 13-13"/></svg>'
+    result += '<div class="bp-money-origin">' + e(figure['origin']) + '</div><div class="bp-diagram-grid">' + card(cards[0],wallet) + card(cards[1],calendar) + '</div>'
+  elif layout == 'timeline':
+    result += '<div class="bp-time-axis">' + ''.join('<span>' + e(t) + '</span>' for t in figure['axis']) + '</div><div class="bp-diagram-grid">' + ''.join(card(c,'<span class="bp-period">'+e(period)+'</span>') for c,period in zip(cards,figure['periods'])) + '</div>'
+  elif layout == 'document':
+    result += '<div class="bp-slip"><div class="bp-slip-heading">' + '<br>'.join(e(t) for t in figure['document_heading']) + '</div><div class="bp-diagram-grid">' + ''.join(card(c) for c in cards) + '</div></div>'
+  elif layout == 'decision':
+    result += '<div class="bp-diagram-grid">' + ''.join(card(c) for c in cards) + '</div><div class="bp-branch-arrow" aria-hidden="true">↓</div><div class="bp-outcomes">' + ''.join('<div class="bp-outcome"><strong>'+e(c[0])+'</strong><span>'+e(c[1])+'</span></div>' for c in figure['outcomes']) + '</div>'
+  return result + '<p class="bp-diagram-note">' + e(figure['note']) + '</p></figure>'
+
 
 def render_diagram(figure):
   e = html.escape
   layout = figure.get('layout', 'cards')
+  if layout in ('allocation', 'timeline', 'document', 'decision'):
+    return render_semantic_diagram(figure)
   klass = 'bp-diagram bp-diagram--' + layout
   number = (lambda i: f'STEP {i}') if layout == 'flow' else (lambda i: f'{i:02}')
   return '<figure class="' + klass + '" aria-label="' + e(figure['title'], quote=True) + '"><figcaption>' + e(figure['title']) + '</figcaption><div class="bp-diagram-grid">' + ''.join(
@@ -305,7 +352,10 @@ def render_article(a):
   body += '<section class="bp-sources"><h2>出典・確認日</h2><p>本文の出典番号から、根拠となる公式資料を確認できます。</p><ol>' + ''.join(f'<li id="source-{i}"><a class="bp-source-link" href="{e(s["url"], quote=True)}" target="_blank" rel="noopener noreferrer">{e(s["title"])}</a><span class="bp-source-meta">{s["checked"]}確認 ・ 外部サイト／新しいタブ</span></li>' for i, s in enumerate(a['sources'], 1)) + '</ol><p>制度・画面・サービス条件は変更される場合があります。取引前に公式情報をご確認ください。本記事は一般的な情報提供であり、特定商品の購入や利益を保証するものではありません。</p></section>'
   if used != set(rules):
     raise ValueError('Unresolved emphasis locations: ' + ', '.join(set(rules) - used))
-  return doc(a['title'], a['description'], body, a['path'])
+  page = doc(a['title'], a['description'], body, a['path'])
+  if any(f.get('layout') in ('allocation', 'timeline', 'document', 'decision') for f in design['diagrams'].values()):
+    page = page.replace('</head>', '  <link rel="stylesheet" href="/assets/editorial/diagram-v2.css">\n</head>')
+  return page
 
 def markdown(a):
   parts = ['# ' + a['title'], '状態：未公開・確認待ち', '記事ID：' + a['id'], '予定パス：' + a['path'], 'メタ説明：' + a['description'], *a['lead']]
@@ -380,6 +430,7 @@ def build_staged():
   current = articles()
   existing = read(DATA / 'existing-articles.json')
   rows = existing + [dict(a, status='draft') for a in current]
+  editorial_review = editorial_policy.validate_articles(current)
   duplicate_report = validate_duplicate_gate(current, rows)
   SITE.mkdir(parents=True, exist_ok=True)
   # Only public assets are copied. No .env, Git data, scripts, drafts or credentials.
@@ -389,7 +440,7 @@ def build_staged():
     shutil.copy2(p, dest)
   assets = SITE / 'assets/editorial'
   assets.mkdir(parents=True, exist_ok=True)
-  for name in ('article.css', 'lp-slot.css'):
+  for name in ('article.css', 'lp-slot.css', 'diagram-v2.css'):
     shutil.copy2(HERE / name, assets / name)
   raw = (ROOT / 'index.html').read_text(encoding='utf-8')
   (SITE / 'baseline.html').write_text(raw, encoding='utf-8')
@@ -447,7 +498,8 @@ def build_staged():
       errors.append({'page': a['path'], 'reason': 'heading or ID violation'})
   verify_lock()
   report = {'status': 'static_pass' if not errors else 'blocked', 'published': False, 'existing_articles': len(existing), 'trial_articles': len(current), 'managed_pages': managed, 'internal_link_errors': errors, 'legacy_sitemap_xml_valid': legacy_xml_valid, 'omitted_legacy_sitemap_urls': omitted, 'duplicate_review': duplicate_report, 'source_lock_unchanged': True, 'external_links': 'Official sources reviewed separately; no guarantee of future reachability.'}
-  report['output_hashes'] = {name: digest(SITE / name) for name in managed + ['assets/editorial/article.css', 'assets/editorial/lp-slot.css', 'sitemap.xml']}
+  report['editorial_policy'] = editorial_review
+  report['output_hashes'] = {name: digest(SITE / name) for name in managed + ['assets/editorial/article.css', 'assets/editorial/lp-slot.css', 'assets/editorial/diagram-v2.css', 'sitemap.xml']}
   report['build_fingerprint'] = hashlib.sha256(json.dumps(report['output_hashes'], sort_keys=True).encode()).hexdigest()
   save(OUT / 'build-report.json', report)
   save(OUT / 'visual-report.json', {'status': 'pending', 'build_fingerprint': report['build_fingerprint']})

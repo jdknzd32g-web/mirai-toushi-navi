@@ -81,6 +81,14 @@ def main():
         add(name, (p.SITE / name).read_bytes())
       continue
     add(name, (p.SITE / name).read_bytes())
+  # Semantic diagrams load their own stylesheet; preserve other consumers.
+  semantic_css = 'assets/editorial/diagram-v2.css'
+  if any(semantic_css in package[a['path']].decode() for a in articles):
+    css_bytes = (p.SITE / semantic_css).read_bytes()
+    if semantic_css in remote and hashlib.sha1(css_bytes).hexdigest() != remote[semantic_css]:
+      raise ValueError('Semantic stylesheet changed; review existing consumers')
+    if semantic_css not in remote:
+      add(semantic_css, css_bytes)
   # Existing LP was tested with exactly this single-slot change.
   original = (OUT / 'baseline/index.html').read_text()
   previous = p.ROOT / 'dist/blog-release/site/index.html' if ADDITIONAL else p.ROOT / 'index.html'
