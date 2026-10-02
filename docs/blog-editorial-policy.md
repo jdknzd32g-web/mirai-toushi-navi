@@ -6,6 +6,7 @@
 
 - 最初に `editorial/ryo-voice-guide.md` を読む。問いかけ、読者への共感、例えの仕組み、数字や画面の具体例、今日できる行動をつなぐ。毎回同じ導入・口癖・締めをコピーしない。
 - 例え話を最低1か所入れる。単に「レシートのようなもの」と置かず、何と何が対応するか説明する。制度の条件や例えで説明できない部分も本文に残す。
+- 太字の強調は本文・まとめの要点へ配置する。導入は問いかけと短い段落で読みやすくし、共通CSSを変えて強調の検査を回避しない。
 - 計算例または具体的な画面・書類の確認例を最低1つ入れる。数値例には仮定・計算・対象期間を明記し、実際の利率・税額・本人の実績と混同させない。操作例には入口、読む項目、完了確認を入れる。確認できない導線は作らない。
 - 読者が最後に何を出し、何を転記し、どこへ確認するかを示す。注意書きや同じ結論で段落・FAQを埋めない。
 - 公式の一次資料で条件と日付を確認する。過去台本は話し方の参考であり、制度・税率・現在の投資判断の根拠にしない。
@@ -45,7 +46,7 @@ python3 tools/blog_pipeline/editorial_policy.py --date YYYY-MM-DD
 
 - `voice_reference`: `editorial/ryo-voice-guide.md`
 - `analogy`: `quote`（例えの説明）、`limit`（その例えが説明できない条件）
-- `example`: `quote`（具体例）、`kind`（calculationまたはwalkthrough）、計算なら `assumptions`
+- `example`: `quote`（具体例）、`kind`（calculationまたはwalkthrough）、計算なら `assumptions`。操作・書類の確認例なら `completion_quote`（完了画面や最終照合項目を確かめる、本文に実在する一節）も記録する。入口や入力内容だけで終わる操作例は合格させない
 - `action`: 読者に示した具体的な次の行動
 - `hero_review`: `recent_article_ids`（取得した7記事IDを順に）、`traits`（viewpoint/people/objects/setting）、`selection_reason`
 - `diagram_review`: 同じ7記事IDの `recent_article_ids`、構図を選んだ `selection_reason`

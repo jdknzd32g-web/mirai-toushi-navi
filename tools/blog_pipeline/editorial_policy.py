@@ -59,6 +59,11 @@ def validate_articles(articles):
     if review['example'].get('kind') not in ('calculation','walkthrough'):
       raise ValueError('Editorial policy: example must be a calculation or concrete walkthrough')
     if review['example']['kind']=='calculation':require_text(review['example'].get('assumptions'),'example assumptions')
+    else:
+      completion=review['example'].get('completion_quote')
+      require_text(completion,'walkthrough completion passage')
+      if completion not in text:
+        raise ValueError('Editorial policy: walkthrough completion passage absent from article')
     require_text(review.get('action'),'reader action')
     if review['action'] not in text:raise ValueError('Editorial policy: reader action absent from article')
     ids=[a['id'] for a in recent_articles(article,articles)]

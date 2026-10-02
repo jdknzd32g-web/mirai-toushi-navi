@@ -9,7 +9,9 @@ def module(path,name):
   return m
 p=module(ROOT/'tools/blog_pipeline/pipeline.py','new_pipeline')
 policy=p.editorial_policy
-history=p.articles()
+# These fixtures simulate the first policy day; subsequent real drafts must
+# not become historical fixtures or change the asserted synthetic count.
+history=[a for a in p.articles() if a['date'] < policy.START]
 
 def future(short):
   a=copy.deepcopy(next(x for x in history if x['id']=='2026-10-01-'+short))
@@ -21,7 +23,7 @@ def future(short):
   a['editorial_quality']={
     'voice_reference':policy.VOICE_REFERENCE,
     'analogy':{'quote':a['lead'][1],'limit':'例えでは制度の例外条件を全部表せないため本文で補う'},
-    'example':{'quote':a['sections'][1]['paragraphs'][0],'kind':'walkthrough'},
+    'example':{'quote':a['sections'][1]['paragraphs'][0],'kind':'walkthrough','completion_quote':a['sections'][4]['paragraphs'][0]},
     'action':a['sections'][4]['paragraphs'][0],
     'hero_review':{'recent_article_ids':ids,'traits':{'viewpoint':'屋外の広い景色' if short.startswith('sbi') else '書類を真上から見る','people':'手元のみ','objects':short,'setting':'記事固有の場面'},'selection_reason':'直近の記事とは主要小物と背景が異なる構図にする'},
     'diagram_review':{'recent_article_ids':ids,'selection_reason':'分け方と時間、または書類と条件の関係を異なる構図で示す'}}
@@ -29,6 +31,12 @@ def future(short):
 
 class EditorialPolicyTests(unittest.TestCase):
   def setUp(self):self.a=future('sbi-individual-government-bond-buy')
+
+  def test_current_manuscripts_are_all_checked(self):
+    current=p.articles()
+    report=policy.validate_articles(current)
+    self.assertEqual({a['id'] for a in current if a['date'] >= policy.START},
+                     {a['id'] for a in report['checked']})
 
   def test_future_draft_requires_review(self):
     del self.a['editorial_quality']
@@ -42,6 +50,22 @@ class EditorialPolicyTests(unittest.TestCase):
   def test_missing_or_invented_analogy_stops(self):
     self.a['editorial_quality']['analogy']['quote']='本文には存在しない例え話の記録'
     with self.assertRaisesRegex(ValueError,'absent'):policy.validate_articles(history+[self.a])
+
+  def test_walkthrough_without_completion_stops(self):
+    del self.a['editorial_quality']['example']['completion_quote']
+    with self.assertRaisesRegex(ValueError,'walkthrough completion'):
+      policy.validate_articles(history+[self.a])
+
+  def test_invented_walkthrough_completion_stops(self):
+    self.a['editorial_quality']['example']['completion_quote']='本文に存在しない完了画面の確認文です'
+    with self.assertRaisesRegex(ValueError,'completion passage absent'):
+      policy.validate_articles(history+[self.a])
+
+  def test_calculation_requires_assumptions_without_completion(self):
+    example=self.a['editorial_quality']['example']
+    example.update(kind='calculation',assumptions='説明用の仮定と期間を明記した計算例です')
+    del example['completion_quote']
+    self.assertEqual(len(policy.validate_articles(history+[self.a])['checked']),1)
 
   def test_single_repeated_layout_stops(self):
     figures=self.a['design']['diagrams'];figures['5']=copy.deepcopy(figures['1'])
