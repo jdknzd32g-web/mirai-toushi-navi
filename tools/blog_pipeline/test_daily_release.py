@@ -56,8 +56,19 @@ class DailyReleaseTests(unittest.TestCase):
       out = Path(tmp)
       shutil.copytree(source / 'baseline', out / 'baseline')
       shutil.copyfile(source / 'remote-files.json', out / 'remote-files.json')
+      # This fixture exercises an explicitly reviewed shared-asset release.
+      # Supply its own matching review reports instead of depending on the
+      # latest daily preview, which can legitimately be pending or stale.
+      original_read = r.p.read
+      def reviewed_read(file):
+        if file.name == 'build-report.json':
+          return {'build_fingerprint': 'reviewed-addon-fixture'}
+        if file.name in {'design-report.json', 'visual-report.json'}:
+          return {'status': 'pass', 'build_fingerprint': 'reviewed-addon-fixture'}
+        return original_read(file)
       with patch.object(r, 'DAILY', None), patch.object(r, 'ADDON_ID', article_id), patch.object(r, 'OUT', out), patch.object(r, 'SITE', out / 'site'), patch.object(r.quality, 'check', return_value=True), patch.dict(r.os.environ, {'ALLOW_REVIEWED_SHARED_ASSET':'1'}):
-        r.main()
+        with patch.object(r.p, 'read', side_effect=reviewed_read):
+          r.main()
       result = json.loads((out / 'package.json').read_text())
       self.assertEqual(result['article_ids'], [article_id])
       self.assertEqual(result['release_mode'], 'addon')
