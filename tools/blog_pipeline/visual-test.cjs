@@ -14,6 +14,14 @@ const out = path.join(root, 'dist/blog-preview');
 const base = process.env.PREVIEW_URL || 'http://127.0.0.1:8765';
 const freeze = '*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal-on-scroll{opacity:1!important;transform:none!important}';
 
+// Chromium can reject beyond-viewport capture for a background tab. Keep
+// both comparison pages unchanged and activate only the page being captured.
+async function captureFullPage(page) {
+  await page.bringToFront();
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  return page.screenshot({ fullPage: true, animations: 'disabled' });
+}
+
 async function prepare(page, url) {
   await page.goto(base + url, { waitUntil: 'load' });
   await page.addStyleTag({ content: freeze });
@@ -71,12 +79,12 @@ async function prepare(page, url) {
       // Warm up full-page capture: Chromium may settle image/layout geometry on
       // the first beyond-viewport capture. Use the subsequent stable capture.
       for (const page of [before, after]) {
-        await page.screenshot({ fullPage: true, animations: 'disabled' });
+        await captureFullPage(page);
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       }
-      const beforeFull = PNG.sync.read(await before.screenshot({ fullPage: true, animations: 'disabled' }));
-      const afterFull = PNG.sync.read(await after.screenshot({ fullPage: true, animations: 'disabled' }));
+      const beforeFull = PNG.sync.read(await captureFullPage(before));
+      const afterFull = PNG.sync.read(await captureFullPage(after));
       const crop = (full, box) => {
         const x = Math.max(0, Math.round(box.x)), y = Math.max(0, Math.round(box.y));
         const target = new PNG({ width: Math.min(Math.round(box.width), full.width - x), height: Math.min(Math.round(box.height), full.height - y) });
