@@ -69,7 +69,7 @@ async function prepare(page, url) {
         await page.addStyleTag({ content: '.fixed-cta{display:none!important}body>.header{position:relative!important;top:auto!important}' });
       }
       // Compare matching visible top-level regions outside the one allowed slot.
-      const selector = 'body > header, body > section, body > footer';
+      const selector = 'body > .header, body > header, body > section, body > footer';
       const beforeRegions = before.locator(selector);
       const afterRegions = after.locator(selector);
       for (const page of [before, after]) {
@@ -83,8 +83,24 @@ async function prepare(page, url) {
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       }
-      const beforeFull = PNG.sync.read(await captureFullPage(before));
-      const afterFull = PNG.sync.read(await captureFullPage(after));
+      // Require two consecutive captures to agree before interpreting a
+      // protected-region difference as a source change. Never retry until pass.
+      const stableCaptures = [];
+      const stableFull = async (page, label) => {
+        const first = PNG.sync.read(await captureFullPage(page));
+        const second = PNG.sync.read(await captureFullPage(page));
+        let changedPixels = 0;
+        const sameSize = first.width === second.width && first.height === second.height;
+        if (!sameSize) changedPixels = Math.max(first.width * first.height, second.width * second.height);
+        else for (let j = 0; j < first.data.length; j += 4) {
+          if ([0, 1, 2, 3].some(c => Math.abs(first.data[j + c] - second.data[j + c]) > 1)) changedPixels++;
+        }
+        stableCaptures.push({ page: label, changedPixels, sameSize });
+        if (changedPixels) errors.push('Unstable consecutive LP captures: ' + label + ':' + changedPixels);
+        return first;
+      };
+      const beforeFull = await stableFull(before, 'baseline');
+      const afterFull = await stableFull(after, 'generated');
       const crop = (full, box) => {
         const x = Math.max(0, Math.round(box.x)), y = Math.max(0, Math.round(box.y));
         const target = new PNG({ width: Math.min(Math.round(box.width), full.width - x), height: Math.min(Math.round(box.height), full.height - y) });
@@ -137,7 +153,7 @@ async function prepare(page, url) {
         }
         checked.push({ page: rel, ...metrics });
       }
-      report.viewports.push({ width, protectedRegions: await beforeRegions.count() - 1, cards, diffs, checked });
+      report.viewports.push({ width, protectedRegions: await beforeRegions.count() - 1, cards, diffs, stableCaptures, checked });
       report.errors.push(...errors.map(e => `${width}px: ${e}`));
       await context.close();
     }
