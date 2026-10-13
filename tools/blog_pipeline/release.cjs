@@ -164,7 +164,7 @@ async function publish() {
     const ledgerPath = path.join(root, 'editorial/published-releases.json');
     const ledger = read(ledgerPath);
     if (!ledger.releases.some(r=>r.deploy_id === saved.id)) {
-      ledger.releases.unshift({date:manifest.release_date || daily,status:'published',release_type:addonId?'addon':'daily',deploy_id:saved.id,previous_deploy_id:saved.previous,origin,articles:manifest.article_ids,urls:manifest.articles.map(n=>origin+'/'+n),package:path.relative(root,path.join(out,'package.json')),source_sync:'not_promoted_to_git_checkout',drive_sync:'prepublication_verified'});
+      ledger.releases.unshift({date:manifest.release_date || daily,status:'published',release_type:addonId?'addon':'daily',deploy_id:saved.id,previous_deploy_id:saved.previous,origin,articles:manifest.article_ids,urls:manifest.articles.map(n=>origin+'/'+n),package:path.relative(root,path.join(out,'package.json')),source_sync:'not_promoted_to_git_checkout',drive_sync:'prepublication_verified',...(process.env.RELEASE_NO_SNS === '1' ? {no_sns:true} : {})});
       fs.writeFileSync(ledgerPath, JSON.stringify(ledger, null, 2));
     }
   }

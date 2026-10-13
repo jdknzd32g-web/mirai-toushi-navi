@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const {eligible, compose, composeReply, mediaPath, norm} = require('./post-published-x.cjs');
+const {eligible, postingRelease, compose, composeReply, mediaPath, norm} = require('./post-published-x.cjs');
 assert.equal(eligible({path:'blog/sbi-securities/a.html',title:'登録情報',category:'証券'}),false);
 assert.equal(eligible({path:'blog/nisa/a.html',title:'ＳＢＩ証券',category:'NISA'}),false);
 assert.equal(eligible({path:'blog/nisa/a.html',title:'新NISAの基本',category:'NISA'}),true);
@@ -11,4 +11,8 @@ assert.equal(composeReply(a),'https://eva-solution.com/'+a.path);
 assert.equal(norm('https://eva-solution.com/blog/nisa/a.html'),norm('https://eva-solution.com/blog/nisa/a'));
 assert.equal(mediaPath({hero:'blog/2026/a/header.jpg'},'/tmp/site'),'/tmp/site/blog/2026/a/header.jpg');
 assert.throws(()=>mediaPath({hero:'../secret.jpg'},'/tmp/site'),/Invalid hero path/);
-console.log('9 X posting unit checks passed');
+assert.equal(postingRelease({status:'published',release_type:'maintenance',no_sns:true}),false);
+assert.equal(postingRelease({status:'published',release_type:'daily'}),true);
+assert.equal(postingRelease({status:'published',no_sns:false}),true);
+assert.equal(postingRelease({status:'draft'}),false);
+console.log('13 X posting unit checks passed');

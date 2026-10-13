@@ -16,14 +16,15 @@ const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
   const report = { status: 'blocked', deploy: deploy.id, base, checks: [], errors: [] };
   const browser = await chromium.launch({ headless: true, channel: 'chrome' });
   try {
-    for (const width of [1440, 390, 320]) {
+    for (const width of [1440, 768, 390, 320]) {
       const context = await browser.newContext({ viewport: { width, height: 960 } });
       await context.route('**/*', route => route.request().url().startsWith(base + '/') ? route.continue() : route.abort());
       const page = await context.newPage();
       for (const name of [...manifest.articles, 'index.html', 'blog/index.html']) {
         const response = await page.goto(base + '/' + name, { waitUntil: 'load' });
-        if (!response.ok()) report.errors.push('HTTP:' + name);
-        if (base === 'https://eva-solution.com' && /noindex/i.test(response.headers()['x-robots-tag'] || '')) report.errors.push('HTTP noindex:' + name);
+        const responseErrors = [];
+        if (!response.ok()) responseErrors.push('HTTP:' + name);
+        if (base === 'https://eva-solution.com' && /noindex/i.test(response.headers()['x-robots-tag'] || '')) responseErrors.push('HTTP noindex:' + name);
         const result = await page.evaluate(({ name, articles }) => {
           const errors = [];
           if (document.documentElement.scrollWidth > innerWidth + 1) errors.push('overflow');
@@ -42,8 +43,9 @@ const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
           }
           return errors;
         }, { name, articles: manifest.articles });
+        result.unshift(...responseErrors);
         report.errors.push(...result.map(error => `${width}:${name}:${error}`));
-        report.checks.push({ width, page: name, status: result.length ? 'blocked' : 'pass' });
+        report.checks.push({ width, page: name, status: result.length ? 'blocked' : 'pass', errors: result });
         if (width === 390) await page.screenshot({ path: path.join(out, 'release-' + name.replaceAll('/', '-') + '.png'), fullPage: false });
       }
       await context.close();
@@ -64,7 +66,7 @@ const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
   fs.writeFileSync(path.join(out, base === deploy.url ? 'verified.json' : 'production-verified.json'), JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
   process.exitCode = report.status === 'pass' ? 0 : 1;
-  if (report.status === 'pass' && process.argv.includes('--production')) {
+  if (report.status === 'pass' && process.argv.includes('--production') && !process.argv.includes('--no-x')) {
     const result = require('child_process').spawnSync(process.execPath, [path.join(__dirname, 'post-published-x.cjs'), '--send'], {cwd:root, stdio:'inherit'});
     if (result.error || result.status !== 0) {
       console.error('Production verification passed, but X posting needs attention. Inspect posting logs before retrying.');

@@ -5,6 +5,8 @@ const root = path.resolve(__dirname, '../..');
 const origin = 'https://eva-solution.com';
 const norm = value => value.replace(/\.html$/, '').replace(/\/$/, '');
 const eligible = a => !/sbi|ＳＢＩ/i.test([a.path, a.title, a.category].join(' '));
+// Maintenance releases explicitly marked no_sns must never enter the posting queue.
+const postingRelease = release => release.status === 'published' && release.no_sns !== true;
 function compose(a) {
   const budget = 275;
   let summary = '', count = 0;
@@ -40,7 +42,7 @@ async function run() {
     if (send) { fs.writeFileSync(lock, String(process.pid), {flag:'wx'}); locked = true; }
     const jobs = [];
     for (const release of releases) {
-      if (release.status !== 'published') continue;
+      if (!postingRelease(release)) continue;
       const dir = path.dirname(path.resolve(root, release.package));
       if (!dir.startsWith(path.join(root, 'dist') + path.sep)) throw Error('Invalid release directory');
       const reportPath = path.join(dir, 'production-verified.json');
@@ -102,5 +104,5 @@ async function run() {
     }
   } finally { if (locked) fs.unlinkSync(lock); }
 }
-module.exports = {eligible, compose, composeReply, mediaPath, norm};
+module.exports = {eligible, postingRelease, compose, composeReply, mediaPath, norm};
 if (require.main === module) run().catch(e=>{console.error(JSON.stringify({error:e.message}));process.exitCode=1;});
