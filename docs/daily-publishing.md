@@ -73,3 +73,14 @@ SBI関連記事は既存アクセストレードURL `https://h.accesstrade.net/s
 sitemapは前回XMLへの当日2URL追加だけで済ませず、現在の本番manifestに存在する全公開記事と照合する。旧netlifyドメインを現行eva-solution.comへ正規化し、存在しないURLや確認用HTMLを記事として追加しない。月別一覧から到達できる記事を、掲載漏れと誤認して重複追加しない。
 
 保守は `RELEASE_MAINTENANCE=YYYY-MM-DD-name` と `RELEASE_NO_SNS=1` を用い、公開後は `verify_release.cjs --production --no-x` を使う。保守パッケージは現在の全本番ファイルを保全し、対象だけを上書きする。全修正の検証とDrive正本同期後に1回の本番公開へまとめる。最終状態・完了記録を先に確定してから既存IDへ同期・読み戻しし、その後は同期対象ファイルへ追記しない。読み戻し後に変更した場合はそのファイルを再同期する。
+
+
+## 2026-10-20：Git同期とAPI公開の分離
+
+本番の正本は現在のNetlify公開manifestと確認済み公開パッケージとする。Gitはソース履歴の保存先であり、Gitのpushで本番を更新しない。Netlifyサイト `2674e228-ed72-43a3-be06-05e8441e0823` の `build_settings.stop_builds=true` を維持する。これはGit・build hook・APIのbuild実行を停止する設定であり、既存のファイルmanifestを用いたAPI deployとrestoreは継続できる。deployの自動公開停止や公開ロックへ置き換えない。リポジトリ再接続でビルドが有効になるため、再接続時も停止状態を確認する。
+
+既存automation-3は引き続き本手順を読み、当日分のinspect・梱包・draft・検査・publish・本番検査・X投稿・Drive読み戻しを実行する。時刻・頻度・対象を変更せず、Git同期のための日次再実行や追加公開はしない。Gitにない公開記事・CSS・月別一覧があるため、チェックアウト全体を公開しない。
+
+Git同期を依頼された場合は、作業中の変更と日次実行を確認し、隔離worktreeで両方の履歴を残す通常mergeを準備する。force push・履歴のrebase・autostash・一括addを使わない。source-lockに影響する追加・変更・削除は現在の本番SHA1と個別に照合し、承認されたパスだけ更新する。他の保護ソースとdesign-lockは保持し、pipeline.py verifyを通す。mainへの反映前に同時変更を再確認する。push前後にstop_builds=true、現在の本番IDと全公開ファイルのハッシュが不変であることを確認する。
+
+旧tools/auto-push/autopush.sh（auto_push.shはその別名）とscripts/generate-sitemap.tsは停止用の入口として残す。前者の自動rebase・一括commit/push、後者の2025年限定・旧ドメインsitemap生成は実行しない。sitemapはpublication_sitemap.pyを使う通常の検証済み公開パッケージ工程で更新する。netlify.tomlもGitビルドをskipし、再有効化されても検証を経ないroot公開を失敗させる。

@@ -7,10 +7,12 @@
   status = 301
   force = true
 
-# ビルド設定
+# Git is source backup only. Public files are released by the verified API pipeline.
+# Netlify build_settings.stop_builds must remain true (docs/daily-publishing.md).
 [build]
   publish = "."
-  command = "echo 'No build required'"
+  ignore = "exit 0"
+  command = "echo 'Git builds are disabled. Use verified API releases.' >&2; exit 1"
 
 # ヘッダー設定（セキュリティ強化）
 [[headers]]
