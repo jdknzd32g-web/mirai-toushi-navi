@@ -6,10 +6,19 @@ const { chromium } = runtime('playwright');
 const root = path.resolve(__dirname, '../..');
 const daily = process.env.RELEASE_DATE;
 const addonId = process.env.RELEASE_ARTICLE_ID;
+const maintenance = process.env.RELEASE_MAINTENANCE;
+if (maintenance && !/^\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/.test(maintenance)) throw Error('Invalid RELEASE_MAINTENANCE');
+if (maintenance && (daily || addonId || process.env.RELEASE_BATCH)) throw Error('Choose one verification mode');
 if (daily && !/^\d{4}-\d{2}-\d{2}$/.test(daily)) throw Error('Invalid RELEASE_DATE');
 if (addonId && !/^[a-z0-9-]+$/.test(addonId)) throw Error('Invalid RELEASE_ARTICLE_ID');
-const out = path.join(root, daily ? 'dist/blog-release-' + daily : addonId ? 'dist/blog-release-addon-' + addonId : process.env.RELEASE_BATCH === 'additional' ? 'dist/blog-release-additional' : 'dist/blog-release');
+const out = path.join(root, maintenance ? 'dist/blog-maintenance-' + maintenance : daily ? 'dist/blog-release-' + daily : addonId ? 'dist/blog-release-addon-' + addonId : process.env.RELEASE_BATCH === 'additional' ? 'dist/blog-release-additional' : 'dist/blog-release');
 const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
+if (maintenance) {
+  if (!process.argv.includes('--no-x')) throw Error('Maintenance verification requires --no-x');
+  const deploy = read('deploy.json'), manifest = read('package.json');
+  const production = process.argv.includes('--production');
+  require('./maintenance-verify.cjs').main({root,out,base:production?'https://eva-solution.com':deploy.url,deploy,manifest,production}).catch(e=>{console.error(e.message);process.exitCode=1});
+} else {
 (async () => {
   const deploy = read('deploy.json'), manifest = read('package.json');
   const base = process.argv.includes('--production') ? 'https://eva-solution.com' : deploy.url;
@@ -74,3 +83,4 @@ const read = n => JSON.parse(fs.readFileSync(path.join(out, n)));
     }
   }
 })();
+}

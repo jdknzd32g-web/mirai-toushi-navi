@@ -89,6 +89,13 @@ def main():
       raise ValueError('Semantic stylesheet changed; review existing consumers')
     if semantic_css not in remote:
       add(semantic_css, css_bytes)
+  if any('assets/editorial/sbi-affiliate.css' in package[a['path']].decode() for a in articles):
+    name = 'assets/editorial/sbi-affiliate.css'
+    content = (p.SITE / name).read_bytes()
+    if name in remote and hashlib.sha1(content).hexdigest() != remote[name]:
+      raise ValueError('Affiliate stylesheet changed; review existing SBI consumers')
+    if name not in remote:
+      add(name, content)
   # Existing LP was tested with exactly this single-slot change.
   original = (OUT / 'baseline/index.html').read_text()
   previous = p.ROOT / 'dist/blog-release/site/index.html' if ADDITIONAL else p.ROOT / 'index.html'
@@ -131,18 +138,12 @@ def main():
       raise ValueError('Ambiguous blog index insertion point')
     cards = ''.join(f'<a class="card" href="/{html.escape(a["path"])}"><span class="tag">{html.escape(a["category"])}</span><h3>{html.escape(a["title"])}</h3><div class="meta"><time datetime="{a["date"]}">{a["date"].replace("-", ".")}</time><span class="read">記事を読む →</span></div></a>\n' for a in articles)
     add('blog/index.html', blog.replace(marker, marker + '\n' + cards, 1))
-  # Repair unescaped ampersands only; preserve existing sitemap entries.
-  raw = (OUT / 'baseline/sitemap.xml').read_text()
-  raw = re.sub(r'&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[0-9a-fA-F]+;)', '&amp;', raw)
-  tree = ET.fromstring(raw)
-  ns = 'http://www.sitemaps.org/schemas/sitemap/0.9'
-  ET.register_namespace('', ns)
-  ET.register_namespace('image', 'http://www.google.com/schemas/sitemap-image/1.1')
-  for a in articles:
-    url = ET.SubElement(tree, '{' + ns + '}url')
-    ET.SubElement(url, '{' + ns + '}loc').text = p.BASE + '/' + a['path']
-    ET.SubElement(url, '{' + ns + '}lastmod').text = a.get('checked_date', a['date'])
-  add('sitemap.xml', ET.tostring(tree, encoding='utf-8', xml_declaration=True))
+  # Reconcile every published article, preserving valid current sitemap entries.
+  from publication_sitemap import build_sitemap
+  live_paths = set(remote) | set(package)
+  published_articles = p.read(p.DATA / 'article-ledger.json')['articles']
+  xml, sitemap_review = build_sitemap((OUT / 'baseline/sitemap.xml').read_text(), live_paths, published_articles + articles)
+  add('sitemap.xml', xml)
   # Only add missing dependencies used by the approved article pages.
   for a in articles:
     for asset in [a['hero'], 'blog/2026/copper-price-2026/blog_profile_ryo.jpg']:

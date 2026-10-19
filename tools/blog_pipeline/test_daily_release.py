@@ -28,17 +28,34 @@ class DailyReleaseTests(unittest.TestCase):
       out = Path(tmp)
       shutil.copytree(source / 'baseline', out / 'baseline')
       shutil.copyfile(source / 'remote-files.json', out / 'remote-files.json')
+      # Render the selected pair with the current template in an isolated fixture.
+      # The release must include its new SBI-only dependency without rebuilding
+      # the project ledger or changing the stored daily preview.
+      preview = out / 'preview-fixture'
+      selected = [a for a in articles if a['date'] == '2026-09-13']
+      assets = {'assets/editorial/' + name for name in ('article.css', 'lp-slot.css', 'diagram-v2.css')}
+      assets |= {a['hero'] for a in selected} | {'blog/2026/copper-price-2026/blog_profile_ryo.jpg'}
+      for name in assets:
+        target = preview / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(r.p.SITE / name, target)
+      shutil.copyfile(r.p.HERE / 'sbi-affiliate.css', preview / 'assets/editorial/sbi-affiliate.css')
+      for article in selected:
+        target = preview / article['path']
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(r.p.render_article(article))
       remote = json.loads((out / 'remote-files.json').read_text())
       for item in remote:
         name = item['path'].lstrip('/')
         if name in {'assets/editorial/article.css', 'assets/editorial/lp-slot.css'}:
           item['sha'] = hashlib.sha1((r.p.SITE / name).read_bytes()).hexdigest()
       (out / 'remote-files.json').write_text(json.dumps(remote))
-      with patch.object(r, 'DAILY', '2026-09-13'), patch.object(r, 'OUT', out), patch.object(r, 'SITE', out / 'site'), patch.object(r.quality, 'check', return_value=True), patch.object(r.p, 'articles', return_value=articles):
+      with patch.object(r, 'DAILY', '2026-09-13'), patch.object(r, 'OUT', out), patch.object(r, 'SITE', out / 'site'), patch.object(r.quality, 'check', return_value=True), patch.object(r.p, 'articles', return_value=articles), patch.object(r.p, 'SITE', preview):
         r.main()
       result = json.loads((out / 'package.json').read_text())
       self.assertEqual(len(result['article_ids']), 2)
-      self.assertEqual(len(result['files']), 6)
+      self.assertEqual(len(result['files']), 7)
+      self.assertIn('assets/editorial/sbi-affiliate.css', result['files'])
       self.assertIn('blog/archive/2026/09/index.html', result['files'])
       lp = (out / 'site/index.html').read_text()
       self.assertEqual(lp.count('class="bp-latest-card"'), 3)

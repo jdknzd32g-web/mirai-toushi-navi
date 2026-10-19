@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Offline, preview-only editorial build. Never edits or deploys the live site."""
 import argparse
+import sbi_affiliate as affiliate
 import importlib.util
 import hashlib
 import html
@@ -323,6 +324,7 @@ def render_article(a):
     return emphasized(value, rules.get(key))
   body = f'<img class="bp-hero" src="/{e(a["hero"])}" alt="{e(a["hero_alt"])}" width="1200" height="675">'
   body += f'<header class="bp-article-header"><p class="bp-category">{e(a["category"])}</p><h1>{e(a["title"])}</h1><p class="bp-meta">りょう｜未来投資navi ・ 原稿作成・情報確認 {a["date"]}</p></header>'
+  if affiliate.applies(a):body += affiliate.NOTICE
   body += '<div class="bp-lead">' + ''.join(f'<p>{rich(p, "lead." + str(j))}</p>' for j, p in enumerate(a['lead'])) + '</div>'
   body += f'<a class="bp-youtube" href="{YOUTUBE_URL}" target="_blank" rel="noopener noreferrer"><div class="bp-yt-inner"><span class="bp-yt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><div><span class="bp-yt-label">YOUTUBE CHANNEL</span><strong class="bp-yt-name">未来投資navi</strong></div></div><p>50代・60代からの資産づくりを、動画でもわかりやすくお伝えします。</p><span class="bp-yt-button">YouTubeチャンネルを見る</span></a>'
   body += '<nav class="bp-toc" aria-label="目次"><h2>この記事で確認すること</h2><ol>'
@@ -346,6 +348,7 @@ def render_article(a):
     body += '</section>'
   body += '<section><h2>よくある質問</h2>' + ''.join(f'<div class="bp-faq"><h3>{e(f["q"])}</h3><p>{inline(f["a"])}</p></div>' for f in a['faq']) + '</section></article>'
   body += '<section class="bp-summary"><h2>まとめ｜今日のポイント</h2><ul>' + ''.join('<li>' + rich(s, f'summary.{j}') + '</li>' for j, s in enumerate(design['summary'])) + '</ul></section>'
+  if affiliate.applies(a):body += affiliate.CTA
   body += f'<aside class="bp-cta"><h2>自分の家計に当てはめて考えたい方へ</h2><p>生活費・年金・今後の予定によって、無理のない投資額は変わります。迷ったら、整理したいことを公式LINEからお知らせください。</p><a href="{LINE_URL}" target="_blank" rel="noopener noreferrer">公式LINEで相談する</a></aside>'
   body += '<aside class="bp-author" aria-label="著者紹介"><img src="/blog/2026/copper-price-2026/blog_profile_ryo.jpg" width="72" height="72" alt="りょう｜未来投資navi"><div><h2>りょう｜未来投資navi</h2><p>50代・60代の投資初心者に向けて、家計と資産づくりについて発信しています。YouTubeチャンネル「未来投資navi」も運営。</p></div></aside>'
   body += '<section class="bp-related"><h2>あわせて読みたい</h2><p>気になるテーマから、次の確認へ進めます。</p><ul>' + ''.join(f'<li><a class="bp-related-link" href="/{e(r["path"])}"><span class="bp-link-label">関連記事</span><span class="bp-link-title">{e(r["title"])}</span><span class="bp-link-action">記事を読む <span aria-hidden="true">→</span></span></a></li>' for r in a['related']) + '</ul></section>'
@@ -353,12 +356,14 @@ def render_article(a):
   if used != set(rules):
     raise ValueError('Unresolved emphasis locations: ' + ', '.join(set(rules) - used))
   page = doc(a['title'], a['description'], body, a['path'])
+  if affiliate.applies(a):page = affiliate.stylesheet(page)
   if any(f.get('layout') in ('allocation', 'timeline', 'document', 'decision') for f in design['diagrams'].values()):
     page = page.replace('</head>', '  <link rel="stylesheet" href="/assets/editorial/diagram-v2.css">\n</head>')
   return page
 
 def markdown(a):
   parts = ['# ' + a['title'], '状態：未公開・確認待ち', '記事ID：' + a['id'], '予定パス：' + a['path'], 'メタ説明：' + a['description'], *a['lead']]
+  if affiliate.applies(a):parts.insert(1, 'PR：本記事には広告・プロモーションが含まれます。')
   for s in a['sections']:
     parts += ['## ' + s['heading'], *s.get('paragraphs', [])]
     parts += ['- ' + p for p in s.get('items', [])]
@@ -371,6 +376,7 @@ def markdown(a):
   parts += ['## よくある質問']
   for f in a['faq']:
     parts += ['### ' + f['q'], f['a']]
+  if affiliate.applies(a):parts += ['## まとめ', *design_content(a)['summary'], '## SBI証券の公式情報', '['+affiliate.LABEL+']('+affiliate.URL+')']
   parts += ['## ご相談', '自分の家計に当てはめて考えたい方は、[公式LINE](https://lin.ee/FxIOpk1)から整理したいことをお知らせください。', '## あわせて読みたい']
   parts += [f'[{r["title"]}]({BASE}/{r["path"]})' for r in a['related']]
   parts += ['## 出典'] + [f'[S{i}] [{s["title"]}]({s["url"]}) / {s["checked"]}確認' for i, s in enumerate(a['sources'], 1)]
@@ -440,7 +446,7 @@ def build_staged():
     shutil.copy2(p, dest)
   assets = SITE / 'assets/editorial'
   assets.mkdir(parents=True, exist_ok=True)
-  for name in ('article.css', 'lp-slot.css', 'diagram-v2.css'):
+  for name in ('article.css', 'lp-slot.css', 'diagram-v2.css', 'sbi-affiliate.css'):
     shutil.copy2(HERE / name, assets / name)
   raw = (ROOT / 'index.html').read_text(encoding='utf-8')
   (SITE / 'baseline.html').write_text(raw, encoding='utf-8')
@@ -499,7 +505,7 @@ def build_staged():
   verify_lock()
   report = {'status': 'static_pass' if not errors else 'blocked', 'published': False, 'existing_articles': len(existing), 'trial_articles': len(current), 'managed_pages': managed, 'internal_link_errors': errors, 'legacy_sitemap_xml_valid': legacy_xml_valid, 'omitted_legacy_sitemap_urls': omitted, 'duplicate_review': duplicate_report, 'source_lock_unchanged': True, 'external_links': 'Official sources reviewed separately; no guarantee of future reachability.'}
   report['editorial_policy'] = editorial_review
-  report['output_hashes'] = {name: digest(SITE / name) for name in managed + ['assets/editorial/article.css', 'assets/editorial/lp-slot.css', 'assets/editorial/diagram-v2.css', 'sitemap.xml']}
+  report['output_hashes'] = {name: digest(SITE / name) for name in managed + ['assets/editorial/article.css', 'assets/editorial/lp-slot.css', 'assets/editorial/diagram-v2.css', 'assets/editorial/sbi-affiliate.css', 'sitemap.xml']}
   report['build_fingerprint'] = hashlib.sha256(json.dumps(report['output_hashes'], sort_keys=True).encode()).hexdigest()
   save(OUT / 'build-report.json', report)
   save(OUT / 'visual-report.json', {'status': 'pending', 'build_fingerprint': report['build_fingerprint']})
